@@ -1,0 +1,23 @@
+services:
+  web-api:
+    build: ./src/FitBurger.WebApi
+    image: "fitburger.com/api:latest"
+    container_name: web-api
+    ports:
+      - "8000:80"
+    networks:
+      - backend 
+  sql:
+    image: "mcr.microsoft.com/azure-sql-edge:latest"
+    container_name: sql-edge
+    ports:
+      - "1433:1433"
+    networks:
+      - backend 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Nw7l=U>{}vi}0^?
+
+networks:
+  backend:
+    name: backend
