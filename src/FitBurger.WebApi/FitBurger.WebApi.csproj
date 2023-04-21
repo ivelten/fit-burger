@@ -20,4 +20,16 @@
       <Content Remove="appsettings.Development.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Domain\Models\Abstractions\EntityWithId.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domain\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FitBurger.Core\FitBurger.Core.csproj" />
+    </ItemGroup>
+
 </Project>
