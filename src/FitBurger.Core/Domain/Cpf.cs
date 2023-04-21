@@ -1,7 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
+using FitBurger.Core.Domain.Serialization.Converters;
 
 namespace FitBurger.Core.Domain;
 
+[JsonConverter(typeof(CpfConverter))]
 public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
 {
     private readonly string _value;

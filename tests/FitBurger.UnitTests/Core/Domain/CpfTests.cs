@@ -1,3 +1,4 @@
+using System.Text.Json;
 using FitBurger.Core.Domain;
 using FluentAssertions;
 
@@ -179,5 +180,27 @@ public sealed class CpfTests
 
         (cpf == input2).Should().Be(equals);
         (input2 == cpf).Should().Be(equals);
+    }
+
+    [Test(Description = "Should be able to serialize to JSON")]
+    [TestCaseSource(nameof(ValidInputs))]
+    public void Should_Be_Able_To_Serialize_To_Json(string input)
+    {
+        var cpf = Cpf.Parse(input);
+        var expected = $"\"{cpf}\"";
+        var actual = JsonSerializer.Serialize(cpf);
+
+        actual.Should().Be(expected);
+    }
+
+    [Test(Description = "Should be able to deserialize from JSON")]
+    [TestCaseSource(nameof(ValidInputs))]
+    public void Should_Be_Able_To_Deserialize_From_Json(string input)
+    {
+        var expected = Cpf.Parse(input);
+        var json = $"\"{expected}\"";
+        var actual = JsonSerializer.Deserialize<Cpf>(json);
+
+        actual.Should().Be(expected);
     }
 }
