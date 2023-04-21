@@ -6,9 +6,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EEA05C52-B
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10C476DF-749E-419F-A751-259BCDC66F51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitBurger.WebApi", "src\FitBurger.WebApi\FitBurger.WebApi.csproj", "{68353A3F-2D52-42A3-9412-1AB0E003203C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{68353A3F-2D52-42A3-9412-1AB0E003203C} = {10C476DF-749E-419F-A751-259BCDC66F51}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68353A3F-2D52-42A3-9412-1AB0E003203C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68353A3F-2D52-42A3-9412-1AB0E003203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68353A3F-2D52-42A3-9412-1AB0E003203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68353A3F-2D52-42A3-9412-1AB0E003203C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
