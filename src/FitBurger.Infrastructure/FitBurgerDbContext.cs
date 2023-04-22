@@ -1,10 +1,15 @@
+using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitBurger.Infrastructure;
 
-public class FitBurgerDbContext : DbContext
+public class FitBurgerDbContext : DbContext, IUnitOfWork
 {
+    public FitBurgerDbContext(DbContextOptions<FitBurgerDbContext> options) : base(options)
+    {
+    }
+    
     internal DbSet<Attendant> Attendants { get; init; } = default!;
 
     internal DbSet<Booking> Bookings { get; init; } = default!;
@@ -45,7 +50,7 @@ public class FitBurgerDbContext : DbContext
         }
     }
     
-    public async Task UndoChangesAsync(CancellationToken cancellationToken = default)
+    private async Task UndoChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
             .Entries()
