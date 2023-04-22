@@ -5,7 +5,7 @@ namespace FitBurger.Core.Domain.Serialization.Converters;
 
 public sealed class CpfConverter : JsonConverter<Cpf>
 {
-    public override Cpf? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Cpf Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString();
 

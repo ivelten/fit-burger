@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using FitBurger.Core.Domain.Serialization.Converters;
 
 namespace FitBurger.Core.Domain;
 
 [JsonConverter(typeof(CpfConverter))]
-public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
+public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
 {
     private readonly string _value;
 
@@ -19,24 +20,18 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
         if (value is null)
             return false;
 
-        if (value.Length != 11 && value.Length != 14)
-            return false;
-
-        if (value.Length == 14 && (value[3] != '.' || value[7] != '.' || value[11] != '-'))
+        if (!FormattedRegex.IsMatch(value) && !Regex.IsMatch(value))
             return false;
 
         var trimmedValue = Trim(value);
 
-        if (!trimmedValue.All(char.IsDigit))
-            return false;
-
         var expectedDigit = trimmedValue[9..11];
-        var actualDigit = GetDigit(trimmedValue);
+        var actualDigit = GetVerifyingDigit(trimmedValue);
 
         return actualDigit == expectedDigit;
     }
     
-    private static string GetDigit(string trimmedValue)
+    private static string GetVerifyingDigit(string trimmedValue)
     {
         var temp = trimmedValue[..9];
         var multiplier1 = new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -45,7 +40,7 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
         for (var i = 0; i < 9; i++)
             sum += (int)char.GetNumericValue(temp[i]) * multiplier1[i];
 
-        var mod = GetMod(sum);
+        var mod = GetVerifyingDigitMod(sum);
 
         var digit = mod.ToString();
         
@@ -58,44 +53,42 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
         for (var i = 0; i < 10; i++)
             sum += (int)char.GetNumericValue(temp[i]) * multiplier2[i];
 
-        mod = GetMod(sum);
+        mod = GetVerifyingDigitMod(sum);
         digit += mod.ToString();
 
         return digit;
     }
-
-    private static string Trim(string value)
-    {
-        return value.Length == 14
-            ? value.Trim().Replace(".", "").Replace("-", "")
-            : value;
-    }
-
-    private static int GetMod(int sum)
+    
+    private static int GetVerifyingDigitMod(int sum)
     {
         var mod = sum % 11;
-        
         return mod < 2 ? 0 : 11 - mod;
+    }
+
+    private static string Trim(string validValue)
+    {
+        return validValue.Contains('.')
+            ? validValue.Replace(".", "").Replace("-", "")
+            : validValue;
     }
 
     public static bool TryParse(string? value, out Cpf cpf)
     {
         if (IsValidCpfString(value))
         {
-            var trimmedValue = Trim(value!);
-            
-            cpf = new Cpf(trimmedValue);
-            
+            cpf = new Cpf(Trim(value!));
             return true;
         }
 
         cpf = default!;
-        
         return false;
     }
 
     public static Cpf Parse(string value)
     {
+        if (value == null)
+            throw new ArgumentNullException(nameof(value));
+        
         if (TryParse(value, out var cpf))
             return cpf;
 
@@ -104,10 +97,10 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
 
     public string ToString(CpfFormatOptions options)
     {
-        var s = options.HasFlag(CpfFormatOptions.NumberSeparators) ? "." : "";
-        var h = options.HasFlag(CpfFormatOptions.VerifyingDigitHyphen) ? "-" : "";
+        var ns = options.HasFlag(CpfFormatOptions.NumberSeparators) ? "." : "";
+        var dh = options.HasFlag(CpfFormatOptions.VerifyingDigitHyphen) ? "-" : "";
         
-        return $"{_value[..3]}{s}{_value[3..6]}{s}{_value[6..9]}{h}{_value[9..11]}";
+        return $"{_value[..3]}{ns}{_value[3..6]}{ns}{_value[6..9]}{dh}{_value[9..11]}";
     }
 
     public override string ToString()
@@ -122,15 +115,7 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
 
     public bool Equals(string? other)
     {
-        if (other is null)
-            return false;
-
-        return other.Length switch
-        {
-            11 => ToString(CpfFormatOptions.None) == other,
-            14 => ToString(CpfFormatOptions.All) == other,
-            _ => false
-        };
+        return TryParse(other, out var otherCpf) && Equals(otherCpf);
     }
 
     public override bool Equals(object? obj)
@@ -189,4 +174,20 @@ public sealed class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         return value?.ToString();
     }
+    
+    #region Regex implementations
+
+    private const string FormattedRegexPattern = @"[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
+    private const string RegexPattern = @"[0-9]{11}";
+    
+    private static readonly Regex FormattedRegex = FormattedCpfRegex();
+    private static readonly Regex Regex = CpfRegex();
+    
+    [GeneratedRegex(FormattedRegexPattern, RegexOptions.Compiled)]
+    private static partial Regex FormattedCpfRegex();
+
+    [GeneratedRegex(RegexPattern, RegexOptions.Compiled)]
+    private static partial Regex CpfRegex();
+
+    #endregion
 }

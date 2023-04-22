@@ -5,7 +5,7 @@ public class Attendant
     public Attendant(
         string name,
         DateOnly birthday,
-        string phoneNumber,
+        PhoneNumber phoneNumber,
         Cpf cpf,
         string address,
         Gender gender,
@@ -32,7 +32,7 @@ public class Attendant
     
     public DateOnly Birthday { get; protected set; }
 
-    public string PhoneNumber { get; protected set; } = default!;
+    public PhoneNumber PhoneNumber { get; protected set; } = default!;
     
     public Cpf Cpf { get; protected set; } = default!;
     

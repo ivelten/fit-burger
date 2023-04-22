@@ -2,7 +2,7 @@ namespace FitBurger.Core.Domain.Models;
 
 public class Customer
 {
-    public Customer(string name, string phoneNumber, string email, string address, Cpf cpf)
+    public Customer(string name, PhoneNumber phoneNumber, string email, string address, Cpf cpf)
     {
         Name = name;
         PhoneNumber = phoneNumber;
@@ -20,7 +20,7 @@ public class Customer
 
     public string Name { get; protected set; } = default!;
     
-    public string PhoneNumber { get; protected set; } = default!;
+    public PhoneNumber PhoneNumber { get; protected set; } = default!;
     
     public string Email { get; protected set; } = default!;
     

@@ -41,7 +41,11 @@ public sealed class CpfTests
     public void TryParse_Should_Parse_Valid_Input(string input)
     {
         var success = Cpf.TryParse(input, out var cpf);
-        var expectedCpfValue = input.Length == 11 ? cpf.ToString(CpfFormatOptions.None) : cpf.ToString();
+        
+        var expectedCpfValue = 
+            input.Contains('.')
+                ? cpf.ToString()
+                : cpf.ToString(CpfFormatOptions.None);
 
         success.Should().BeTrue();
         expectedCpfValue.Should().Be(input);
@@ -52,7 +56,11 @@ public sealed class CpfTests
     public void Parse_Should_Parse_Valid_Input(string input)
     {
         var cpf = Cpf.Parse(input);
-        var expectedCpfValue = input.Length == 11 ? cpf.ToString(CpfFormatOptions.None) : cpf.ToString();
+        
+        var expectedCpfValue = 
+            input.Contains('.')
+                ? cpf.ToString()
+                : cpf.ToString(CpfFormatOptions.None);
         
         expectedCpfValue.Should().Be(input);
     }
@@ -76,11 +84,14 @@ public sealed class CpfTests
     
     [Test(Description = "Parse should not parse invalid input")]
     [TestCaseSource(nameof(InvalidInputs))]
-    public void Parse_Should_Not_Parse_Invalid_Input(string input)
+    public void Parse_Should_Not_Parse_Invalid_Input(string? input)
     {
-        Action act = () => Cpf.Parse(input);
+        Action act = () => Cpf.Parse(input!);
 
-        act.Should().Throw<FormatException>();
+        if (input is null)
+            act.Should().Throw<ArgumentNullException>();
+        else
+            act.Should().Throw<FormatException>();
     }
 
     [Test(Description = "Equals to Cpf should return true when other Cpf has the same value")]
