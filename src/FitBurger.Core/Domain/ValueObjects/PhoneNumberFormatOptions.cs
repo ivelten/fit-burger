@@ -1,4 +1,4 @@
-namespace FitBurger.Core.Domain;
+namespace FitBurger.Core.Domain.ValueObjects;
 
 [Flags]
 public enum PhoneNumberFormatOptions

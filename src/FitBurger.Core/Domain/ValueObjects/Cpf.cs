@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using FitBurger.Core.Domain.Serialization.Converters;
+using FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
-namespace FitBurger.Core.Domain;
+namespace FitBurger.Core.Domain.ValueObjects;
 
 [JsonConverter(typeof(CpfConverter))]
 public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>

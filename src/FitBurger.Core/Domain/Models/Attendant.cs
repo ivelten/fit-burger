@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using FitBurger.Core.Domain.ValueObjects;
+
 namespace FitBurger.Core.Domain.Models;
 
 public class Attendant
@@ -20,6 +23,7 @@ public class Attendant
         Gender = gender;
         AdmissionDate = admissionDate;
         Salary = salary;
+        Bookings = new Collection<Booking>();
     }
 
     protected Attendant()
@@ -43,4 +47,6 @@ public class Attendant
     public DateOnly AdmissionDate { get; protected set; }
     
     public decimal Salary { get; protected set; }
+
+    public virtual ICollection<Booking> Bookings { get; protected set; } = default!;
 }

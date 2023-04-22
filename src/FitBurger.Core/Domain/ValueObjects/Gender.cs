@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace FitBurger.Core.Domain;
+namespace FitBurger.Core.Domain.ValueObjects;
 
 public enum Gender
 {

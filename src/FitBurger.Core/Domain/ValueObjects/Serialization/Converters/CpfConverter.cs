@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace FitBurger.Core.Domain.Serialization.Converters;
+namespace FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
 public sealed class CpfConverter : JsonConverter<Cpf>
 {

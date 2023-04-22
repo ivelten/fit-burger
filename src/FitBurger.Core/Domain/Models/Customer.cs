@@ -1,15 +1,18 @@
+using System.Collections.ObjectModel;
+using FitBurger.Core.Domain.ValueObjects;
+
 namespace FitBurger.Core.Domain.Models;
 
 public class Customer
 {
-    public Customer(string name, PhoneNumber phoneNumber, string email, string address, Cpf cpf)
+    public Customer(string name, PhoneNumber phoneNumber, Email email, string address, Cpf cpf)
     {
         Name = name;
         PhoneNumber = phoneNumber;
         Email = email;
         Address = address;
         Cpf = cpf;
-        Bookings = new List<Booking>();
+        Bookings = new Collection<Booking>();
     }
 
     protected Customer()
@@ -22,7 +25,7 @@ public class Customer
     
     public PhoneNumber PhoneNumber { get; protected set; } = default!;
     
-    public string Email { get; protected set; } = default!;
+    public Email Email { get; protected set; } = default!;
     
     public string Address { get; protected set; } = default!;
     

@@ -1,5 +1,5 @@
 using System.Text.Json;
-using FitBurger.Core.Domain;
+using FitBurger.Core.Domain.ValueObjects;
 using FluentAssertions;
 
 namespace FitBurger.UnitTests.Core.Domain;
