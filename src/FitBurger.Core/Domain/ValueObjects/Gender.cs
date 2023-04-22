@@ -1,12 +1,10 @@
-using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace FitBurger.Core.Domain.ValueObjects;
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Gender
 {
-    [EnumMember(Value = "M")]
     Male = 'M',
-    
-    [EnumMember(Value = "F")]
     Female = 'F'
 }

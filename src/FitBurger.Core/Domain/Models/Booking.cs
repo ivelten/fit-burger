@@ -2,12 +2,16 @@ namespace FitBurger.Core.Domain.Models;
 
 public class Booking
 {
-    public Booking(DateTime dateTime, int amountOfPeople, Customer customer, Attendant? attendant = null)
+    public Booking(
+        DateTime bookingDateTime, 
+        DateTime fromDateTime,
+        DateTime toDateTime,
+        int amountOfPeople)
     {
-        DateTime = dateTime;
+        BookingDateTime = bookingDateTime;
+        FromDateTime = fromDateTime;
+        ToDateTime = toDateTime;
         AmountOfPeople = amountOfPeople;
-        Customer = customer;
-        Attendant = attendant;
     }
 
     protected Booking()
@@ -16,7 +20,11 @@ public class Booking
 
     public int Id { get; protected set; }
     
-    public DateTime DateTime { get; protected set; }
+    public DateTime BookingDateTime { get; protected set; }
+    
+    public DateTime FromDateTime { get; protected set; }
+    
+    public DateTime ToDateTime { get; protected set; }
     
     public int AmountOfPeople { get; protected set; }
 

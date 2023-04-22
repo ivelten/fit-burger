@@ -24,6 +24,7 @@ public class Attendant
         AdmissionDate = admissionDate;
         Salary = salary;
         Bookings = new Collection<Booking>();
+        Orders = new Collection<Order>();
     }
 
     protected Attendant()
@@ -49,4 +50,6 @@ public class Attendant
     public decimal Salary { get; protected set; }
 
     public virtual ICollection<Booking> Bookings { get; protected set; } = default!;
+
+    public virtual ICollection<Order> Orders { get; protected set; } = default!;
 }

@@ -13,6 +13,7 @@ public class Customer
         Address = address;
         Cpf = cpf;
         Bookings = new Collection<Booking>();
+        Orders = new Collection<Order>();
     }
 
     protected Customer()
@@ -32,4 +33,6 @@ public class Customer
     public Cpf Cpf { get; protected  set; } = default!;
     
     public virtual ICollection<Booking> Bookings { get; protected set; } = default!;
+
+    public virtual ICollection<Order> Orders { get; protected set; } = default!;
 }
