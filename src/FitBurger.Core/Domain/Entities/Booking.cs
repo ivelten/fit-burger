@@ -1,4 +1,4 @@
-namespace FitBurger.Core.Domain.Models;
+namespace FitBurger.Core.Domain.Entities;
 
 public class Booking
 {

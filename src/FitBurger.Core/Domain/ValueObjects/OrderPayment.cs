@@ -1,4 +1,6 @@
-namespace FitBurger.Core.Domain.Models;
+using FitBurger.Core.Domain.Entities;
+
+namespace FitBurger.Core.Domain.ValueObjects;
 
 public class OrderPayment
 {

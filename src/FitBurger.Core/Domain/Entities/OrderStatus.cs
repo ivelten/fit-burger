@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace FitBurger.Core.Domain.Models;
+namespace FitBurger.Core.Domain.Entities;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderStatus

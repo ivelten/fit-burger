@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using FitBurger.Core.Domain.ValueObjects;
 
-namespace FitBurger.Core.Domain.Models;
+namespace FitBurger.Core.Domain.Entities;
 
 public class Customer
 {
