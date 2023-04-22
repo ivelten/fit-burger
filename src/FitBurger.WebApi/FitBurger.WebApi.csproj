@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FitBurger.Core\FitBurger.Core.csproj" />
+      <ProjectReference Include="..\FitBurger.Infrastructure\FitBurger.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

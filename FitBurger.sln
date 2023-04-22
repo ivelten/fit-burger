@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{39D1047B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitBurger.UnitTests", "tests\FitBurger.UnitTests\FitBurger.UnitTests.csproj", "{F957D140-591E-4765-9FB5-4C7D6AFD07C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitBurger.Infrastructure", "src\FitBurger.Infrastructure\FitBurger.Infrastructure.csproj", "{4CB04644-89DC-4916-9760-E56277584BC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,7 @@ Global
 		{68353A3F-2D52-42A3-9412-1AB0E003203C} = {10C476DF-749E-419F-A751-259BCDC66F51}
 		{1E1B3D6F-BAE1-4CC5-9C28-57406C3D45CD} = {10C476DF-749E-419F-A751-259BCDC66F51}
 		{F957D140-591E-4765-9FB5-4C7D6AFD07C5} = {39D1047B-D587-4B83-9D79-85338DA55F8B}
+		{4CB04644-89DC-4916-9760-E56277584BC5} = {10C476DF-749E-419F-A751-259BCDC66F51}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{68353A3F-2D52-42A3-9412-1AB0E003203C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,5 +42,9 @@ Global
 		{F957D140-591E-4765-9FB5-4C7D6AFD07C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F957D140-591E-4765-9FB5-4C7D6AFD07C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F957D140-591E-4765-9FB5-4C7D6AFD07C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB04644-89DC-4916-9760-E56277584BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB04644-89DC-4916-9760-E56277584BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB04644-89DC-4916-9760-E56277584BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB04644-89DC-4916-9760-E56277584BC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
