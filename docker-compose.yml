@@ -1,5 +1,5 @@
 services:
-  web-api:
+  web-app:
     build: ./src/FitBurger.WebApp
     image: "fitburger.com/app:latest"
     container_name: web-app
