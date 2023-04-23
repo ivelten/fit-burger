@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FitBurger.Infrastructure.EntityConfigurations;
 
-public class DeliverymanConfiguration : IEntityTypeConfiguration<Deliveryman>
+public sealed class DeliverymanConfiguration : IEntityTypeConfiguration<Deliveryman>
 {
     public void Configure(EntityTypeBuilder<Deliveryman> builder)
     {
@@ -14,7 +14,7 @@ public class DeliverymanConfiguration : IEntityTypeConfiguration<Deliveryman>
 
         builder
             .Property(x => x.EmergencyContact)
-            .HasColumnType("varchar(200");
+            .HasColumnType("varchar(200)");
 
         builder
             .Property(x => x.LicensePlate)

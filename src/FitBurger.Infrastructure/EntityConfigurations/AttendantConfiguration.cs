@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FitBurger.Infrastructure.EntityConfigurations;
 
-public class AttendantConfiguration : IEntityTypeConfiguration<Attendant>
+public sealed class AttendantConfiguration : IEntityTypeConfiguration<Attendant>
 {
     public void Configure(EntityTypeBuilder<Attendant> builder)
     {
@@ -19,5 +19,9 @@ public class AttendantConfiguration : IEntityTypeConfiguration<Attendant>
         builder
             .Property(x => x.Salary)
             .HasPrecision(18, 2);
+
+        builder
+            .Property(x => x.Salary)
+            .HasColumnType("decimal(18,2)");
     }
 }

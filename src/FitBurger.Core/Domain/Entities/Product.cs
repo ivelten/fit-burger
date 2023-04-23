@@ -2,10 +2,10 @@ namespace FitBurger.Core.Domain.Entities;
 
 public class Product
 {
-    public Product(string description, decimal value)
+    public Product(string description, decimal price)
     {
         Description = description;
-        Value = value;
+        Price = price;
     }
 
     protected Product()
@@ -16,5 +16,5 @@ public class Product
 
     public string Description { get; protected set; } = default!;
     
-    public decimal Value { get; protected set; }
+    public decimal Price { get; protected set; }
 }

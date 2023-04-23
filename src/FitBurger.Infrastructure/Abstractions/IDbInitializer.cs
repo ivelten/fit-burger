@@ -2,7 +2,7 @@ namespace FitBurger.Infrastructure.Abstractions;
 
 public interface IDbInitializer
 {
-    Task EnsureDeletedAsync();
+    Task EnsureDeletedAsync(CancellationToken cancellationToken = default);
     
-    Task EnsureCreatedAsync();
+    Task EnsureCreatedAsync(CancellationToken cancellationToken = default);
 }

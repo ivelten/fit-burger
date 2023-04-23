@@ -11,13 +11,13 @@ public sealed class DbInitializer : IDbInitializer
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
     
-    public async Task EnsureDeletedAsync()
+    public async Task EnsureDeletedAsync(CancellationToken cancellationToken = default)
     {
-        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureDeletedAsync(cancellationToken);
     }
 
-    public async Task EnsureCreatedAsync()
+    public async Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
     {
-        await _context.Database.EnsureCreatedAsync();
+        await _context.Database.EnsureCreatedAsync(cancellationToken);
     }
 }
