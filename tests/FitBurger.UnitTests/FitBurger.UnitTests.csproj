@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\FitBurger.WebApi\FitBurger.WebApi.csproj" />
+      <ProjectReference Include="..\..\src\FitBurger.WebApp\FitBurger.WebApp.csproj" />
     </ItemGroup>
 
 </Project>

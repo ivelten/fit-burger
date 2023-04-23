@@ -1,8 +1,8 @@
 services:
   web-api:
-    build: ./src/FitBurger.WebApi
-    image: "fitburger.com/api:latest"
-    container_name: web-api
+    build: ./src/FitBurger.WebApp
+    image: "fitburger.com/app:latest"
+    container_name: web-app
     ports:
       - "8000:80"
     networks:

@@ -1,4 +1,4 @@
-namespace FitBurger.WebApi;
+namespace FitBurger.WebApp.Data;
 
 public class WeatherForecast
 {

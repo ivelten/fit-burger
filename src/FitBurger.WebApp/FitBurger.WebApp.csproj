@@ -8,20 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
-      <Content Remove="appsettings.Development.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Domain\Models\Abstractions\EntityWithId.cs" />
     </ItemGroup>
 
     <ItemGroup>
