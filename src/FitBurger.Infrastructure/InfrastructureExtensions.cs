@@ -1,4 +1,5 @@
 using EntityFramework.Exceptions.SqlServer;
+using FitBurger.Infrastructure.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@ public static class InfrastructureExtensions
     {
         var connectionString = configuration.GetConnectionString("SqlServer");
         
-        return services.AddDbContext<FitBurgerDbContext>(dbOptions =>
+        services.AddDbContext<FitBurgerDbContext>(dbOptions =>
         {
             dbOptions.UseSqlServer(connectionString, connectionOptions =>
             {
@@ -23,5 +24,9 @@ public static class InfrastructureExtensions
 
             dbOptions.UseExceptionProcessor();
         });
+
+        services.AddScoped<IDbInitializer, DbInitializer>();
+
+        return services;
     }
 }

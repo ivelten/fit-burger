@@ -8,15 +8,13 @@ services:
     networks:
       - backend 
   sql:
-    image: "mcr.microsoft.com/azure-sql-edge:latest"
-    container_name: sql-edge
+    build: ./database
+    image: "fitburger.com/sql:latest"
+    container_name: sql-server
     ports:
       - "1433:1433"
     networks:
-      - backend 
-    environment:
-      - ACCEPT_EULA=y
-      - SA_PASSWORD=Nw7l=U>{}vi}0^?
+      - backend
 
 networks:
   backend:

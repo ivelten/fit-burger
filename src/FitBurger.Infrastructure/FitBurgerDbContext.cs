@@ -1,5 +1,7 @@
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitBurger.Infrastructure;
@@ -24,6 +26,34 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
 
     internal DbSet<Product> Products { get; init; } = default!;
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<Cpf>()
+            .HaveConversion<CpfConverter>()
+            .HaveColumnType("char(11)");
+        
+        configurationBuilder
+            .Properties<Email>()
+            .HaveConversion<EmailConverter>()
+            .HaveColumnType("varchar(320)");
+        
+        configurationBuilder
+            .Properties<Gender>()
+            .HaveConversion<GenderConverter>()
+            .HaveColumnType("char(1)");
+        
+        configurationBuilder
+            .Properties<PhoneNumber>()
+            .HaveConversion<PhoneNumberConverter>()
+            .HaveColumnType("varchar(11)");
+
+        configurationBuilder
+            .Properties<DateOnly>()
+            .HaveConversion<DateOnlyConverter>()
+            .HaveColumnType("date");
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         foreach (var property in 
@@ -33,7 +63,7 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
             property.SetColumnType("varchar(256)");
         
         modelBuilder.ApplyConfigurationsFromAssembly(AssemblyMarker.Assembly);
-        
+
         base.OnModelCreating(modelBuilder);
     }
 
