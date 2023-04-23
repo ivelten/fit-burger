@@ -33,7 +33,7 @@ public class Attendant
 
     public int Id { get; protected set; }
     
-    public string Name { get; protected set; } = default!;
+    public string Name { get;  set; } = default!;
     
     public DateOnly Birthday { get; protected set; }
 

@@ -6,7 +6,7 @@ public class Booking
         DateTime bookingDateTime, 
         DateTime fromDateTime,
         DateTime toDateTime,
-        int amountOfPeople)
+        byte amountOfPeople)
     {
         BookingDateTime = bookingDateTime;
         FromDateTime = fromDateTime;
@@ -26,7 +26,7 @@ public class Booking
     
     public DateTime ToDateTime { get; protected set; }
     
-    public int AmountOfPeople { get; protected set; }
+    public byte AmountOfPeople { get; protected set; }
 
     public virtual Customer Customer { get; protected set; } = default!;
 
