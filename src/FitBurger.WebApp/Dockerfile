@@ -5,7 +5,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["FitBurger.WebApp.csproj", "."]
-RUN dotnet restore "src/FitBurger.WebApp/FitBurger.WebApp.csproj"
+RUN dotnet restore "FitBurger.WebApp.csproj"
 COPY . .
 WORKDIR "/src/."
 RUN dotnet build "FitBurger.WebApp.csproj" -c Release -o /app/build
