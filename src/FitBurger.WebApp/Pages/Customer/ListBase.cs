@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace FitBurger.WebApp.Pages.Customer;
 
-public abstract class CreateBase : ComponentBase
+public abstract class ListBase : ComponentBase
 {
     [Inject]
     protected CustomerService CustomerService { get; set; } = default!;
@@ -12,11 +12,10 @@ public abstract class CreateBase : ComponentBase
     [Inject]
     protected NavigationManager NavigationManager { get; set; } = default!;
 
-    protected CreateCustomer Model { get; set; } = new();
-    
-    protected async Task HandleValidSubmit()
+    protected ListCustomer[]? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        await CustomerService.CreateAsync(Model);
-        NavigationManager.NavigateTo("/customer/list");
+        Model = await CustomerService.ListAsync();
     }
 }

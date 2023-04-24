@@ -1,0 +1,58 @@
+@page "/customer/list"
+@inherits ListBase
+
+<PageTitle>Listar clientes</PageTitle>
+
+<h1>Listar clientes</h1>
+
+<div class="form-group pb-3">
+    <a href="/customer/create" class="btn btn-primary" role="button">
+        Cadastrar cliente
+    </a>
+</div>
+
+@if (Model is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else if (Model.Length == 0)
+{
+    <p><em>Nenhum cliente cadastrado.</em></p>
+}
+else
+{
+    <div class="form-group">
+        <table class="table table-striped align-middle table-bordered">
+            <thead class="table-success">
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>CPF</th>
+                <th>Endereço</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.Name</td>
+                    <td>@customer.PhoneNumber</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.Cpf</td>
+                    <td>@customer.Address</td>
+                    <td>
+                        <a href='/customer/edit/@customer.Id' class="btn btn-outline-dark" role="button">
+                            Editar
+                        </a>
+                        <a href='/customer/delete/@customer.Id' class="btn btn-outline-danger" role="button">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
