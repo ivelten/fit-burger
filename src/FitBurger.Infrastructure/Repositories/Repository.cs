@@ -1,9 +1,10 @@
+using FitBurger.Core.Domain.Entities;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitBurger.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : EntityWithId
 {
     private readonly FitBurgerDbContext _context;
 
@@ -23,5 +24,10 @@ public class Repository<T> : IRepository<T> where T : class
             return await _context.Set<T>().ToArrayAsync();
 
         return await _context.Set<T>().Where(predicate).AsQueryable().ToArrayAsync();
+    }
+
+    public async Task<T?> GetAsync(int id)
+    {
+        return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
     }
 }

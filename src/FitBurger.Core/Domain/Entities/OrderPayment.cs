@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Entities;
 
 namespace FitBurger.Core.Domain.ValueObjects;
 
-public class OrderPayment
+public class OrderPayment : EntityWithId
 {
     public OrderPayment(PaymentMethod method, decimal amount)
     {
@@ -14,8 +14,6 @@ public class OrderPayment
     {
     }
 
-    public int Id { get; protected set; }
-    
     public PaymentMethod Method { get; protected set; }
     
     public decimal Amount { get; protected set; }

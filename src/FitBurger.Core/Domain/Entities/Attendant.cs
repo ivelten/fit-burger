@@ -3,7 +3,7 @@ using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Attendant
+public class Attendant : EntityWithId
 {
     public Attendant(
         string name,
@@ -31,8 +31,6 @@ public class Attendant
     {
     }
 
-    public int Id { get; protected set; }
-    
     public string Name { get;  set; } = default!;
     
     public DateOnly Birthday { get; protected set; }

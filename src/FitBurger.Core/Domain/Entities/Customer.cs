@@ -3,7 +3,7 @@ using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Customer
+public class Customer : EntityWithId
 {
     public Customer(string name, PhoneNumber phoneNumber, Email email, string address, Cpf cpf)
     {
@@ -19,8 +19,15 @@ public class Customer
     protected Customer()
     {
     }
-    
-    public int Id { get; set; }
+
+    public void Update(string name, PhoneNumber phoneNumber, Email email, string address, Cpf cpf)
+    {
+        Name = name;
+        PhoneNumber = phoneNumber;
+        Email = email;
+        Address = address;
+        Cpf = cpf;
+    }
 
     public string Name { get; protected set; } = default!;
     

@@ -3,7 +3,7 @@ using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Deliveryman
+public class Deliveryman : EntityWithId
 {
     public Deliveryman(
         string name,
@@ -27,8 +27,6 @@ public class Deliveryman
     protected Deliveryman()
     {
     }
-
-    public int Id { get; protected set; }
 
     public string Name { get; protected set; } = default!;
 

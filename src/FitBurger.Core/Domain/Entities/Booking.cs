@@ -1,6 +1,6 @@
 namespace FitBurger.Core.Domain.Entities;
 
-public class Booking
+public class Booking : EntityWithId
 {
     public Booking(
         DateTime bookingDateTime, 
@@ -18,8 +18,6 @@ public class Booking
     {
     }
 
-    public int Id { get; protected set; }
-    
     public DateTime BookingDateTime { get; protected set; }
     
     public DateTime FromDateTime { get; protected set; }

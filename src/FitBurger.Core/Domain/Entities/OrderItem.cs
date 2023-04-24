@@ -1,6 +1,6 @@
 namespace FitBurger.Core.Domain.Entities;
 
-public class OrderItem
+public class OrderItem : EntityWithId
 {
     public OrderItem(Product product, int quantity)
     {
@@ -11,8 +11,6 @@ public class OrderItem
     protected OrderItem()
     {
     }
-
-    public int Id { get; protected set; }
 
     public int Quantity { get; protected set; }
     

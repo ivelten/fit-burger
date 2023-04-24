@@ -3,7 +3,7 @@ using FitBurger.WebApp.Validators;
 
 namespace FitBurger.WebApp.Models;
 
-public sealed class CreateCustomer
+public class CreateCustomer
 {
     [Required(ErrorMessage = "O nome é requerido.")]
     [StringLength(100, ErrorMessage = "O nome é muito longo. Deve ter 100 ou menos caracteres.")]

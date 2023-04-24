@@ -1,6 +1,6 @@
 namespace FitBurger.Core.Domain.Entities;
 
-public class Product
+public class Product : EntityWithId
 {
     public Product(string description, decimal price)
     {
@@ -11,8 +11,6 @@ public class Product
     protected Product()
     {
     }
-
-    public int Id { get; protected set; }
 
     public string Description { get; protected set; } = default!;
     

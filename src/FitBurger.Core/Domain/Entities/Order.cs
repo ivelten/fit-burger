@@ -3,7 +3,7 @@ using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Order
+public class Order : EntityWithId
 {
     public Order(
         string deliveryAddress,
@@ -22,8 +22,6 @@ public class Order
     protected Order()
     {
     }
-
-    public int Id { get; protected set; }
 
     public string DeliveryAddress { get; protected set; } = default!;
     
