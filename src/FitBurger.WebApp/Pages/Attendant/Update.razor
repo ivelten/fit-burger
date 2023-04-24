@@ -1,0 +1,71 @@
+@page "/attendant/update/{id:int}"
+@using FitBurger.Core.Domain.ValueObjects
+@inherits UpdateBase
+
+<PageTitle>Editar atendente</PageTitle>
+
+<h1>Editar atendente</h1>
+
+@if (Model is null)
+{
+    <p><em>Atendente não encontrado.</em></p>
+}
+else
+{
+    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <div class="form-group pb-3">
+                <label for="name">Nome:</label>
+                <InputText id="name" class="form-control" @bind-Value="Model.Name"/>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="birthday">Data de aniversário:</label>
+                <InputDate id="birthday" class="form-control" @bind-Value="Model.Birthday"/>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="phone">Telefone:</label>
+                <InputText id="phone" class="form-control" @bind-Value="Model.PhoneNumber"/>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="cpf">CPF:</label>
+                <InputText id="cpf" class="form-control" @bind-Value="Model.Cpf"/>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="address">Endereço:</label>
+                <InputText id="address" class="form-control" @bind-Value="Model.Address"/>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="gender">Sexo:</label>
+                <InputSelect @bind-Value="Model.Gender">
+                    @foreach (var gender in Enum.GetValues(typeof(Gender)))
+                    {
+                        <option value="@gender">@gender</option>
+                    }
+                </InputSelect>
+            </div>
+            
+            <div class="form-group pb-3">
+                <label for="admission-date">Data de admissão:</label>
+                <InputDate id="admission-date" class="form-control" @bind-Value="Model.AdmissionDate"/>
+            </div>
+            
+                <div class="form-group pb-3">
+                    <label for="salary">Salário:</label>
+                    <InputNumber id="salary" class="form-control" @bind-Value="Model.Salary"/>
+                </div>
+        
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary pr-3">Salvar</button>
+                <a href="/attendant/list" class="btn btn-secondary" role="button">
+                    Voltar
+                </a>
+            </div>
+    </EditForm>
+}

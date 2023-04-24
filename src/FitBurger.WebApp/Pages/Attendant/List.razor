@@ -1,0 +1,64 @@
+@page "/attendant/list"
+@inherits ListBase
+
+<PageTitle>Listar atendentes</PageTitle>
+
+<h1>Listar atendentes</h1>
+
+<div class="form-group pb-3">
+    <a href="/attendant/create" class="btn btn-primary" role="button">
+        Cadastrar atendente
+    </a>
+</div>
+
+@if (Model is null)
+{
+    <p><em>Carregando...</em></p>
+}
+else if (Model.Length == 0)
+{
+    <p><em>Nenhum atendente cadastrado.</em></p>
+}
+else
+{
+    <div class="form-group">
+        <table class="table table-striped align-middle table-bordered">
+            <thead class="table-success">
+                <tr>
+                    <th>Nome</th>
+                    <th>Nascimento</th>
+                    <th>Telefone</th>
+                    <th>CPF</th>
+                    <th>Endereço</th>
+                    <th>Sexo</th>
+                    <th>Admissão</th>
+                    <th>Salário</th>
+                    <th>Operações</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var attendant in Model)
+            {
+                <tr>
+                    <td>@attendant.Name</td>
+                    <td>@attendant.Birthday!.Value.ToString("d")</td>
+                    <td>@attendant.PhoneNumber</td>
+                    <td>@attendant.Cpf</td>
+                    <td>@attendant.Address</td>
+                    <td>@((char)attendant.Gender!)</td>
+                    <td>@attendant.AdmissionDate!.Value.ToString("d")</td>
+                    <td>@attendant.Salary!.Value.ToString("N2")</td>
+                    <td>
+                        <a href='/attendant/update/@attendant.Id' class="btn btn-outline-dark" role="button">
+                            Editar
+                        </a>
+                        <a href='/attendant/delete/@attendant.Id' class="btn btn-outline-danger" role="button">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

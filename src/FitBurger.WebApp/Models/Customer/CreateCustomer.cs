@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FitBurger.WebApp.Validators;
 
-namespace FitBurger.WebApp.Models;
+namespace FitBurger.WebApp.Models.Customer;
 
 public class CreateCustomer
 {

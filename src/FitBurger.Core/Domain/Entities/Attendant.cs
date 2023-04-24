@@ -31,6 +31,25 @@ public class Attendant : EntityWithId
     {
     }
 
+    public void Update(string name,
+        DateOnly birthday,
+        PhoneNumber phoneNumber,
+        Cpf cpf,
+        string address,
+        Gender gender,
+        DateOnly admissionDate,
+        decimal salary)
+    {
+        Name = name;
+        Birthday = birthday;
+        PhoneNumber = phoneNumber;
+        Cpf = cpf;
+        Address = address;
+        Gender = gender;
+        AdmissionDate = admissionDate;
+        Salary = salary;
+    }
+
     public string Name { get;  set; } = default!;
     
     public DateOnly Birthday { get; protected set; }

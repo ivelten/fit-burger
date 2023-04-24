@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using FitBurger.Core.Domain.ValueObjects;
-using FitBurger.WebApp.Models;
+using FitBurger.WebApp.Models.Customer;
 
 namespace FitBurger.WebApp.Services;
 

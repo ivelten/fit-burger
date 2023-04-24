@@ -1,13 +1,13 @@
-using FitBurger.WebApp.Models.Customer;
+using FitBurger.WebApp.Models.Attendant;
 using FitBurger.WebApp.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace FitBurger.WebApp.Pages.Customer;
+namespace FitBurger.WebApp.Pages.Attendant;
 
 public abstract class UpdateBase : ComponentBase
 {
     [Inject]
-    protected CustomerService CustomerService { get; set; } = default!;
+    protected AttendantService AttendantService { get; set; } = default!;
     
     [Inject]
     protected NavigationManager NavigationManager { get; set; } = default!;
@@ -15,11 +15,11 @@ public abstract class UpdateBase : ComponentBase
     [Parameter]
     public int Id { get; set; }
     
-    protected UpdateCustomer? Model { get; private set; }
+    protected UpdateAttendant? Model { get; private set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await CustomerService.GetAsync(Id);
+        Model = await AttendantService.GetAsync(Id);
     }
 
     protected async Task HandleValidSubmit()
@@ -27,7 +27,7 @@ public abstract class UpdateBase : ComponentBase
         if (Model is null)
             return;
 
-        await CustomerService.UpdateAsync(Model);
+        await AttendantService.UpdateAsync(Model);
         NavigationManager.NavigateTo("/attendant/list");
     }
 }

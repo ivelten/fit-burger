@@ -1,21 +1,21 @@
-using FitBurger.WebApp.Models.Customer;
+using FitBurger.WebApp.Models.Attendant;
 using FitBurger.WebApp.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace FitBurger.WebApp.Pages.Customer;
+namespace FitBurger.WebApp.Pages.Attendant;
 
 public abstract class ListBase : ComponentBase
 {
     [Inject]
-    protected CustomerService CustomerService { get; set; } = default!;
+    protected AttendantService AttendantService { get; set; } = default!;
     
     [Inject]
     protected NavigationManager NavigationManager { get; set; } = default!;
 
-    protected ListCustomer[]? Model { get; set; }
+    protected ListAttendant[]? Model { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await CustomerService.ListAsync();
+        Model = await AttendantService.ListAsync();
     }
 }

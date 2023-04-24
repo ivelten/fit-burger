@@ -1,4 +1,4 @@
-using FitBurger.WebApp.Models;
+using FitBurger.WebApp.Models.Customer;
 using FitBurger.WebApp.Services;
 using Microsoft.AspNetCore.Components;
 

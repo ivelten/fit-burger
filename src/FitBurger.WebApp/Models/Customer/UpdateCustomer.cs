@@ -1,4 +1,4 @@
-namespace FitBurger.WebApp.Models;
+namespace FitBurger.WebApp.Models.Customer;
 
 public sealed class UpdateCustomer : CreateCustomer
 {
