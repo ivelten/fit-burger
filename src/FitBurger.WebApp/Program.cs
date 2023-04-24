@@ -1,6 +1,7 @@
+using System.Globalization;
 using FitBurger.Infrastructure;
 using FitBurger.Infrastructure.Abstractions;
-using FitBurger.WebApp.Data;
+using FitBurger.WebApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
@@ -32,5 +33,10 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+var culture = CultureInfo.GetCultureInfo("pt-BR");
+
+CultureInfo.CurrentCulture = culture;
+CultureInfo.CurrentUICulture = culture;
 
 app.Run();

@@ -1,5 +1,8 @@
 using EntityFramework.Exceptions.SqlServer;
+using FitBurger.Core.Domain.Abstractions;
+using FitBurger.Core.Domain.Repositories.Abstractions;
 using FitBurger.Infrastructure.Abstractions;
+using FitBurger.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +29,9 @@ public static class InfrastructureExtensions
         });
 
         services.AddScoped<IDbInitializer, DbInitializer>();
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<FitBurgerDbContext>());
 
         return services;
     }

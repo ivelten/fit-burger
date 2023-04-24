@@ -20,7 +20,7 @@ public class Customer
     {
     }
     
-    public int Id { get; protected set; }
+    public int Id { get; set; }
 
     public string Name { get; protected set; } = default!;
     

@@ -17,4 +17,8 @@
       <ProjectReference Include="..\FitBurger.Infrastructure\FitBurger.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Validators\ValueObjectValidationAttribute.cs" />
+    </ItemGroup>
+
 </Project>
