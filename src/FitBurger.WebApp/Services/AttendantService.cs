@@ -16,7 +16,7 @@ public sealed class AttendantService
         _attendantRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
-    
+
     public async Task CreateAsync(CreateAttendant request)
     {
         var attendant = new Attendant(
@@ -32,7 +32,7 @@ public sealed class AttendantService
         await _attendantRepository.AddAsync(attendant);
         await _unitOfWork.CommitAsync();
     }
-    
+
     public async Task<ListAttendant[]> ListAsync(string? queryValue = null)
     {
         Func<Attendant, bool>? predicate =
@@ -55,7 +55,7 @@ public sealed class AttendantService
             Salary = x.Salary
         }).ToArray();
     }
-    
+
     public async Task<UpdateAttendant?> GetAsync(int id)
     {
         var attendant = await _attendantRepository.GetAsync(id);
@@ -76,14 +76,14 @@ public sealed class AttendantService
             Salary = attendant.Salary
         };
     }
-    
+
     public async Task UpdateAsync(UpdateAttendant request)
     {
         var attendant = await _attendantRepository.GetAsync(request.Id);
 
         if (attendant is null)
             return;
-        
+
         attendant.Update(
             request.Name!,
             DateOnly.FromDateTime(request.Birthday!.Value),

@@ -8,17 +8,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FitBurger.Infrastructure\FitBurger.Infrastructure.csproj" />
+        <ProjectReference Include="..\FitBurger.Infrastructure\FitBurger.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Validators\ValueObjectValidationAttribute.cs" />
+        <Compile Remove="Validators\ValueObjectValidationAttribute.cs"/>
     </ItemGroup>
 
 </Project>

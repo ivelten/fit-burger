@@ -1,3 +1,5 @@
+using FitBurger.Core.Domain.Entities.Abstractions;
+
 namespace FitBurger.Core.Domain.Entities;
 
 public class OrderItem : EntityWithId
@@ -13,7 +15,7 @@ public class OrderItem : EntityWithId
     }
 
     public int Quantity { get; protected set; }
-    
+
     public virtual Product Product { get; protected set; } = default!;
 
     public virtual Order Order { get; protected set; } = default!;

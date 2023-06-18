@@ -15,11 +15,27 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
         _value = value;
     }
 
+    public bool Equals(Email? other)
+    {
+        if (other is null)
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return _value == other._value;
+    }
+
+    public bool Equals(string? other)
+    {
+        return TryParse(other, out var otherEmail) && Equals(otherEmail);
+    }
+
     public static bool IsValidEmailString(string? value)
     {
         return value is not null && Regex.IsMatch(value);
     }
-    
+
     public static bool TryParse(string? value, out Email email)
     {
         if (IsValidEmailString(value))
@@ -36,7 +52,7 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
     {
         if (value == null)
             throw new ArgumentNullException(nameof(value));
-        
+
         if (TryParse(value, out var email))
             return email;
 
@@ -48,25 +64,9 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
         return _value;
     }
 
-    public bool Equals(Email? other)
-    {
-        if (other is null) 
-            return false;
-        
-        if (ReferenceEquals(this, other)) 
-            return true;
-        
-        return _value == other._value;
-    }
-
-    public bool Equals(string? other)
-    {
-        return TryParse(other, out var otherEmail) && Equals(otherEmail);
-    }
-
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || 
+        return ReferenceEquals(this, obj) ||
                (obj is Email otherEmail && Equals(otherEmail)) ||
                (obj is string other && Equals(other));
     }
@@ -75,7 +75,7 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
     {
         return _value.GetHashCode();
     }
-    
+
     public static bool operator ==(Email? left, Email? right)
     {
         return Equals(left, right);
@@ -85,12 +85,12 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
     {
         return !(left == right);
     }
-    
+
     public static bool operator ==(Email? left, string? right)
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(right, out var rightEmail) && rightEmail.Equals(left);
     }
 
@@ -103,7 +103,7 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(left, out var leftEmail) && leftEmail.Equals(right);
     }
 
@@ -111,22 +111,22 @@ public sealed partial class Email : IEquatable<Email>, IEquatable<string>
     {
         return !(left == right);
     }
-    
+
     [return: NotNullIfNotNull(nameof(value))]
     public static implicit operator string?(Email? value)
     {
         return value?.ToString();
     }
-    
+
     #region Regex implementations
-    
-    private const string RegexPattern = 
+
+    private const string RegexPattern =
         @"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
-    
+
     private static readonly Regex Regex = EmailRegex();
-    
+
     [GeneratedRegex(RegexPattern, RegexOptions.Compiled)]
     private static partial Regex EmailRegex();
-    
+
     #endregion
 }

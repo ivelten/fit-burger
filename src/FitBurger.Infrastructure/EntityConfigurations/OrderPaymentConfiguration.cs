@@ -1,4 +1,4 @@
-using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

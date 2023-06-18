@@ -6,15 +6,12 @@ namespace FitBurger.WebApp.Pages.Customer;
 
 public abstract class UpdateBase : ComponentBase
 {
-    [Inject]
-    protected CustomerService CustomerService { get; set; } = default!;
-    
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] protected CustomerService CustomerService { get; set; } = default!;
 
-    [Parameter]
-    public int Id { get; set; }
-    
+    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
+
+    [Parameter] public int Id { get; set; }
+
     protected UpdateCustomer? Model { get; private set; }
 
     protected override async Task OnInitializedAsync()

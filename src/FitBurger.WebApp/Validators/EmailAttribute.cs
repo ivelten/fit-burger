@@ -9,7 +9,7 @@ public class EmailAttribute : ValidationAttribute
     {
         if (value is string email && Email.IsValidEmailString(email))
             return null;
-        
+
         return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName }!);
     }
 }

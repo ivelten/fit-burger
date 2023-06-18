@@ -1,4 +1,4 @@
-using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ public class Repository<T> : IRepository<T> where T : EntityWithId
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
-    
+
     public async Task AddAsync(T item, CancellationToken cancellationToken = default)
     {
         await _context.Set<T>().AddAsync(item, cancellationToken);

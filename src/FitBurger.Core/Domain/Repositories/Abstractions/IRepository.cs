@@ -1,4 +1,4 @@
-using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Repositories.Abstractions;
 

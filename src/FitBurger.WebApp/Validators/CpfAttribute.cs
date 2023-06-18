@@ -9,7 +9,7 @@ public class CpfAttribute : ValidationAttribute
     {
         if (value is string cpf && Cpf.IsValidCpfString(cpf))
             return null;
-        
+
         return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName }!);
     }
 }

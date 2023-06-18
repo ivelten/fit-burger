@@ -74,11 +74,11 @@ public sealed class CustomerService
 
         if (customer is null)
             return;
-        
+
         customer.Update(
-            request.Name!, 
+            request.Name!,
             PhoneNumber.Parse(request.PhoneNumber!),
-            Email.Parse(request.Email!), 
+            Email.Parse(request.Email!),
             request.Address!,
             Cpf.Parse(request.Cpf!));
 

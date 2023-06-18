@@ -9,10 +9,7 @@ public sealed class PhoneNumberConverter : JsonConverter<PhoneNumber>
     {
         var value = reader.GetString();
 
-        if (PhoneNumber.TryParse(value, out var phoneNumber))
-        {
-            return phoneNumber;
-        }
+        if (PhoneNumber.TryParse(value, out var phoneNumber)) return phoneNumber;
 
         throw new JsonException();
     }

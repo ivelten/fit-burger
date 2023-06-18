@@ -1,9 +1,11 @@
+using FitBurger.Core.Domain.Entities.Abstractions;
+
 namespace FitBurger.Core.Domain.Entities;
 
 public class Booking : EntityWithId
 {
     public Booking(
-        DateTime bookingDateTime, 
+        DateTime bookingDateTime,
         DateTime fromDateTime,
         DateTime toDateTime,
         byte amountOfPeople)
@@ -19,11 +21,11 @@ public class Booking : EntityWithId
     }
 
     public DateTime BookingDateTime { get; protected set; }
-    
+
     public DateTime FromDateTime { get; protected set; }
-    
+
     public DateTime ToDateTime { get; protected set; }
-    
+
     public byte AmountOfPeople { get; protected set; }
 
     public virtual Customer Customer { get; protected set; } = default!;

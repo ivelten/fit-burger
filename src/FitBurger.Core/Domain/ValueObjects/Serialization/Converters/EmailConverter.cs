@@ -9,10 +9,7 @@ public sealed class EmailConverter : JsonConverter<Email>
     {
         var value = reader.GetString();
 
-        if (Email.TryParse(value, out var email))
-        {
-            return email;
-        }
+        if (Email.TryParse(value, out var email)) return email;
 
         throw new JsonException();
     }

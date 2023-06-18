@@ -6,15 +6,12 @@ namespace FitBurger.WebApp.Pages.Attendant;
 
 public abstract class UpdateBase : ComponentBase
 {
-    [Inject]
-    protected AttendantService AttendantService { get; set; } = default!;
-    
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] protected AttendantService AttendantService { get; set; } = default!;
 
-    [Parameter]
-    public int Id { get; set; }
-    
+    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
+
+    [Parameter] public int Id { get; set; }
+
     protected UpdateAttendant? Model { get; private set; }
 
     protected override async Task OnInitializedAsync()

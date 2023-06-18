@@ -26,23 +26,23 @@ public sealed class CpfTests
         "26161321503",
         "261.613.215-03",
         "16947628799",
-        "169.476.287-99",
+        "169.476.287-99"
     };
-    
+
     [Test(Description = "Input strings should be valid")]
     [TestCaseSource(nameof(ValidInputs))]
     public void Input_Strings_Should_Be_Valid(string input)
     {
         Cpf.IsValidCpfString(input).Should().BeTrue();
     }
-    
+
     [Test(Description = "TryParse should parse valid input")]
     [TestCaseSource(nameof(ValidInputs))]
     public void TryParse_Should_Parse_Valid_Input(string input)
     {
         var success = Cpf.TryParse(input, out var cpf);
-        
-        var expectedCpfValue = 
+
+        var expectedCpfValue =
             input.Contains('.')
                 ? cpf.ToString()
                 : cpf.ToString(CpfFormatOptions.None);
@@ -50,28 +50,28 @@ public sealed class CpfTests
         success.Should().BeTrue();
         expectedCpfValue.Should().Be(input);
     }
-    
+
     [Test(Description = "Parse should parse valid input")]
     [TestCaseSource(nameof(ValidInputs))]
     public void Parse_Should_Parse_Valid_Input(string input)
     {
         var cpf = Cpf.Parse(input);
-        
-        var expectedCpfValue = 
+
+        var expectedCpfValue =
             input.Contains('.')
                 ? cpf.ToString()
                 : cpf.ToString(CpfFormatOptions.None);
-        
+
         expectedCpfValue.Should().Be(input);
     }
-    
+
     [Test(Description = "Input strings should be invalid")]
     [TestCaseSource(nameof(InvalidInputs))]
     public void Input_Strings_Should_Be_Invalid(string? input)
     {
         Cpf.IsValidCpfString(input).Should().BeFalse();
     }
-    
+
     [Test(Description = "TryParse should not parse invalid input")]
     [TestCaseSource(nameof(InvalidInputs))]
     public void TryParse_Should_Not_Parse_Invalid_Input(string input)
@@ -81,7 +81,7 @@ public sealed class CpfTests
         success.Should().BeFalse();
         cpf.Should().BeNull();
     }
-    
+
     [Test(Description = "Parse should not parse invalid input")]
     [TestCaseSource(nameof(InvalidInputs))]
     public void Parse_Should_Not_Parse_Invalid_Input(string? input)
@@ -103,7 +103,7 @@ public sealed class CpfTests
 
         cpf1.Equals(cpf2).Should().BeTrue();
     }
-    
+
     [Test(Description = "Equality operators to Cpf should return true when other Cpf has the same value")]
     [TestCaseSource(nameof(ValidInputs))]
     public void Equality_Operators_To_Cpf_Should_Return_True_When_Other_Cpf_Has_Same_Value(string input)
@@ -114,7 +114,7 @@ public sealed class CpfTests
         (cpf1 == cpf2).Should().BeTrue();
         (cpf1 != cpf2).Should().BeFalse();
     }
-    
+
     [Test(Description = "Equals to string should return true when other Cpf has the same value")]
     [TestCaseSource(nameof(ValidInputs))]
     public void Equals_To_String_Should_Return_True_When_Other_Cpf_Has_Same_Value(string input)
@@ -123,7 +123,7 @@ public sealed class CpfTests
 
         cpf.Equals(input).Should().BeTrue();
     }
-    
+
     [Test(Description = "Equality operators to Cpf should return true when other Cpf has the same value")]
     [TestCaseSource(nameof(ValidInputs))]
     public void Equality_Operators_To_String_Should_Return_True_When_Other_Cpf_Has_Same_Value(string input)
@@ -145,7 +145,7 @@ public sealed class CpfTests
 
         stringCpf.Should().Be(cpf.ToString());
     }
-    
+
     [Test(Description = "Equals to Cpf edge cases should work")]
     [TestCase("508.028.167-70", null, false)]
     [TestCase("508.028.167-70", "169.476.287-41", false)]
@@ -169,7 +169,7 @@ public sealed class CpfTests
 
         (cpf1 == cpf2).Should().Be(equals);
     }
-    
+
     [Test(Description = "Equals to string edge cases should work")]
     [TestCase("508.028.167-70", null, false)]
     [TestCase("508.028.167-70", "169.476.287-41", false)]

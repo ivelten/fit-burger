@@ -10,7 +10,7 @@ public sealed class DbInitializer : IDbInitializer
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
-    
+
     public async Task EnsureDeletedAsync(CancellationToken cancellationToken = default)
     {
         await _context.Database.EnsureDeletedAsync(cancellationToken);

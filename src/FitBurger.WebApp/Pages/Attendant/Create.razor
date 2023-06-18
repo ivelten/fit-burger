@@ -2,39 +2,39 @@
 @using FitBurger.Core.Domain.ValueObjects
 @inherits CreateBase
 
-<PageTitle>Cadastrar cliente</PageTitle>
+<PageTitle>Cadastrar atendente</PageTitle>
 
-<h1>Cadastrar cliente</h1>
+<h1>Cadastrar atendente</h1>
 
 <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
     <div class="form-group pb-3">
         <label for="name">Nome:</label>
         <InputText id="name" class="form-control" @bind-Value="Model.Name"/>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="birthday">Data de aniversário:</label>
         <InputDate id="birthday" class="form-control" @bind-Value="Model.Birthday"/>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="phone">Telefone:</label>
         <InputText id="phone" class="form-control" @bind-Value="Model.PhoneNumber"/>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="cpf">CPF:</label>
         <InputText id="cpf" class="form-control" @bind-Value="Model.Cpf"/>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="address">Endereço:</label>
         <InputText id="address" class="form-control" @bind-Value="Model.Address"/>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="gender">Sexo:</label>
         <InputRadioGroup class="form-control" @bind-Value="Model.Gender">
@@ -45,16 +45,16 @@
             }
         </InputRadioGroup>
     </div>
-    
+
     <div class="form-group pb-3">
         <label for="admission-date">Data de admissão:</label>
         <InputDate id="admission-date" class="form-control" @bind-Value="Model.AdmissionDate"/>
     </div>
-    
-        <div class="form-group pb-3">
-            <label for="salary">Salário:</label>
-            <InputNumber id="salary" class="form-control" @bind-Value="Model.Salary" @bind-Value:format="N2" />
-        </div>
+
+    <div class="form-group pb-3">
+        <label for="salary">Salário:</label>
+        <InputNumber id="salary" class="form-control" @bind-Value="Model.Salary" @bind-Value:format="N2"/>
+    </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary pr-3">Salvar</button>

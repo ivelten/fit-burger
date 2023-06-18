@@ -9,10 +9,7 @@ public sealed class CpfConverter : JsonConverter<Cpf>
     {
         var value = reader.GetString();
 
-        if (Cpf.TryParse(value, out var cpf))
-        {
-            return cpf;
-        }
+        if (Cpf.TryParse(value, out var cpf)) return cpf;
 
         throw new JsonException();
     }

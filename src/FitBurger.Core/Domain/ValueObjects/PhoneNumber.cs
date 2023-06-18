@@ -15,6 +15,22 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
         _value = value;
     }
 
+    public bool Equals(PhoneNumber? other)
+    {
+        if (other is null)
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return _value == other._value;
+    }
+
+    public bool Equals(string? other)
+    {
+        return TryParse(other, out var otherNumber) && Equals(otherNumber);
+    }
+
     public static bool IsValidPhoneNumberString(string? value)
     {
         if (value is null)
@@ -29,7 +45,7 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
             ? validValue.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")
             : validValue;
     }
-    
+
     public static bool TryParse(string? value, out PhoneNumber phoneNumber)
     {
         if (IsValidPhoneNumberString(value))
@@ -46,7 +62,7 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
     {
         if (value == null)
             throw new ArgumentNullException(nameof(value));
-        
+
         if (TryParse(value, out var phoneNumber))
             return phoneNumber;
 
@@ -60,7 +76,7 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
         var sp = options.HasFlag(PhoneNumberFormatOptions.AreaCodeSpacing) ? " " : "";
         var hp = options.HasFlag(PhoneNumberFormatOptions.NumberSeparator) ? "-" : "";
 
-        return _value.Length == 10 
+        return _value.Length == 10
             ? $"{op}{_value[..2]}{cp}{sp}{_value[2..6]}{hp}{_value[6..10]}"
             : $"{op}{_value[..2]}{cp}{sp}{_value[2..7]}{hp}{_value[7..11]}";
     }
@@ -70,25 +86,9 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
         return ToString(PhoneNumberFormatOptions.All);
     }
 
-    public bool Equals(PhoneNumber? other)
-    {
-        if (other is null)
-            return false;
-        
-        if (ReferenceEquals(this, other))
-            return true;
-        
-        return _value == other._value;
-    }
-
-    public bool Equals(string? other)
-    {
-        return TryParse(other, out var otherNumber) && Equals(otherNumber);
-    }
-
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || 
+        return ReferenceEquals(this, obj) ||
                (obj is PhoneNumber otherNumber && Equals(otherNumber)) ||
                (obj is string other && Equals(other));
     }
@@ -97,7 +97,7 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
     {
         return _value.GetHashCode();
     }
-    
+
     public static bool operator ==(PhoneNumber? left, PhoneNumber? right)
     {
         return Equals(left, right);
@@ -107,12 +107,12 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
     {
         return !(left == right);
     }
-    
+
     public static bool operator ==(PhoneNumber? left, string? right)
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(right, out var rightNumber) && rightNumber.Equals(left);
     }
 
@@ -125,7 +125,7 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(left, out var leftNumber) && leftNumber.Equals(right);
     }
 
@@ -133,29 +133,29 @@ public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<st
     {
         return !(left == right);
     }
-    
+
     [return: NotNullIfNotNull(nameof(value))]
     public static implicit operator string?(PhoneNumber? value)
     {
         return value?.ToString();
     }
-    
+
     # region Regex implementations
-    
+
     private const string FormattedRegexPattern =
         @"^\((?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\)\s*(?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$";
 
     private const string RegexPattern =
         @"^(?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}$";
-    
+
     private static readonly Regex FormattedRegex = FormattedPhoneRegex();
     private static readonly Regex Regex = PhoneRegex();
-    
+
     [GeneratedRegex(FormattedRegexPattern, RegexOptions.Compiled)]
     private static partial Regex FormattedPhoneRegex();
 
     [GeneratedRegex(RegexPattern, RegexOptions.Compiled)]
     private static partial Regex PhoneRegex();
-    
+
     #endregion
 }

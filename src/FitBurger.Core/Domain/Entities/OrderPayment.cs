@@ -1,6 +1,7 @@
-using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Entities.Abstractions;
+using FitBurger.Core.Domain.ValueObjects;
 
-namespace FitBurger.Core.Domain.ValueObjects;
+namespace FitBurger.Core.Domain.Entities;
 
 public class OrderPayment : EntityWithId
 {
@@ -15,7 +16,7 @@ public class OrderPayment : EntityWithId
     }
 
     public PaymentMethod Method { get; protected set; }
-    
+
     public decimal Amount { get; protected set; }
 
     public virtual Order Order { get; protected set; } = default!;

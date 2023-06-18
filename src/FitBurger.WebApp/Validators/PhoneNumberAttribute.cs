@@ -9,7 +9,7 @@ public sealed class PhoneNumberAttribute : ValidationAttribute
     {
         if (value is string phoneNumber && PhoneNumber.IsValidPhoneNumberString(phoneNumber))
             return null;
-        
+
         return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName }!);
     }
 }

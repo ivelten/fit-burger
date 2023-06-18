@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
@@ -7,11 +8,11 @@ public class Deliveryman : EntityWithId
 {
     public Deliveryman(
         string name,
-        PhoneNumber phoneNumber, 
-        string emergencyContact, 
-        string licensePlate, 
+        PhoneNumber phoneNumber,
+        string emergencyContact,
+        string licensePlate,
         string motorcycleModel,
-        string drivingLicense, 
+        string drivingLicense,
         Gender gender)
     {
         Name = name;
@@ -39,7 +40,7 @@ public class Deliveryman : EntityWithId
     public string MotorcycleModel { get; protected set; } = default!;
 
     public string DrivingLicense { get; protected set; } = default!;
-    
+
     public Gender Gender { get; protected set; }
 
     public virtual ICollection<Order> Orders { get; protected set; } = default!;

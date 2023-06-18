@@ -15,6 +15,16 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
         _value = value;
     }
 
+    public bool Equals(Cpf? other)
+    {
+        return _value == other?._value;
+    }
+
+    public bool Equals(string? other)
+    {
+        return TryParse(other, out var otherCpf) && Equals(otherCpf);
+    }
+
     public static bool IsValidCpfString(string? value)
     {
         if (value is null)
@@ -30,7 +40,7 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
 
         return actualDigit == expectedDigit;
     }
-    
+
     private static string GetVerifyingDigit(string trimmedValue)
     {
         var temp = trimmedValue[..9];
@@ -43,13 +53,13 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
         var mod = GetVerifyingDigitMod(sum);
 
         var digit = mod.ToString();
-        
+
         temp += digit;
-        
+
         var multiplier2 = new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
         sum = 0;
-        
+
         for (var i = 0; i < 10; i++)
             sum += (int)char.GetNumericValue(temp[i]) * multiplier2[i];
 
@@ -58,7 +68,7 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
 
         return digit;
     }
-    
+
     private static int GetVerifyingDigitMod(int sum)
     {
         var mod = sum % 11;
@@ -88,7 +98,7 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         if (value == null)
             throw new ArgumentNullException(nameof(value));
-        
+
         if (TryParse(value, out var cpf))
             return cpf;
 
@@ -99,23 +109,13 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         var ns = options.HasFlag(CpfFormatOptions.NumberSeparators) ? "." : "";
         var dh = options.HasFlag(CpfFormatOptions.VerifyingDigitHyphen) ? "-" : "";
-        
+
         return $"{_value[..3]}{ns}{_value[3..6]}{ns}{_value[6..9]}{dh}{_value[9..11]}";
     }
 
     public override string ToString()
     {
         return ToString(CpfFormatOptions.All);
-    }
-
-    public bool Equals(Cpf? other)
-    {
-        return _value == other?._value;
-    }
-
-    public bool Equals(string? other)
-    {
-        return TryParse(other, out var otherCpf) && Equals(otherCpf);
     }
 
     public override bool Equals(object? obj)
@@ -147,7 +147,7 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(right, out var rightCpf) && rightCpf.Equals(left);
     }
 
@@ -160,7 +160,7 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         if (left is null && right is null)
             return true;
-        
+
         return TryParse(left, out var leftCpf) && leftCpf.Equals(right);
     }
 
@@ -174,15 +174,15 @@ public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
     {
         return value?.ToString();
     }
-    
+
     #region Regex implementations
 
     private const string FormattedRegexPattern = @"[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
     private const string RegexPattern = @"[0-9]{11}";
-    
+
     private static readonly Regex FormattedRegex = FormattedCpfRegex();
     private static readonly Regex Regex = CpfRegex();
-    
+
     [GeneratedRegex(FormattedRegexPattern, RegexOptions.Compiled)]
     private static partial Regex FormattedCpfRegex();
 

@@ -6,11 +6,9 @@ namespace FitBurger.WebApp.Pages.Attendant;
 
 public abstract class ListBase : ComponentBase
 {
-    [Inject]
-    protected AttendantService AttendantService { get; set; } = default!;
-    
-    [Inject]
-    protected NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] protected AttendantService AttendantService { get; set; } = default!;
+
+    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
 
     protected ListAttendant[]? Model { get; set; }
 

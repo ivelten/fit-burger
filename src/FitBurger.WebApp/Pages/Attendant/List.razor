@@ -13,28 +13,32 @@
 
 @if (Model is null)
 {
-    <p><em>Carregando...</em></p>
+    <p>
+        <em>Carregando...</em>
+    </p>
 }
 else if (Model.Length == 0)
 {
-    <p><em>Nenhum atendente cadastrado.</em></p>
+    <p>
+        <em>Nenhum atendente cadastrado.</em>
+    </p>
 }
 else
 {
     <div class="form-group">
         <table class="table table-striped align-middle table-bordered">
             <thead class="table-success">
-                <tr>
-                    <th>Nome</th>
-                    <th>Nascimento</th>
-                    <th>Telefone</th>
-                    <th>CPF</th>
-                    <th>Endereço</th>
-                    <th>Sexo</th>
-                    <th>Admissão</th>
-                    <th>Salário</th>
-                    <th>Operações</th>
-                </tr>
+            <tr>
+                <th>Nome</th>
+                <th>Nascimento</th>
+                <th>Telefone</th>
+                <th>CPF</th>
+                <th>Endereço</th>
+                <th>Sexo</th>
+                <th>Admissão</th>
+                <th>Salário</th>
+                <th>Operações</th>
+            </tr>
             </thead>
             <tbody>
             @foreach (var attendant in Model)

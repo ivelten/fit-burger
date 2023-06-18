@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
@@ -24,17 +25,17 @@ public class Order : EntityWithId
     }
 
     public string DeliveryAddress { get; protected set; } = default!;
-    
+
     public OrderStatus Status { get; protected set; }
-    
+
     public TimeSpan? DeliveryTime { get; protected set; }
-    
+
     public string? ReceiverName { get; protected set; }
-    
+
     public virtual Customer Customer { get; protected set; } = default!;
-    
+
     public virtual Attendant? Attendant { get; protected set; }
-    
+
     public virtual Deliveryman? Deliveryman { get; protected set; }
 
     public virtual ICollection<OrderItem> Items { get; protected set; } = default!;

@@ -11,7 +11,7 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
     public FitBurgerDbContext(DbContextOptions<FitBurgerDbContext> options) : base(options)
     {
     }
-    
+
     internal DbSet<Attendant> Attendants { get; init; } = default!;
 
     internal DbSet<Booking> Bookings { get; init; } = default!;
@@ -26,23 +26,36 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
 
     internal DbSet<Product> Products { get; init; } = default!;
 
+    public async Task CommitAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await SaveChangesAsync(cancellationToken);
+        }
+        catch
+        {
+            await UndoChangesAsync(cancellationToken);
+            throw;
+        }
+    }
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder
             .Properties<Cpf>()
             .HaveConversion<CpfConverter>()
             .HaveColumnType("char(11)");
-        
+
         configurationBuilder
             .Properties<Email>()
             .HaveConversion<EmailConverter>()
             .HaveColumnType("varchar(320)");
-        
+
         configurationBuilder
             .Properties<Gender>()
             .HaveConversion<GenderConverter>()
             .HaveColumnType("char(1)");
-        
+
         configurationBuilder
             .Properties<PhoneNumber>()
             .HaveConversion<PhoneNumberConverter>()
@@ -56,30 +69,17 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        foreach (var property in 
+        foreach (var property in
                  modelBuilder.Model.GetEntityTypes()
                      .SelectMany(e => e.GetProperties()
                          .Where(p => p.ClrType == typeof(string))))
             property.SetColumnType("varchar(256)");
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(AssemblyMarker.Assembly);
 
         base.OnModelCreating(modelBuilder);
     }
 
-    public async Task CommitAsync(CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            await SaveChangesAsync(cancellationToken);
-        }
-        catch
-        {
-            await UndoChangesAsync(cancellationToken);
-            throw;
-        }
-    }
-    
     private async Task UndoChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
@@ -87,7 +87,6 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
             .Where(e => e.State != EntityState.Unchanged);
 
         foreach (var dbEntityEntry in entries)
-        {
             switch (dbEntityEntry.State)
             {
                 case EntityState.Added:
@@ -107,6 +106,5 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
                     break;
                 }
             }
-        }
     }
 }

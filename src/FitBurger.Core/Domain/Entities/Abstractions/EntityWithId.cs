@@ -1,10 +1,6 @@
-namespace FitBurger.Core.Domain.Entities;
+namespace FitBurger.Core.Domain.Entities.Abstractions;
 
 public abstract class EntityWithId
 {
-    protected EntityWithId()
-    {
-    }
-
     public int Id { get; protected set; } = default!;
 }
