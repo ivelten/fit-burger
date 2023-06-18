@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using FitBurger.Core.Domain.ValueObjects.Options;
 using FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
 namespace FitBurger.Core.Domain.ValueObjects;
 
-[JsonConverter(typeof(PhoneNumberConverter))]
+[JsonConverter(typeof(PhoneNumberJsonConverter))]
 public sealed partial class PhoneNumber : IEquatable<PhoneNumber>, IEquatable<string>
 {
     private readonly string _value;

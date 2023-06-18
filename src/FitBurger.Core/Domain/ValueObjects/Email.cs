@@ -5,7 +5,7 @@ using FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
 namespace FitBurger.Core.Domain.ValueObjects;
 
-[JsonConverter(typeof(EmailConverter))]
+[JsonConverter(typeof(EmailJsonConverter))]
 public sealed partial class Email : IEquatable<Email>, IEquatable<string>
 {
     private readonly string _value;

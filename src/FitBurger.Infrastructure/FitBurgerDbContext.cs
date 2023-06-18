@@ -1,5 +1,6 @@
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Enums;
 using FitBurger.Core.Domain.ValueObjects;
 using FitBurger.Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;

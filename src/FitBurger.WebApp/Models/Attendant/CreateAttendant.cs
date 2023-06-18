@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Core.Domain.Enums;
 using FitBurger.WebApp.Validators;
 
 namespace FitBurger.WebApp.Models.Attendant;

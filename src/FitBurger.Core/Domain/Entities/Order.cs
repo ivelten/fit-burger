@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using FitBurger.Core.Domain.Entities.Abstractions;
-using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Core.Domain.Enums;
 
 namespace FitBurger.Core.Domain.Entities;
 

@@ -1,4 +1,5 @@
 using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Core.Domain.ValueObjects.Options;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitBurger.Infrastructure.ValueConverters;

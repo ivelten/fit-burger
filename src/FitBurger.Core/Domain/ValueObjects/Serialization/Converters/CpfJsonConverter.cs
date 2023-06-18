@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
-public sealed class CpfConverter : JsonConverter<Cpf>
+public sealed class CpfJsonConverter : JsonConverter<Cpf>
 {
     public override Cpf Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

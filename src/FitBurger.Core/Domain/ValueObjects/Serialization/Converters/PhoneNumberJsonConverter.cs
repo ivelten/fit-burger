@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
-public sealed class PhoneNumberConverter : JsonConverter<PhoneNumber>
+public sealed class PhoneNumberJsonConverter : JsonConverter<PhoneNumber>
 {
     public override PhoneNumber Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

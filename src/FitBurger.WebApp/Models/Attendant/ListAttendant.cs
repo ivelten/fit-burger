@@ -1,4 +1,4 @@
-using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.Core.Domain.Enums;
 
 namespace FitBurger.WebApp.Models.Attendant;
 

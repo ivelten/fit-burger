@@ -1,11 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using FitBurger.Core.Domain.ValueObjects.Options;
 using FitBurger.Core.Domain.ValueObjects.Serialization.Converters;
 
 namespace FitBurger.Core.Domain.ValueObjects;
 
-[JsonConverter(typeof(CpfConverter))]
+[JsonConverter(typeof(CpfJsonConverter))]
 public sealed partial class Cpf : IEquatable<Cpf>, IEquatable<string>
 {
     private readonly string _value;
