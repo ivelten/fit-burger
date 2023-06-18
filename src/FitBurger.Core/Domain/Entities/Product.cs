@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Product : EntityWithId
+public class Product : Entity
 {
     public Product(string description, decimal price)
     {

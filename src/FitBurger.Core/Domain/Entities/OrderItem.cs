@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class OrderItem : EntityWithId
+public class OrderItem : Entity
 {
     public OrderItem(Product product, int quantity)
     {

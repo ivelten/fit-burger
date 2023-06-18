@@ -15,6 +15,7 @@ public abstract class CreateBase : ComponentBase
     protected async Task HandleValidSubmit()
     {
         await CustomerService.CreateAsync(Model);
+        
         NavigationManager.NavigateTo("/customer/list");
     }
 }

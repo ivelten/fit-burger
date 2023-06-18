@@ -21,13 +21,16 @@ public sealed class AttendantService
     {
         var attendant = new Attendant(
             request.Name!,
-            DateOnly.FromDateTime(request.Birthday!.Value),
             PhoneNumber.Parse(request.PhoneNumber!),
-            Cpf.Parse(request.Cpf!),
+            Email.Parse(request.Email!),
             request.Address!,
+            Cpf.Parse(request.Cpf!),
+            DateOnly.FromDateTime(request.Birthday!.Value),
             request.Gender!.Value,
+            request.Salary!.Value,
             DateOnly.FromDateTime(request.AdmissionDate!.Value),
-            request.Salary!.Value);
+            request.UserName!,
+            request.Password!);
 
         await _attendantRepository.AddAsync(attendant);
         await _unitOfWork.CommitAsync();
@@ -86,13 +89,14 @@ public sealed class AttendantService
 
         attendant.Update(
             request.Name!,
-            DateOnly.FromDateTime(request.Birthday!.Value),
             PhoneNumber.Parse(request.PhoneNumber!),
-            Cpf.Parse(request.Cpf!),
+            Email.Parse(request.Email!),
             request.Address!,
+            Cpf.Parse(request.Cpf!),
+            DateOnly.FromDateTime(request.Birthday!.Value),
             request.Gender!.Value,
-            DateOnly.FromDateTime(request.AdmissionDate!.Value),
-            request.Salary!.Value);
+            request.Salary!.Value,
+            DateOnly.FromDateTime(request.AdmissionDate!.Value));
 
         await _unitOfWork.CommitAsync();
     }

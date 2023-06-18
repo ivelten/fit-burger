@@ -3,7 +3,7 @@ using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class OrderPayment : EntityWithId
+public class OrderPayment : Entity
 {
     public OrderPayment(PaymentMethod method, decimal amount)
     {

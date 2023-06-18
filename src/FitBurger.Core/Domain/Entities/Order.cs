@@ -4,7 +4,7 @@ using FitBurger.Core.Domain.Enums;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Order : EntityWithId
+public class Order : Entity
 {
     public Order(
         string deliveryAddress,

@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Entities;
 
-public class Booking : EntityWithId
+public class Booking : Entity
 {
     public Booking(
         DateTime bookingDateTime,

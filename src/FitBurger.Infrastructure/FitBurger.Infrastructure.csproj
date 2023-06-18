@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FitBurger.Core\FitBurger.Core.csproj"/>
+        <ProjectReference Include="..\FitBurger.Core\FitBurger.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="EntityFrameworkCore.Exceptions.SqlServer" Version="6.0.3.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5"/>
+        <PackageReference Include="EntityFrameworkCore.Exceptions.SqlServer" Version="6.0.3.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     </ItemGroup>
 
 </Project>

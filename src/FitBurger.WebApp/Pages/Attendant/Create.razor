@@ -37,7 +37,7 @@
 
     <div class="form-group pb-3">
         <label for="gender">Sexo:</label>
-        <InputRadioGroup class="form-control" @bind-Value="Model.Gender">
+        <InputRadioGroup id="gender" class="form-control" @bind-Value="Model.Gender">
             @foreach (var gender in Enum.GetValues<Gender>())
             {
                 <InputRadio id="@("gender" + gender)" Value="@gender"/>

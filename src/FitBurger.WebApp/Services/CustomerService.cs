@@ -24,7 +24,11 @@ public sealed class CustomerService
             PhoneNumber.Parse(request.PhoneNumber!),
             Email.Parse(request.Email!),
             request.Address!,
-            Cpf.Parse(request.Cpf!));
+            Cpf.Parse(request.Cpf!),
+            DateOnly.FromDateTime(request.Birthday!.Value),
+            request.Gender!.Value,
+            request.UserName!,
+            request.Password!);
 
         await _customerRepository.AddAsync(customer);
         await _unitOfWork.CommitAsync();
@@ -64,6 +68,8 @@ public sealed class CustomerService
             Cpf = customer.Cpf,
             Email = customer.Email,
             Name = customer.Name,
+            Birthday = customer.Birthday.ToDateTime(new TimeOnly()),
+            Gender = customer.Gender,
             PhoneNumber = customer.PhoneNumber
         };
     }
@@ -80,7 +86,9 @@ public sealed class CustomerService
             PhoneNumber.Parse(request.PhoneNumber!),
             Email.Parse(request.Email!),
             request.Address!,
-            Cpf.Parse(request.Cpf!));
+            Cpf.Parse(request.Cpf!),
+            DateOnly.FromDateTime(request.Birthday!.Value),
+            request.Gender!.Value);
 
         await _unitOfWork.CommitAsync();
     }

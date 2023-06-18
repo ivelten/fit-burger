@@ -9,10 +9,6 @@ public sealed class DeliverymanConfiguration : IEntityTypeConfiguration<Delivery
     public void Configure(EntityTypeBuilder<Deliveryman> builder)
     {
         builder
-            .Property(x => x.Name)
-            .HasColumnType("varchar(100)");
-
-        builder
             .Property(x => x.EmergencyContact)
             .HasColumnType("varchar(200)");
 

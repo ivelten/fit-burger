@@ -15,5 +15,8 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder
             .Property(x => x.ReceiverName)
             .HasColumnType("varchar(100)");
+
+        builder
+            .UseTpcMappingStrategy();
     }
 }

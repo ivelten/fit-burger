@@ -43,6 +43,14 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder
+            .Properties<string>()
+            .HaveColumnType("varchar(256)");
+
+        configurationBuilder
+            .Properties<decimal>()
+            .HaveColumnType("decimal(18,2)");
+        
+        configurationBuilder
             .Properties<Cpf>()
             .HaveConversion<CpfConverter>()
             .HaveColumnType("char(11)");

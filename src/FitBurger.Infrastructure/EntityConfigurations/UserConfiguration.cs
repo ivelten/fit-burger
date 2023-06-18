@@ -1,12 +1,12 @@
-using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Entities.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FitBurger.Infrastructure.EntityConfigurations;
 
-public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Customer> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
             .Property(x => x.Name)
@@ -15,5 +15,8 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder
             .Property(x => x.Address)
             .HasColumnType("varchar(200)");
+
+        builder
+            .UseTpcMappingStrategy();
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitBurger.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : EntityWithId
+public class Repository<T> : IRepository<T> where T : Entity
 {
     private readonly FitBurgerDbContext _context;
 

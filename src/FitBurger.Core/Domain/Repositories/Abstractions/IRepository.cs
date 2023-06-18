@@ -2,7 +2,7 @@ using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Repositories.Abstractions;
 
-public interface IRepository<T> where T : EntityWithId
+public interface IRepository<T> where T : Entity
 {
     Task AddAsync(T item, CancellationToken cancellationToken = default);
 

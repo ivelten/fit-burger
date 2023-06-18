@@ -1,4 +1,5 @@
 @page "/customer/create"
+@using FitBurger.Core.Domain.Enums
 @inherits CreateBase
 
 <PageTitle>Cadastrar cliente</PageTitle>
@@ -32,6 +33,32 @@
     <div class="form-group pb-3">
         <label for="email">Email:</label>
         <InputText id="email" class="form-control" @bind-Value="Model.Email"/>
+    </div>
+    
+    <div class="form-group pb-3">
+        <label for="gender">Sexo:</label>
+        <InputRadioGroup id="gender" class="form-control" @bind-Value="Model.Gender">
+            @foreach (var gender in Enum.GetValues<Gender>())
+            {
+                <InputRadio id="@("gender" + gender)" Value="@gender"/>
+                <label for="@("gender" + gender)" class="pe-2">@((char)gender)</label>
+            }
+        </InputRadioGroup>
+    </div>
+    
+    <div class="form-group pb-3">
+        <label for="birthday">Data de aniversário:</label>
+        <InputDate id="birthday" class="form-control" @bind-Value="Model.Birthday"/>
+    </div>
+    
+    <div class="form-group pb-3">
+        <label for="username">Login:</label>
+        <InputText id="username" class="form-control" @bind-Value="Model.UserName"/>
+    </div>
+
+    <div class="form-group pb-3">
+        <label for="password">Email:</label>
+        <InputText id="password" class="form-control" @bind-Value="Model.Password"/>
     </div>
 
     <div class="form-group">
