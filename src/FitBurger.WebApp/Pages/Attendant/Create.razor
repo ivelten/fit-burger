@@ -1,65 +1,42 @@
 @page "/attendant/create"
-@using FitBurger.Core.Domain.Enums
-@inherits CreateBase
+@using FitBurger.WebApp.Models.Attendant
+@using FitBurger.WebApp.Services
+@using VxFormGenerator.Core
 
 <PageTitle>Cadastrar atendente</PageTitle>
 
 <h1>Cadastrar atendente</h1>
 
-<EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-
-    <div class="form-group pb-3">
-        <label for="name">Nome:</label>
-        <InputText id="name" class="form-control" @bind-Value="Model.Name"/>
+<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <RenderFormElements></RenderFormElements>
+    <div class="form-row">
+        <label class="col-sm-3 col-form-label">Sexo</label>
+        <div class="col" style="">
+            <div class="form-group">
+                <input step="any" type="number" class="form-control valid"/>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group pb-3">
-        <label for="birthday">Data de aniversário:</label>
-        <InputDate id="birthday" class="form-control" @bind-Value="Model.Birthday"/>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="phone">Telefone:</label>
-        <InputText id="phone" class="form-control" @bind-Value="Model.PhoneNumber"/>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="cpf">CPF:</label>
-        <InputText id="cpf" class="form-control" @bind-Value="Model.Cpf"/>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="address">Endereço:</label>
-        <InputText id="address" class="form-control" @bind-Value="Model.Address"/>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="gender">Sexo:</label>
-        <InputRadioGroup id="gender" class="form-control" @bind-Value="Model.Gender">
-            @foreach (var gender in Enum.GetValues<Gender>())
-            {
-                <InputRadio id="@("gender" + gender)" Value="@gender"/>
-                <label for="@("gender" + gender)" class="pe-2">@((char)gender)</label>
-            }
-        </InputRadioGroup>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="admission-date">Data de admissão:</label>
-        <InputDate id="admission-date" class="form-control" @bind-Value="Model.AdmissionDate"/>
-    </div>
-
-    <div class="form-group pb-3">
-        <label for="salary">Salário:</label>
-        <InputNumber id="salary" class="form-control" @bind-Value="Model.Salary" @bind-Value:format="N2"/>
-    </div>
-
-    <div class="form-group">
+    <div class="form-row pt-3 pb-3">
         <button type="submit" class="btn btn-primary pr-3">Salvar</button>
-        <a href="/attendant/list" class="btn btn-secondary" role="button">
-            Voltar
-        </a>
+        <a href="/attendant/list" class="btn btn-secondary" role="button">Voltar</a>
     </div>
 </EditForm>
+
+@code {
+
+    [Inject] protected AttendantService AttendantService { get; set; } = default!;
+
+    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
+
+    private CreateAttendant Model { get; } = new();
+
+    private async Task HandleValidSubmit()
+    {
+        await AttendantService.CreateAsync(Model);
+        
+        NavigationManager.NavigateTo("/attendant/list");
+    }
+
+}

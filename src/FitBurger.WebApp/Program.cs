@@ -2,11 +2,13 @@ using System.Globalization;
 using FitBurger.Infrastructure;
 using FitBurger.Infrastructure.Abstractions;
 using FitBurger.WebApp;
+using VxFormGenerator.Settings.Bootstrap;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddVxFormGenerator();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplicationServices();

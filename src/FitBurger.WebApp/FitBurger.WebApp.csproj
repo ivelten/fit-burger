@@ -25,4 +25,8 @@
       <_ContentIncludedByDefault Remove="Components\CreateUserForm.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="VxFormGenerator.Components.Bootstrap" Version="0.4.0" />
+    </ItemGroup>
+
 </Project>
