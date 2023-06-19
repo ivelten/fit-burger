@@ -8,20 +8,9 @@
 <h1>Cadastrar atendente</h1>
 
 <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <RenderFormElements></RenderFormElements>
-    <div class="form-row">
-        <label class="col-sm-3 col-form-label">Sexo</label>
-        <div class="col" style="">
-            <div class="form-group">
-                <input step="any" type="number" class="form-control valid"/>
-            </div>
-        </div>
-    </div>
-    <div class="form-row pt-3 pb-3">
-        <button type="submit" class="btn btn-primary pr-3">Salvar</button>
-        <a href="/attendant/list" class="btn btn-secondary" role="button">Voltar</a>
-    </div>
+    <DataAnnotationsValidator/>
+    <RenderFormElements/>
+    <CreateFormButtons/>
 </EditForm>
 
 @code {

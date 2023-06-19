@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Enums;
 using FitBurger.WebApp.Validators;
+using VxFormGenerator.Core;
 
 namespace FitBurger.WebApp.Models.Attendant.Abstractions;
 
@@ -37,14 +38,17 @@ public class CreateUser
     [StringLength(200, ErrorMessage = "O endereço é muito longo. Deve ter 200 ou menos caracteres.")]
     public string? Address { get; set; }
 
+    [VxIgnore]
     [Display(Name = "Sexo")]
     [Required(ErrorMessage = "O sexo é requerido.")]
     public Gender? Gender { get; set; }
     
+    [VxIgnore]
     [Display(Name = "Nome de Usuário")]
     [Required(ErrorMessage = "O nome de usuário é requerido.")]
     public string? UserName { get; set; }
     
+    [VxIgnore]
     [Display(Name = "Senha")]
     [Required(ErrorMessage = "A senha é requerida.")]
     [PasswordPropertyText]
