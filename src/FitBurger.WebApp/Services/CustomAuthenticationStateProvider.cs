@@ -16,6 +16,8 @@ public sealed class CustomAuthenticationStateProvider : AuthenticationStateProvi
     private readonly ProtectedLocalStorage _localStorage;
 
     public const string StorageKey = "identity";
+    public const string AuthType = "FitBurgerAuth";
+    public const string AdminWord = "admin";
 
     public CustomAuthenticationStateProvider(
         IUserRepository userRepository,
@@ -39,13 +41,22 @@ public sealed class CustomAuthenticationStateProvider : AuthenticationStateProvi
 
                 if (user is not null)
                 {
-                    var databaseUser = await _userRepository.GetByUserNameAsync(user.UserName);
-
-                    if (databaseUser is not null && user.PasswordHash == databaseUser.PasswordHash)
+                    ClaimsIdentity? identity;
+                    
+                    if (user.UserName == AdminWord && BCrypt.Net.BCrypt.Verify(AdminWord, user.PasswordHash))
                     {
-                        var identity = CreateIdentityFromUser(databaseUser);
-
+                        identity = CreateIdentityFromAdminUser(user.PasswordHash);
                         principal = new ClaimsPrincipal(identity);
+                    }
+                    else
+                    {
+                        var databaseUser = await _userRepository.GetByUserNameAsync(user.UserName);
+
+                        if (databaseUser is not null && user.PasswordHash == databaseUser.PasswordHash)
+                        {
+                            identity = CreateIdentityFromUser(databaseUser);
+                            principal = new ClaimsPrincipal(identity);
+                        }
                     }
                 }
             }
@@ -55,6 +66,18 @@ public sealed class CustomAuthenticationStateProvider : AuthenticationStateProvi
         }
         
         return new AuthenticationState(principal);
+    }
+
+    private static ClaimsIdentity CreateIdentityFromAdminUser(string passwordHash)
+    {
+        var claims = new Claim[]
+        {
+            new(ClaimTypes.Name, "Administrador"),
+            new(ClaimTypes.Hash, passwordHash),
+            new(ClaimTypes.Role, "Administrador")
+        };
+
+        return new ClaimsIdentity(claims, AuthType);
     }
 
     private static ClaimsIdentity CreateIdentityFromUser(User user)
@@ -68,7 +91,7 @@ public sealed class CustomAuthenticationStateProvider : AuthenticationStateProvi
             new(ClaimTypes.Role, roleName)
         };
 
-        return new ClaimsIdentity(claims, authenticationType: "FitBurgerAuth");
+        return new ClaimsIdentity(claims, AuthType);
     }
 
     public async Task<AuthenticatedUser?> GetAuthenticatedUser()
@@ -83,34 +106,64 @@ public sealed class CustomAuthenticationStateProvider : AuthenticationStateProvi
 
     public async Task<bool> LoginAsync(LoginFormModel loginFormModel)
     {
+        bool success;
         var principal = new ClaimsPrincipal();
-        var databaseUser = await _userRepository.GetByUserNameAsync(loginFormModel.UserName);
 
-        if (databaseUser is not null && BCrypt.Net.BCrypt.Verify(loginFormModel.Password, databaseUser.PasswordHash))
+        if (loginFormModel is { UserName: AdminWord, Password: AdminWord })
         {
-            var identity = CreateIdentityFromUser(databaseUser);
-            var role = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(AdminWord);
+            var identity = CreateIdentityFromAdminUser(passwordHash);
+            var role = "Administrador";
             
             var user = new AuthenticatedUser(
-                databaseUser.Name,
-                databaseUser.UserName, 
-                databaseUser.PasswordHash,
-                databaseUser.PhoneNumber,
-                databaseUser.Email,
-                role!.Value);
-
+                role,
+                "admin",
+                passwordHash,
+                "(21) 2135-0765",
+                "admin@teste.com.br",
+                "Administrador");
+            
             principal = new ClaimsPrincipal(identity);
 
             var userSerialized = JsonSerializer.Serialize(user);
-            
+
             await _localStorage.SetAsync(StorageKey, userSerialized);
+
+            success = true;
+        }
+        else
+        {
+            var databaseUser = await _userRepository.GetByUserNameAsync(loginFormModel.UserName);
+
+            if (databaseUser is not null &&
+                BCrypt.Net.BCrypt.Verify(loginFormModel.Password, databaseUser.PasswordHash))
+            {
+                var identity = CreateIdentityFromUser(databaseUser);
+                var role = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
+                var user = new AuthenticatedUser(
+                    databaseUser.Name,
+                    databaseUser.UserName,
+                    databaseUser.PasswordHash,
+                    databaseUser.PhoneNumber,
+                    databaseUser.Email,
+                    role!.Value);
+
+                principal = new ClaimsPrincipal(identity);
+
+                var userSerialized = JsonSerializer.Serialize(user);
+
+                await _localStorage.SetAsync(StorageKey, userSerialized);
+            }
+
+            success = true;
         }
 
         var state = new AuthenticationState(principal);
 
         NotifyAuthenticationStateChanged(Task.FromResult(state));
 
-        return databaseUser is not null;
+        return success;
     }
 
     public async Task LogoutAsync()

@@ -91,10 +91,7 @@
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            User = await WebsiteAuthenticator.GetAuthenticatedUser();
-            StateHasChanged();
-        }
+        User = await WebsiteAuthenticator.GetAuthenticatedUser();
+        StateHasChanged();
     }
 }
