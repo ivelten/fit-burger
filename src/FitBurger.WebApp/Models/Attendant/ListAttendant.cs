@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Enums;
 using FitBurger.WebApp.Attributes;
-using FitBurger.WebApp.Models.Attendant.Abstractions;
+using FitBurger.WebApp.Models.Abstractions;
 
 namespace FitBurger.WebApp.Models.Attendant;
 
@@ -20,6 +20,9 @@ public sealed class ListAttendant : IListModel
 
     [Display(Name = "Telefone")]
     public string? PhoneNumber { get; init; }
+    
+    [Display(Name = "e-mail")]
+    public string? Email { get; init; }
 
     [Display(Name = "Sexo")]
     public Gender? Gender { get; init; }

@@ -1,6 +1,9 @@
+using FitBurger.WebApp.Attributes;
+using FitBurger.WebApp.Models.Abstractions;
+
 namespace FitBurger.WebApp.Models.Customer;
 
-public sealed class UpdateCustomer : CreateCustomer
+[Plurality("Cliente", "Clientes")]
+public sealed class UpdateCustomer : UpdateUser
 {
-    public int Id { get; set; }
 }

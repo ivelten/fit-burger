@@ -1,52 +1,11 @@
 @page "/attendant/update/{id:int}"
 @using FitBurger.WebApp.Models.Attendant
-@using FitBurger.WebApp.Services
-@using VxFormGenerator.Core
-@inherits ComponentBase
 
-<PageTitle>Editar atendente</PageTitle>
-
-<h1>Editar atendente</h1>
-
-@if (Model is null)
-{
-    <p>
-        <em>Atendente não encontrado.</em>
-    </p>
-}
-else
-{
-    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator/>
-        <RenderFormElements/>
-        <GenderInputSelect Model="Model"/>
-        <InputFormButtons/>
-    </EditForm>
-}
+<DynamicUpdateForm TUpdateModel="UpdateAttendant" Id="Id"/>
 
 @code {
 
-    [Inject] protected AttendantService AttendantService { get; set; } = default!;
-
-    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
-
-    [Parameter] public int Id { get; set; }
-
-    private UpdateAttendant? Model { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Model = await AttendantService.GetAsync(Id);
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        if (Model is null)
-            return;
-
-        await AttendantService.UpdateAsync(Id, Model);
-        
-        NavigationManager.NavigateTo("/attendant/list");
-    }
+    [Parameter]
+    public int Id { get; set; }
 
 }

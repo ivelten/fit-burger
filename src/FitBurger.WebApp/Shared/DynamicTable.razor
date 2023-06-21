@@ -5,9 +5,8 @@
 @using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
-@using FitBurger.WebApp.Models.Attendant.Abstractions
 
-@typeparam TListModel where TListModel : IListModel
+@typeparam TListModel where TListModel : FitBurger.WebApp.Models.Abstractions.IListModel
 
 <PageTitle>Listar @(Plurality?.Plural ?? TypeName)</PageTitle>
 
@@ -60,7 +59,7 @@ else
                                 Gender gender => gender.GetAttribute<DisplayAttribute>()?.Name,
                                 decimal amount => amount.ToString("N2"),
                                 var other => other?.ToString()
-                                })
+                            })
                         </td>
                     }
                     <td>

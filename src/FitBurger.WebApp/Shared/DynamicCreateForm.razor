@@ -5,7 +5,7 @@
 @using FitBurger.WebApp.Attributes
 @using System.Reflection
 @using System.ComponentModel.DataAnnotations
-@using FitBurger.WebApp.Models.Attendant.Abstractions
+@using FitBurger.WebApp.Models.Abstractions
 
 @typeparam TCreateModel where TCreateModel : IGender, IUserNameAndPassword, new()
 
@@ -18,7 +18,7 @@
     <RenderFormElements/>
     <GenderInputSelect Model="Model"/>
     <UserNameAndPasswordInputTexts Model="Model"/>
-    <InputFormButtons/>
+    <Submit/>
 </EditForm>
 
 @code {
@@ -34,18 +34,12 @@
     private static PluralityAttribute? Plurality =>
         ModelType.GetCustomAttribute<PluralityAttribute>();
 
-    private static IEnumerable<PropertyInfo> PropertyInfos =>
-        ModelType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-
     private static string TypeName =>
         ModelType.Name.StartsWith("Create")
             ? ModelType.Name[6..]
             : ModelType.Name;
 
     private static string PageName => TypeName.ToLowerInvariant();
-
-    private static IEnumerable<string> PropertyNames =>
-        PropertyInfos.Select(x => x.GetCustomAttribute<DisplayAttribute>()?.Name ?? x.Name);
 
     private async Task HandleValidSubmit()
     {

@@ -1,0 +1,71 @@
+@inherits ComponentBase
+
+@using FitBurger.WebApp.Services
+@using VxFormGenerator.Core
+@using FitBurger.WebApp.Attributes
+@using System.Reflection
+@using FitBurger.WebApp.Models.Abstractions
+
+@typeparam TUpdateModel where TUpdateModel : IGender, new()
+
+<PageTitle>Editar @(Plurality?.Singular ?? TypeName)</PageTitle>
+
+<h1>Editar @(Plurality?.Singular ?? TypeName)</h1>
+
+@if (Model is null)
+{
+    <p>
+        <em>Cliente não encontrado.</em>
+    </p>
+}
+else
+{
+    <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator/>
+        <RenderFormElements/>
+        <GenderInputSelect Model="Model"/>
+        <Submit/>
+    </EditForm>
+}
+
+@code {
+
+    [Inject] 
+    protected IUpdateService<TUpdateModel> UpdateService { get; set; } = default!;
+
+    [Inject] 
+    protected NavigationManager NavigationManager { get; set; } = default!;
+    
+    [Parameter] 
+    public int Id { get; set; }
+
+    private TUpdateModel? Model { get; set; }
+    
+    private static Type ModelType => typeof(TUpdateModel);
+
+    private static PluralityAttribute? Plurality =>
+        ModelType.GetCustomAttribute<PluralityAttribute>();
+
+    private static string TypeName =>
+        ModelType.Name.StartsWith("Update")
+            ? ModelType.Name[6..]
+            : ModelType.Name;
+
+    private static string PageName => TypeName.ToLowerInvariant();
+
+    private async Task HandleValidSubmit()
+    {
+        if (Model is null)
+            return;
+        
+        await UpdateService.UpdateAsync(Id, Model);
+        
+        NavigationManager.NavigateTo($"/{PageName}/list");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await UpdateService.GetAsync(Id);
+    }
+
+}

@@ -1,5 +1,5 @@
 using FitBurger.WebApp.Attributes;
-using FitBurger.WebApp.Models.Attendant.Abstractions;
+using FitBurger.WebApp.Models.Abstractions;
 
 namespace FitBurger.WebApp.Models.Attendant;
 

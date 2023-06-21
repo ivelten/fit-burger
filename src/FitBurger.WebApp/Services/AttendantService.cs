@@ -8,7 +8,8 @@ namespace FitBurger.WebApp.Services;
 
 public sealed class AttendantService : 
     IListService<ListAttendant>,
-    ICreateService<CreateAttendant>
+    ICreateService<CreateAttendant>,
+    IUpdateService<UpdateAttendant>
 {
     private readonly IRepository<Attendant> _attendantRepository;
     private readonly IUnitOfWork _unitOfWork;

@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VxFormGenerator.Core;
 
-namespace FitBurger.WebApp.Models.Attendant.Abstractions;
+namespace FitBurger.WebApp.Models.Abstractions;
 
 public class CreateEmployee : UpdateEmployee, IUserNameAndPassword
 {

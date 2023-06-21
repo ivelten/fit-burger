@@ -1,52 +1,11 @@
 @page "/customer/update/{id:int}"
-@inherits UpdateBase
+@using FitBurger.WebApp.Models.Customer
 
-<PageTitle>Editar cliente</PageTitle>
+<DynamicUpdateForm TUpdateModel="UpdateCustomer" Id="Id"/>
 
-<h1>Editar cliente</h1>
+@code {
 
-@if (Model is null)
-{
-    <p>
-        <em>Cliente não encontrado.</em>
-    </p>
-}
-else
-{
-    <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
+    [Parameter]
+    public int Id { get; set; }
 
-        <div class="form-group pb-3">
-            <label for="name">Nome:</label>
-            <InputText id="name" class="form-control" @bind-Value="Model.Name"/>
-        </div>
-
-        <div class="form-group pb-3">
-            <label for="address">Endereço:</label>
-            <InputText id="address" class="form-control" @bind-Value="Model.Address"/>
-        </div>
-
-        <div class="form-group pb-3">
-            <label for="cpf">CPF:</label>
-            <InputText id="cpf" class="form-control" @bind-Value="Model.Cpf"/>
-        </div>
-
-        <div class="form-group pb-3">
-            <label for="phone">Telefone:</label>
-            <InputText id="phone" class="form-control" @bind-Value="Model.PhoneNumber"/>
-        </div>
-
-        <div class="form-group pb-3">
-            <label for="email">Email:</label>
-            <InputText id="email" class="form-control" @bind-Value="Model.Email"/>
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary pr-3">Salvar</button>
-            <a href="/customer/list" class="btn btn-secondary" role="button">
-                Voltar
-            </a>
-        </div>
-    </EditForm>
 }

@@ -1,4 +1,4 @@
-namespace FitBurger.WebApp.Models.Attendant.Abstractions;
+namespace FitBurger.WebApp.Models.Abstractions;
 
 public interface IListModel
 {

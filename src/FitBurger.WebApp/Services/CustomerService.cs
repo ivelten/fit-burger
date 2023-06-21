@@ -8,7 +8,8 @@ namespace FitBurger.WebApp.Services;
 
 public sealed class CustomerService : 
     IListService<ListCustomer>,
-    ICreateService<CreateCustomer>
+    ICreateService<CreateCustomer>,
+    IUpdateService<UpdateCustomer>
 {
     private readonly IRepository<Customer> _customerRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -49,10 +50,10 @@ public sealed class CustomerService :
         {
             Id = x.Id,
             Name = x.Name,
-            Address = x.Address,
-            Cpf = x.Cpf.ToString(),
-            Email = x.Email.ToString(),
-            PhoneNumber = x.PhoneNumber.ToString()
+            Email = x.Email,
+            PhoneNumber = x.PhoneNumber,
+            Birthday = x.Birthday.ToDateTime(default),
+            Gender = x.Gender
         }).ToArray();
     }
 
@@ -65,7 +66,6 @@ public sealed class CustomerService :
 
         return new UpdateCustomer
         {
-            Id = customer.Id,
             Address = customer.Address,
             Cpf = customer.Cpf,
             Email = customer.Email,
@@ -76,9 +76,9 @@ public sealed class CustomerService :
         };
     }
 
-    public async Task UpdateAsync(UpdateCustomer request)
+    public async Task UpdateAsync(int id, UpdateCustomer request)
     {
-        var customer = await _customerRepository.GetAsync(request.Id);
+        var customer = await _customerRepository.GetAsync(id);
 
         if (customer is null)
             return;

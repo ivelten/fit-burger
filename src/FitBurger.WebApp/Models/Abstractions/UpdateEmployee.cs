@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FitBurger.WebApp.Models.Attendant.Abstractions;
+namespace FitBurger.WebApp.Models.Abstractions;
 
 public class UpdateEmployee : UpdateUser
 {
