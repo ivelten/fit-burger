@@ -1,0 +1,57 @@
+@inherits ComponentBase
+
+@using FitBurger.WebApp.Services
+@using VxFormGenerator.Core
+@using FitBurger.WebApp.Attributes
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@using FitBurger.WebApp.Models.Attendant.Abstractions
+
+@typeparam TCreateModel where TCreateModel : IGender, IUserNameAndPassword, new()
+
+<PageTitle>Cadastrar @(Plurality?.Singular ?? TypeName)</PageTitle>
+
+<h1>Cadastrar @(Plurality?.Singular ?? TypeName)</h1>
+
+<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    <RenderFormElements/>
+    <GenderInputSelect Model="Model"/>
+    <UserNameAndPasswordInputTexts Model="Model"/>
+    <InputFormButtons/>
+</EditForm>
+
+@code {
+
+    [Inject] protected ICreateService<TCreateModel> CreateService { get; set; } = default!;
+
+    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
+
+    private TCreateModel Model { get; } = new();
+    
+    private static Type ModelType => typeof(TCreateModel);
+
+    private static PluralityAttribute? Plurality =>
+        ModelType.GetCustomAttribute<PluralityAttribute>();
+
+    private static IEnumerable<PropertyInfo> PropertyInfos =>
+        ModelType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+    private static string TypeName =>
+        ModelType.Name.StartsWith("Create")
+            ? ModelType.Name[6..]
+            : ModelType.Name;
+
+    private static string PageName => TypeName.ToLowerInvariant();
+
+    private static IEnumerable<string> PropertyNames =>
+        PropertyInfos.Select(x => x.GetCustomAttribute<DisplayAttribute>()?.Name ?? x.Name);
+
+    private async Task HandleValidSubmit()
+    {
+        await CreateService.CreateAsync(Model);
+        
+        NavigationManager.NavigateTo($"/{PageName}/list");
+    }
+
+}

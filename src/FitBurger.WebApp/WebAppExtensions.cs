@@ -12,6 +12,8 @@ public static class WebAppExtensions
             .AddScoped<CustomerService>()
             .AddScoped<AttendantService>()
             .AddScoped<IListService<ListAttendant>, AttendantService>()
-            .AddScoped<IListService<ListCustomer>, CustomerService>();
+            .AddScoped<IListService<ListCustomer>, CustomerService>()
+            .AddScoped<ICreateService<CreateAttendant>, AttendantService>()
+            .AddScoped<ICreateService<CreateCustomer>, CustomerService>();
     }
 }

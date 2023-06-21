@@ -1,33 +1,4 @@
 @page "/attendant/create"
 @using FitBurger.WebApp.Models.Attendant
-@using FitBurger.WebApp.Services
-@using VxFormGenerator.Core
 
-<PageTitle>Cadastrar atendente</PageTitle>
-
-<h1>Cadastrar atendente</h1>
-
-<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator/>
-    <RenderFormElements/>
-    <GenderInputSelect Model="Model"/>
-    <UserNameAndPasswordInputTexts Model="Model"/>
-    <InputFormButtons/>
-</EditForm>
-
-@code {
-
-    [Inject] protected AttendantService AttendantService { get; set; } = default!;
-
-    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
-
-    private CreateAttendant Model { get; } = new();
-
-    private async Task HandleValidSubmit()
-    {
-        await AttendantService.CreateAsync(Model);
-        
-        NavigationManager.NavigateTo("/attendant/list");
-    }
-
-}
+<DynamicCreateForm TCreateModel="CreateAttendant"/>

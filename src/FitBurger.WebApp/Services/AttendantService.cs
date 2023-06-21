@@ -6,7 +6,9 @@ using FitBurger.WebApp.Models.Attendant;
 
 namespace FitBurger.WebApp.Services;
 
-public sealed class AttendantService : IListService<ListAttendant>
+public sealed class AttendantService : 
+    IListService<ListAttendant>,
+    ICreateService<CreateAttendant>
 {
     private readonly IRepository<Attendant> _attendantRepository;
     private readonly IUnitOfWork _unitOfWork;

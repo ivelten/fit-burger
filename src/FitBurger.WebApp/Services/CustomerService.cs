@@ -6,7 +6,9 @@ using FitBurger.WebApp.Models.Customer;
 
 namespace FitBurger.WebApp.Services;
 
-public sealed class CustomerService : IListService<ListCustomer>
+public sealed class CustomerService : 
+    IListService<ListCustomer>,
+    ICreateService<CreateCustomer>
 {
     private readonly IRepository<Customer> _customerRepository;
     private readonly IUnitOfWork _unitOfWork;

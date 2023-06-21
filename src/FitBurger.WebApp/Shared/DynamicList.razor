@@ -5,7 +5,9 @@
 @using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
-@typeparam TListModel where TListModel : FitBurger.WebApp.Models.Attendant.Abstractions.IListModel
+@using FitBurger.WebApp.Models.Attendant.Abstractions
+
+@typeparam TListModel where TListModel : IListModel
 
 <PageTitle>Listar @(Plurality?.Plural ?? TypeName)</PageTitle>
 
