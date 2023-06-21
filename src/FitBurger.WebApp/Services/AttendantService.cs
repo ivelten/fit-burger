@@ -54,7 +54,8 @@ public sealed class AttendantService :
             Name = x.Name,
             Birthday = x.Birthday.ToDateTime(default),
             PhoneNumber = x.PhoneNumber,
-            Gender = x.Gender
+            Gender = x.Gender,
+            Email = x.Email
         }).ToArray();
     }
 

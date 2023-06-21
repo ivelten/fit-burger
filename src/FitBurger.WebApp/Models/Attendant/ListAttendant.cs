@@ -21,7 +21,7 @@ public sealed class ListAttendant : IListModel
     [Display(Name = "Telefone")]
     public string? PhoneNumber { get; init; }
     
-    [Display(Name = "e-mail")]
+    [Display(Name = "E-mail")]
     public string? Email { get; init; }
 
     [Display(Name = "Sexo")]

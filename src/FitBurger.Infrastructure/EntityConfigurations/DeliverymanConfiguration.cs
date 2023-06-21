@@ -12,6 +12,9 @@ public sealed class DeliverymanConfiguration : IEntityTypeConfiguration<Delivery
             .Property(x => x.EmergencyContact)
             .HasColumnType("varchar(200)");
 
+        builder.Property(x => x.MotorcycleModel)
+            .HasColumnType("varchar(50)");
+
         builder
             .Property(x => x.LicensePlate)
             .HasColumnType("char(7)");

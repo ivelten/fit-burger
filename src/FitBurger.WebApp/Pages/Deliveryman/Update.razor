@@ -1,0 +1,11 @@
+@page "/deliveryman/update/{id:int}"
+@using FitBurger.WebApp.Models.Deliveryman
+
+<DynamicUpdateForm TUpdateModel="UpdateDeliveryman" Id="Id"/>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+}
