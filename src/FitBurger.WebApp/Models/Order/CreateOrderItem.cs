@@ -4,9 +4,12 @@ namespace FitBurger.WebApp.Models.Order;
 
 public class CreateOrderItem
 {
-    [Display(Name = "Produto")]
-    [Required(ErrorMessage = "O produto é requerido.")]
-    public int? ProductId { get; set; }
+    [Display(Name = "Id")]
+    public int ProductId { get; set; }
+    
+    [Display(Name = "Nome")]
+    [Required(ErrorMessage = "O nome é requerido")]
+    public string? ProductName { get; set; }
     
     [Display(Name = "Quantidade")]
     [Required(ErrorMessage = "A quantidade é requerida.")]

@@ -1,10 +1,8 @@
-@page "/order/create"
-@using FitBurger.WebApp.Models.Order
-@using FitBurger.WebApp.Services
+@page "/booking/list"
 
-<PageTitle>Fazer pedido</PageTitle>
+<PageTitle>Listar reservas</PageTitle>
 
-<h1>Fazer pedido</h1>
+<h1>Listar reservas</h1>
 
 <AuthorizeView Roles="Administrador,Atendente,Cliente">
     <Authorized>
@@ -20,10 +18,5 @@
 
 @code {
 
-    [Parameter]
-    public CreateOrder? Model { get; set; } = new();
-
-    [Inject]
-    public OrderService OrderService { get; set; } = default!;
 
 }
