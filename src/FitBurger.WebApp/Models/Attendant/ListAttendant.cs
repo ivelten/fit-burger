@@ -1,24 +1,26 @@
+using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Enums;
+using FitBurger.WebApp.Attributes;
+using FitBurger.WebApp.Models.Attendant.Abstractions;
 
 namespace FitBurger.WebApp.Models.Attendant;
 
-public sealed class ListAttendant
+[Plurality("Atendente", "Atendentes")]
+public sealed class ListAttendant : IListModel
 {
-    public int Id { get; set; }
+    [Ignore]
+    public int Id { get; init; }
 
-    public string? Name { get; set; }
+    [Display(Name = "Nome")]
+    public string? Name { get; init; }
 
-    public DateTime? Birthday { get; set; }
+    [Display(Name = "Data de Nascimento")]
+    [DataType(DataType.Date)]
+    public DateTime? Birthday { get; init; }
 
-    public string? PhoneNumber { get; set; }
+    [Display(Name = "Telefone")]
+    public string? PhoneNumber { get; init; }
 
-    public string? Cpf { get; set; }
-
-    public string? Address { get; set; }
-
-    public Gender? Gender { get; set; }
-
-    public DateTime? AdmissionDate { get; set; }
-
-    public decimal? Salary { get; set; }
+    [Display(Name = "Sexo")]
+    public Gender? Gender { get; init; }
 }

@@ -6,7 +6,7 @@ using FitBurger.WebApp.Models.Attendant;
 
 namespace FitBurger.WebApp.Services;
 
-public sealed class AttendantService
+public sealed class AttendantService : IListService<ListAttendant>
 {
     private readonly IRepository<Attendant> _attendantRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -49,13 +49,9 @@ public sealed class AttendantService
         {
             Id = x.Id,
             Name = x.Name,
-            Birthday = x.Birthday.ToDateTime(new TimeOnly()),
-            PhoneNumber = x.PhoneNumber.ToString(),
-            Cpf = x.Cpf.ToString(),
-            Address = x.Address,
-            Gender = x.Gender,
-            AdmissionDate = x.AdmissionDate.ToDateTime(new TimeOnly()),
-            Salary = x.Salary
+            Birthday = x.Birthday.ToDateTime(default),
+            PhoneNumber = x.PhoneNumber,
+            Gender = x.Gender
         }).ToArray();
     }
 
@@ -68,21 +64,21 @@ public sealed class AttendantService
 
         return new UpdateAttendant
         {
-            Id = attendant.Id,
             Name = attendant.Name,
-            Birthday = attendant.Birthday.ToDateTime(new TimeOnly()),
-            PhoneNumber = attendant.PhoneNumber.ToString(),
-            Cpf = attendant.Cpf.ToString(),
+            Birthday = attendant.Birthday.ToDateTime(default),
+            PhoneNumber = attendant.PhoneNumber,
+            Email = attendant.Email,
+            Cpf = attendant.Cpf,
             Address = attendant.Address,
             Gender = attendant.Gender,
-            AdmissionDate = attendant.AdmissionDate.ToDateTime(new TimeOnly()),
+            AdmissionDate = attendant.AdmissionDate.ToDateTime(default),
             Salary = attendant.Salary
         };
     }
 
-    public async Task UpdateAsync(UpdateAttendant request)
+    public async Task UpdateAsync(int id, UpdateAttendant request)
     {
-        var attendant = await _attendantRepository.GetAsync(request.Id);
+        var attendant = await _attendantRepository.GetAsync(id);
 
         if (attendant is null)
             return;

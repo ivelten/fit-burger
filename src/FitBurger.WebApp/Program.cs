@@ -15,6 +15,9 @@ builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
+using var serviceScope = app.Services.CreateScope();
+var dbInitializer = serviceScope.ServiceProvider.GetRequiredService<IDbInitializer>();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -23,12 +26,10 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
-    var serviceScope = app.Services.CreateScope();
-    var dbInitializer = serviceScope.ServiceProvider.GetRequiredService<IDbInitializer>();
-
-    await dbInitializer.EnsureDeletedAsync();
-    await dbInitializer.EnsureCreatedAsync();
+    //await dbInitializer.EnsureDeletedAsync();
 }
+
+await dbInitializer.EnsureCreatedAsync();
 
 app.UseStaticFiles();
 app.UseRouting();

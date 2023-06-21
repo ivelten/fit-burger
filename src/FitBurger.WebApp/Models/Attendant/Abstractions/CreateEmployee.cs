@@ -1,17 +1,19 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using VxFormGenerator.Core;
 
 namespace FitBurger.WebApp.Models.Attendant.Abstractions;
 
-public class CreateEmployee : CreateUser
+public class CreateEmployee : UpdateEmployee, IUserNameAndPassword
 {
-    [Display(Name = "Data de admissão")]
-    [Required(ErrorMessage = "A data de admissão é requerida.")]
-    [DataType(DataType.Date)]
-    public DateTime? AdmissionDate { get; set; }
-
-    [Display(Name = "Salário")]
-    [Required(ErrorMessage = "O salário é requerido.")]
-    [RegularExpression(@"\d+(\,\d{1,2})?",
-        ErrorMessage = "Salário inválido. Precisa ser um número decimal com duas casas.")]
-    public decimal? Salary { get; set; }
+    [VxIgnore]
+    [Display(Name = "Nome de Usuário")]
+    [Required(ErrorMessage = "O nome de usuário é requerido.")]
+    public string? UserName { get; set; }
+    
+    [VxIgnore]
+    [Display(Name = "Senha")]
+    [Required(ErrorMessage = "A senha é requerida.")]
+    [PasswordPropertyText]
+    public string? Password { get; set; }
 }

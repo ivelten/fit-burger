@@ -27,6 +27,8 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
 
     internal DbSet<Product> Products { get; init; } = default!;
 
+    internal DbSet<OrderPayment> OrderPayments { get; init; } = default!;
+
     public async Task CommitAsync(CancellationToken cancellationToken = default)
     {
         try

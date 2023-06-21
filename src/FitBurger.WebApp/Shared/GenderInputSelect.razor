@@ -8,6 +8,7 @@
     <div class="col" style="">
         <div class="form-group">
             <InputSelect @bind-Value="Model.Gender" class="form-control valid">
+                <option disabled selected value>Selecione uma opção</option>
                 @foreach (var gender in Enum.GetValues<Gender>())
                 {
                     <option value="@gender">@GetOptionValue(gender)</option>
@@ -21,7 +22,7 @@
 @code {
 
     [Parameter]
-    public CreateUser Model { get; set; } = default!;
+    public IGender Model { get; set; } = default!;
 
     private static string? GetOptionValue(Gender gender)
     {
