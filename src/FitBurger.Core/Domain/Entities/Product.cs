@@ -17,4 +17,10 @@ public class Product : Entity
     public string Description { get; protected set; } = default!;
 
     public decimal Price { get; protected set; }
+
+    public void Update(string description, decimal price)
+    {
+        Description = description;
+        Price = price;
+    }
 }

@@ -3,30 +3,28 @@
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
 
-<div class="form-row">
-    <label class="col-sm-3 col-form-label">Sexo</label>
-    <div class="col" style="">
-        <div class="form-group">
-            <InputSelect @bind-Value="Model.Gender" class="form-control valid">
-                <option disabled selected value>Selecione uma opção</option>
-                @foreach (var gender in Enum.GetValues<Gender>())
-                {
-                    <option value="@gender">@GetOptionValue(gender)</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => Model.Gender)" class="form-text" />
+@if (Model is IGender genderModel)
+{
+    <div class="form-row">
+        <label class="col-sm-3 col-form-label">Sexo</label>
+        <div class="col" style="">
+            <div class="form-group">
+                <InputSelect @bind-Value="genderModel.Gender" class="form-control valid">
+                    <option disabled selected value>Selecione uma opção</option>
+                    @foreach (var gender in Enum.GetValues<Gender>())
+                    {
+                        <option value="@gender">@(gender.GetAttribute<DisplayAttribute>()?.Name)</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => genderModel.Gender)" class="form-text" />
+            </div>
         </div>
     </div>
-</div>
+}
 
 @code {
 
     [Parameter]
-    public IGender Model { get; set; } = default!;
-
-    private static string? GetOptionValue(Gender gender)
-    {
-        return gender.GetAttribute<DisplayAttribute>()?.Name;
-    }
+    public object Model { get; set; } = default!;
 
 }

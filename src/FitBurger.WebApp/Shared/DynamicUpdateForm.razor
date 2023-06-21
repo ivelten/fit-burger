@@ -6,7 +6,7 @@
 @using System.Reflection
 @using FitBurger.WebApp.Models.Abstractions
 
-@typeparam TUpdateModel where TUpdateModel : IGender, new()
+@typeparam TUpdateModel where TUpdateModel : new()
 
 <PageTitle>Editar @(Plurality?.Singular ?? TypeName)</PageTitle>
 
