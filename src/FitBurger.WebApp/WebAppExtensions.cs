@@ -3,6 +3,7 @@ using FitBurger.WebApp.Models.Customer;
 using FitBurger.WebApp.Models.Deliveryman;
 using FitBurger.WebApp.Models.Product;
 using FitBurger.WebApp.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FitBurger.WebApp;
 
@@ -25,5 +26,9 @@ public static class WebAppExtensions
             .AddScoped<IUpdateService<UpdateCustomer>, CustomerService>()
             .AddScoped<IUpdateService<UpdateDeliveryman>, DeliverymanService>()
             .AddScoped<IUpdateService<UpdateProduct>, ProductService>();
+
+        services.AddScoped<CustomAuthenticationStateProvider>();
+        services.AddScoped<AuthenticationStateProvider>(serviceProvider =>
+            serviceProvider.GetRequiredService<CustomAuthenticationStateProvider>());
     }
 }

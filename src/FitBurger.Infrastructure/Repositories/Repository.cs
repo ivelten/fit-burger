@@ -6,28 +6,28 @@ namespace FitBurger.Infrastructure.Repositories;
 
 public class Repository<T> : IRepository<T> where T : Entity
 {
-    private readonly FitBurgerDbContext _context;
-
     public Repository(FitBurgerDbContext context)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        Context = context ?? throw new ArgumentNullException(nameof(context));
     }
+    
+    protected FitBurgerDbContext Context { get; }
 
     public async Task AddAsync(T item, CancellationToken cancellationToken = default)
     {
-        await _context.Set<T>().AddAsync(item, cancellationToken);
+        await Context.Set<T>().AddAsync(item, cancellationToken);
     }
 
     public async Task<T[]> GetAsync(Func<T, bool>? predicate = null)
     {
         if (predicate is null)
-            return await _context.Set<T>().ToArrayAsync();
+            return await Context.Set<T>().ToArrayAsync();
 
-        return await _context.Set<T>().Where(predicate).AsQueryable().ToArrayAsync();
+        return await Context.Set<T>().Where(predicate).AsQueryable().ToArrayAsync();
     }
 
     public async Task<T?> GetAsync(int id)
     {
-        return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        return await Context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
     }
 }

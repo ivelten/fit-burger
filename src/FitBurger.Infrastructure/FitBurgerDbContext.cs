@@ -1,5 +1,6 @@
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Enums;
 using FitBurger.Core.Domain.ValueObjects;
 using FitBurger.Infrastructure.ValueConverters;
@@ -28,6 +29,8 @@ public class FitBurgerDbContext : DbContext, IUnitOfWork
     internal DbSet<Product> Products { get; init; } = default!;
 
     internal DbSet<OrderPayment> OrderPayments { get; init; } = default!;
+
+    internal DbSet<User> Users { get; init; } = default!;
 
     public async Task CommitAsync(CancellationToken cancellationToken = default)
     {

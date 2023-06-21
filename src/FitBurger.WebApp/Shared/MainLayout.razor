@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using FitBurger.WebApp.Services
+@using FitBurger.WebApp.Models.User
+@inherits LayoutComponentBase
+@inject CustomAuthenticationStateProvider WebsiteAuthenticator
 
 <PageTitle>FitBurger.WebApp</PageTitle>
 
@@ -9,7 +12,14 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">Sobre o ASP.NET</a>
+            <AuthorizeView>
+                <Authorized>
+                    @User?.Name
+                </Authorized>
+                <NotAuthorized>
+                    Não logado
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -17,3 +27,18 @@
         </article>
     </main>
 </div>
+
+@code {
+
+    private AuthenticatedUser? User { get; set; }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            User = await WebsiteAuthenticator.GetAuthenticatedUser();
+            StateHasChanged();
+        }
+    }
+
+}

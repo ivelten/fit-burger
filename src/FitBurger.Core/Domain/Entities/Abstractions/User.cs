@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Enums;
 using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities.Abstractions;
 
+[Display(Name = "Administrador")]
 public abstract class User : Entity
 {
     protected User(

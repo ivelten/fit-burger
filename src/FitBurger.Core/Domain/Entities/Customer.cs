@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Enums;
 using FitBurger.Core.Domain.ValueObjects;
 
 namespace FitBurger.Core.Domain.Entities;
 
+[Display(Name = "Cliente")]
 public class Customer : User
 {
     public Customer(

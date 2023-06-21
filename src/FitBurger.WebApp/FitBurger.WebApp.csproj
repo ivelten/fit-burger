@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Components\CreateUserForm.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Login\Login.razor" />
     </ItemGroup>
 
     <ItemGroup>

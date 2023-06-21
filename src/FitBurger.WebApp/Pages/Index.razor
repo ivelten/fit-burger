@@ -1,7 +1,100 @@
 ﻿@page "/"
 
+@inherits ComponentBase
+
 <PageTitle>FitBurger - Home</PageTitle>
 
 <h1>FitBurger</h1>
 
-Selecione a operação desejada no painel.
+@using FitBurger.WebApp.Services
+@using FitBurger.WebApp.Models.User
+
+@inject CustomAuthenticationStateProvider WebsiteAuthenticator
+
+<AuthorizeView Context="Account">
+    <NotAuthorized>
+        <EditForm Model="LoginFormModel" Context="Login" OnValidSubmit="TryLogin">
+            <DataAnnotationsValidator/>
+            <div class="form-row">
+                <label class="col-sm-3 col-form-label">@LoginMessage</label>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-3 col-form-label">Nome de usuário</label>
+                <div class="col" style="">
+                    <div class="form-group">
+                        <InputText @bind-Value="LoginFormModel.UserName" class="form-control valid"/>
+                        <ValidationMessage For="@(() => LoginFormModel.UserName)" class="form-text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label class="col-sm-3 col-form-label">Senha</label>
+                <div class="col" style="">
+                    <div class="form-group">
+                        <InputText type="password" @bind-Value="LoginFormModel.Password" class="form-control valid"/>
+                        <ValidationMessage For="@(() => LoginFormModel.Password)" class="form-text"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row pt-3 pb-3">
+                <button type="submit" class="btn btn-primary pr-3">Login</button>
+            </div>
+        </EditForm>
+    </NotAuthorized>
+    <Authorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Você está logado(a)!</label>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Nome: @User?.Name</label>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Telefone: @User?.PhoneNumber</label>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">E-mail: @User?.Email</label>
+        </div>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Função: @User?.RoleName</label>
+        </div>
+        <div class="form-row">
+            <button type="button" class="btn btn-primary pr-3" @onclick="TryLogout">Logout</button>
+        </div>
+    </Authorized>
+    <Authorizing>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Aguarde, efetuando login...</label>
+        </div>
+    </Authorizing>
+</AuthorizeView>
+
+@code {
+    private LoginFormModel LoginFormModel { get; set; } = new();
+    
+    private AuthenticatedUser? User { get; set; }
+
+    private string LoginMessage { get; set; } = "Você não está logado(a)!";
+
+    private async Task TryLogin()
+    {
+        if (await WebsiteAuthenticator.LoginAsync(LoginFormModel))
+        {
+            LoginMessage = "Usuário e/ou senha inválidos. Tente novamente.";
+            LoginFormModel = new LoginFormModel();
+        }
+    }
+
+    private async Task TryLogout()
+    {
+        await WebsiteAuthenticator.LogoutAsync();
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            User = await WebsiteAuthenticator.GetAuthenticatedUser();
+            StateHasChanged();
+        }
+    }
+}

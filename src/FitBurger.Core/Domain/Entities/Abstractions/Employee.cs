@@ -17,18 +17,19 @@ public abstract class Employee : User
         DateOnly admissionDate,
         string userName,
         string password)
+        : base(
+            name,
+            phoneNumber,
+            email,
+            address,
+            cpf,
+            birthday,
+            gender,
+            userName,
+            password)
     {
         Salary = salary;
         AdmissionDate = admissionDate;
-        Name = name;
-        PhoneNumber = phoneNumber;
-        Email = email;
-        Address = address;
-        Cpf = cpf;
-        Birthday = birthday;
-        Gender = gender;
-        UserName = userName;
-        PasswordHash = password;
     }
 
     protected Employee()

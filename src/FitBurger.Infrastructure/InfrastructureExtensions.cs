@@ -31,6 +31,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IDbInitializer, DbInitializer>();
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<FitBurgerDbContext>());
 
         return services;
