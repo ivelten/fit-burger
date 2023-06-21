@@ -1,6 +1,7 @@
 ﻿@using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Models.User
 @inherits LayoutComponentBase
+
 @inject CustomAuthenticationStateProvider WebsiteAuthenticator
 
 <PageTitle>FitBurger.WebApp</PageTitle>
@@ -16,9 +17,6 @@
                 <Authorized>
                     @User?.Name
                 </Authorized>
-                <NotAuthorized>
-                    Não logado
-                </NotAuthorized>
             </AuthorizeView>
         </div>
 

@@ -40,6 +40,11 @@
                 <button type="submit" class="btn btn-primary pr-3">Login</button>
             </div>
         </EditForm>
+        <div class="form-row">
+            <button type="button" class="btn btn-primary pr-3" @onclick="RedirectToCreateCustomer">
+                Criar conta de cliente
+            </button>
+        </div>
     </NotAuthorized>
     <Authorized>
         <div class="form-row">
@@ -72,6 +77,9 @@
     private LoginFormModel LoginFormModel { get; set; } = new();
     
     private AuthenticatedUser? User { get; set; }
+    
+    [Inject] 
+    protected NavigationManager NavigationManager { get; set; } = default!;
 
     private string LoginMessage { get; set; } = "Você não está logado(a)!";
 
@@ -87,6 +95,11 @@
     private async Task TryLogout()
     {
         await WebsiteAuthenticator.LogoutAsync();
+    }
+
+    private void RedirectToCreateCustomer()
+    {
+        NavigationManager.NavigateTo("/customer/create");
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)

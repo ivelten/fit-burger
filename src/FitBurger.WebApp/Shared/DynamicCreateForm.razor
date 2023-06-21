@@ -7,6 +7,8 @@
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
 
+@inject CustomAuthenticationStateProvider WebsiteAuthenticator
+
 @typeparam TCreateModel where TCreateModel : new()
 
 <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
@@ -19,9 +21,14 @@
 
 @code {
 
-    [Inject] protected ICreateService<TCreateModel> CreateService { get; set; } = default!;
+    [Inject] 
+    protected ICreateService<TCreateModel> CreateService { get; set; } = default!;
 
-    [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] 
+    protected NavigationManager NavigationManager { get; set; } = default!;
+
+    [Parameter]
+    public bool RedirectToList { get; set; } = true;
 
     private TCreateModel Model { get; } = new();
     
@@ -40,8 +47,8 @@
     private async Task HandleValidSubmit()
     {
         await CreateService.CreateAsync(Model);
-        
-        NavigationManager.NavigateTo($"/{PageName}/list");
+
+        NavigationManager.NavigateTo(RedirectToList ? $"/{PageName}/list" : "/");
     }
 
 }

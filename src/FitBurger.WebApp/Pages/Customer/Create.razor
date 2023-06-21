@@ -5,13 +5,11 @@
 
 <h1>Cadastrar cliente</h1>
 
-<AuthorizeView Roles="Administrador">
+<AuthorizeView Roles="Administrador,Atendente">
     <Authorized>
-        <DynamicCreateForm TCreateModel="CreateCustomer"/>
+        <DynamicCreateForm TCreateModel="CreateCustomer" RedirectToList="true"/>
     </Authorized>
     <NotAuthorized>
-        <div class="form-row">
-            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
-        </div>
+        <DynamicCreateForm TCreateModel="CreateCustomer" RedirectToList="false"/>
     </NotAuthorized>
 </AuthorizeView>

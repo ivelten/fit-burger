@@ -1,0 +1,12 @@
+@page "/order/create"
+@using FitBurger.WebApp.Models.Customer
+
+<PageTitle>Fazer pedido</PageTitle>
+
+<h1>Fazer pedido</h1>
+
+<AuthorizeView Roles="Atendente">
+    <Authorized>
+        <DynamicCreateForm TCreateModel="CreateCustomer"/>
+    </Authorized>
+</AuthorizeView>
