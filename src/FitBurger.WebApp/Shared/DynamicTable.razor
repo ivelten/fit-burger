@@ -5,12 +5,9 @@
 @using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
+@using FitBurger.WebApp.Models.Abstractions
 
-@typeparam TListModel where TListModel : FitBurger.WebApp.Models.Abstractions.IListModel
-
-<PageTitle>Listar @(Plurality?.Plural ?? TypeName)</PageTitle>
-
-<h1>Listar @(Plurality?.Plural ?? TypeName)</h1>
+@typeparam TListModel where TListModel : IListModel
 
 <div class="form-group pb-3">
     <a href="/@PageName/create" class="btn btn-primary" role="button">

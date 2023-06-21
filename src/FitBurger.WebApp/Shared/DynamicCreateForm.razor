@@ -9,10 +9,6 @@
 
 @typeparam TCreateModel where TCreateModel : new()
 
-<PageTitle>Cadastrar @(Plurality?.Singular ?? TypeName)</PageTitle>
-
-<h1>Cadastrar @(Plurality?.Singular ?? TypeName)</h1>
-
 <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator/>
     <RenderFormElements/>

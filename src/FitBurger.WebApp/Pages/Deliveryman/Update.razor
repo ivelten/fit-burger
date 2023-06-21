@@ -1,6 +1,21 @@
 @page "/deliveryman/update/{id:int}"
 @using FitBurger.WebApp.Models.Deliveryman
 
+<PageTitle>Editar motoboy</PageTitle>
+
+<h1>Editar motoboy</h1>
+
+<AuthorizeView Roles="Administrador">
+    <Authorized>
+        <DynamicUpdateForm TUpdateModel="UpdateDeliveryman" Id="Id"/>
+    </Authorized>
+    <NotAuthorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
 <DynamicUpdateForm TUpdateModel="UpdateDeliveryman" Id="Id"/>
 
 @code {

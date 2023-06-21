@@ -1,4 +1,17 @@
 @page "/deliveryman/list"
 @using FitBurger.WebApp.Models.Deliveryman
 
-<DynamicTable TListModel="ListDeliveryman"/>
+<PageTitle>Listar motoboys</PageTitle>
+
+<h1>Listar motoboys</h1>
+
+<AuthorizeView Roles="Administrador">
+    <Authorized>
+        <DynamicTable TListModel="ListDeliveryman"/>
+    </Authorized>
+    <NotAuthorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
