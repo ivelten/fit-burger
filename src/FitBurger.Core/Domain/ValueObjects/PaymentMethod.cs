@@ -16,5 +16,8 @@ public enum PaymentMethod : byte
     DebitCard,
     
     [Display(Name = "Pix")]
-    Pix
+    Pix,
+    
+    [Display(Name = "Vale Refeição")]
+    MealTicket
 }
