@@ -209,13 +209,22 @@ else
     
     private async Task StartDelivery(IOrderStatus order)
     {
-        var repository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var orderRepository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var userRepository = ServiceProvider.GetRequiredService<IUserRepository>();
         var unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
-        var orderFromDatabase = await repository.GetAsync(order.Id);
+        var orderFromDatabase = await orderRepository.GetAsync(order.Id);
 
         if (orderFromDatabase is null)
         {
             return;
+        }
+
+        if (orderFromDatabase.Deliveryman is null)
+        {
+            var authenticatedUser = await WebsiteAuthenticator.GetAuthenticatedUser();
+            var deliveryman = (Deliveryman?)await userRepository.GetByUserNameAsync(authenticatedUser!.UserName);
+
+            orderFromDatabase.SetDeliveryman(deliveryman!);
         }
         
         orderFromDatabase.SetStatus(OrderStatus.OnTheWay);

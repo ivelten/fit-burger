@@ -15,7 +15,7 @@ public class Order : Entity
         string cep,
         bool shouldDelivery,
         DateTime? orderDate = null,
-        OrderStatus status = OrderStatus.Preparing,
+        OrderStatus? status = null,
         TimeSpan? deliveryTime = null,
         string? receiverName = null)
     {
@@ -24,7 +24,7 @@ public class Order : Entity
         District = district;
         Cep = cep;
         ShouldDelivery = shouldDelivery;
-        Status = status;
+        Status = status ?? (shouldDelivery ? OrderStatus.Preparing : OrderStatus.WaitingForClient);
         DeliveryTime = deliveryTime;
         ReceiverName = receiverName;
         OrderDate = orderDate ?? DateTime.Now;
@@ -61,6 +61,11 @@ public class Order : Entity
 
     public virtual ICollection<OrderPayment> Payments { get; protected set; } = default!;
 
+    public void SetDeliveryman(Deliveryman deliveryman)
+    {
+        Deliveryman = deliveryman;
+    }
+    
     public void SetStatus(OrderStatus status)
     {
         Status = status;

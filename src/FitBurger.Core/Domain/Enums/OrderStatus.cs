@@ -16,5 +16,9 @@ public enum OrderStatus
     Delivered,
     
     [Display(Name = "Cancelado")]
-    Canceled
+    Canceled,
+    
+    [Display(Name = "Aguardando cliente")]
+    WaitingForClient
+    
 }
