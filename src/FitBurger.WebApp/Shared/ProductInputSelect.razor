@@ -1,0 +1,51 @@
+@using FitBurger.WebApp.Models.Abstractions
+@using FitBurger.WebApp.Models.Product
+@using FitBurger.WebApp.Services
+
+@if (Model is IProduct model && Products?.Length > 0)
+{
+    <div class="form-row">
+        <label class="col-sm-3 col-form-label">Produto</label>
+        <div class="col" style="">
+            <div class="form-group">
+                <InputSelect ValueExpression="@(() => model.ProductId)" 
+                             Value="@model.ProductId" 
+                             ValueChanged="@((int? value) => OnValueChanged(value))"
+                             class="form-control valid">
+                    <option disabled selected value>Selecione uma opção</option>
+                    @foreach (var product in Products)
+                    {
+                        <option value="@product.Id">@product.Description</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => model.ProductId)" class="form-text" />
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public object Model { get; set; } = default!;
+
+    [Inject]
+    public IListService<ListProduct> ListService { get; set; } = default!;
+
+    private ListProduct[]? Products { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await ListService.ListAsync();
+    }
+
+    private void OnValueChanged(int? value)
+    {
+        if (Model is IProduct productModel)
+        {
+            productModel.Description = Products?.FirstOrDefault(x => x.Id == value)?.Description;
+            productModel.ProductId = value;
+        }
+    }
+
+}

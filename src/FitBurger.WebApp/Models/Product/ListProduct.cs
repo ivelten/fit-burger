@@ -10,7 +10,7 @@ public class ListProduct : IListModel
     public int Id { get; init; }
     
     [Display(Name = "Descrição")]
-    public string? Description { get; init; } = default!;
+    public string? Description { get; init; }
 
     [Display(Name = "Preço Unitário")]
     public decimal? Price { get; init; }

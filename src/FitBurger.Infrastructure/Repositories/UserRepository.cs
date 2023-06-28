@@ -6,12 +6,14 @@ namespace FitBurger.Infrastructure.Repositories;
 
 public sealed class UserRepository : Repository<User>, IUserRepository
 {
-    public UserRepository(FitBurgerDbContext context) : base(context)
+    public UserRepository(IDbContextFactory<FitBurgerDbContext> contextFactory) : base(contextFactory)
     {
     }
 
     public async Task<User?> GetByUserNameAsync(string userName)
     {
-        return await Context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+        await using var context = await ContextFactory.CreateDbContextAsync();
+        
+        return await context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
     }
 }

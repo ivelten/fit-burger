@@ -7,13 +7,16 @@
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
 
-@typeparam TListModel where TListModel : IListModel
+@typeparam TListModel
 
-<div class="form-group pb-3">
-    <a href="/@PageName/create" class="btn btn-primary" role="button">
-        Cadastrar @(Plurality?.Singular ?? TypeName)
-    </a>
-</div>
+@if (ListService is not null)
+{
+    <div class="form-group pb-3">
+        <a href="/@PageName/create" class="btn btn-primary" role="button">
+            Cadastrar @(Plurality?.Singular ?? TypeName)
+        </a>
+    </div>
+}
 
 @if (Model is null)
 {
@@ -21,10 +24,10 @@
         <em>Carregando...</em>
     </p>
 }
-else if (Model.Length == 0)
+else if (Model.Count == 0)
 {
     <p>
-        <em>Nenhum atendente cadastrado.</em>
+        <em>Nenhum @(Plurality?.Singular ?? TypeName) cadastrado.</em>
     </p>
 }
 else
@@ -59,11 +62,14 @@ else
                             })
                         </td>
                     }
-                    <td>
-                        <a href='/@PageName/update/@item.Id' class="btn btn-outline-dark" role="button">
-                            Editar
-                        </a>
-                    </td>
+                    @if (item is IListModel listItem)
+                    {
+                        <td>
+                            <a href='/@PageName/update/@listItem.Id' class="btn btn-outline-dark" role="button">
+                                Editar
+                            </a>
+                        </td>
+                    }
                 </tr>
             }
             </tbody>
@@ -73,11 +79,14 @@ else
 
 @code {
 
-    private TListModel[]? Model { get; set; }
+    [Parameter]
+    public ICollection<TListModel>? Model { get; set; }
 
     [Inject]
-    protected IListService<TListModel> ListService { get; set; } = default!;
-
+    protected IServiceProvider ServiceProvider { get; set; } = default!;
+    
+    private IListService<TListModel>? ListService { get; set; }
+    
     private static Type ModelType => typeof(TListModel);
 
     private static PluralityAttribute? Plurality =>
@@ -98,7 +107,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await ListService.ListAsync();
+        ListService = ServiceProvider.GetService<IListService<TListModel>>();
+        
+        if (ListService is not null)
+            await ListService.ListAsync();
     }
 
 }

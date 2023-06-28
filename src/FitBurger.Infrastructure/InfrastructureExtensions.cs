@@ -15,7 +15,7 @@ public static class InfrastructureExtensions
     {
         var connectionString = configuration.GetConnectionString("SqlServer");
 
-        services.AddDbContext<FitBurgerDbContext>(dbOptions =>
+        services.AddDbContextFactory<FitBurgerDbContext>(dbOptions =>
         {
             dbOptions.UseSqlServer(connectionString, connectionOptions =>
             {

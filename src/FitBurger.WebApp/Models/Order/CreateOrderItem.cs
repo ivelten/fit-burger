@@ -1,16 +1,22 @@
 using System.ComponentModel.DataAnnotations;
+using FitBurger.WebApp.Attributes;
+using FitBurger.WebApp.Models.Abstractions;
+using VxFormGenerator.Core;
 
 namespace FitBurger.WebApp.Models.Order;
 
-public class CreateOrderItem
+[Plurality("Item de Pedido", "Itens de Pedido")]
+public class CreateOrderItem : IProduct
 {
+    [VxIgnore]
     [Display(Name = "Id")]
-    public int ProductId { get; set; }
+    [Required(ErrorMessage = "O Id é requerido")]
+    public int? ProductId { get; set; }
     
-    [Display(Name = "Nome")]
-    [Required(ErrorMessage = "O nome é requerido")]
-    public string? ProductName { get; set; }
-    
+    [VxIgnore]
+    [Display(Name = "Descrição")]
+    public string? Description { get; set; }
+
     [Display(Name = "Quantidade")]
     [Required(ErrorMessage = "A quantidade é requerida.")]
     [Range(1, 5, ErrorMessage = "A quantidade deve ser entre 1 e 5.")]

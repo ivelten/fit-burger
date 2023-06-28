@@ -1,6 +1,7 @@
 @page "/order/create"
 @using FitBurger.WebApp.Models.Order
 @using FitBurger.WebApp.Services
+@using FitBurger.Core.Domain.Repositories.Abstractions
 
 <PageTitle>Fazer pedido</PageTitle>
 
@@ -8,22 +9,47 @@
 
 <AuthorizeView Roles="Administrador,Atendente,Cliente">
     <Authorized>
-        <div class="form-row">
-            <div class="col" style="">
-                <div class="form-group">
-                    Esta página está em manutenção!
-                </div>
-            </div>
-        </div>
+        <DynamicCreateForm TCreateModel="CreateOrder"/>
+        <h4>Itens de Pedido</h4>
+        <DynamicSubItemForm TSubitemModel="CreateOrderItem" ModelCollection="Model.Items"/>
     </Authorized>
 </AuthorizeView>
 
 @code {
 
     [Parameter]
-    public CreateOrder? Model { get; set; } = new();
+    public CreateOrder Model { get; set; } = new();
 
     [Inject]
     public OrderService OrderService { get; set; } = default!;
 
+    [Inject]
+    CustomAuthenticationStateProvider WebsiteAuthenticator { get; set; } = default!;
+
+    [Inject]
+    IUserRepository UserRepository { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticatedUser = await WebsiteAuthenticator.GetAuthenticatedUser();
+
+        if (authenticatedUser is not null)
+        {
+            var user = await UserRepository.GetByUserNameAsync(authenticatedUser.UserName);
+
+            if (user is not null)
+            {
+                switch (authenticatedUser.RoleName)
+                {
+                    case "Cliente":
+                        Model.CustomerId = user.Id;
+                        break;
+                    
+                    case "Atendente":
+                        Model.AttendantId = user.Id;
+                        break;
+                }
+            }
+        }
+    }
 }

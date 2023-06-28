@@ -7,8 +7,6 @@
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
 
-@inject CustomAuthenticationStateProvider WebsiteAuthenticator
-
 @typeparam TCreateModel where TCreateModel : new()
 
 <EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
