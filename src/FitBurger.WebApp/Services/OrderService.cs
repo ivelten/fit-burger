@@ -32,14 +32,14 @@ public class OrderService : ICreateService<CreateOrder>
 		
 		customer!.Orders.Add(order);
 
-		foreach (var orderItemRequest in request.Items)
+		foreach (var orderItemRequest in request.Items!)
 		{
 			var product = await _productRepository.GetAsync(orderItemRequest.ProductId!.Value);
 
 			order.Items.Add(new OrderItem(product!, orderItemRequest.Quantity!.Value));
 		}
 
-		foreach (var orderPayment in request.Payments)
+		foreach (var orderPayment in request.Payments!)
 		{
 			order.Payments.Add(new OrderPayment(orderPayment.Method!.Value, orderPayment.Amount!.Value));
 		}

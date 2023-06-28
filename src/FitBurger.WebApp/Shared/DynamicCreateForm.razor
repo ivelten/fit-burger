@@ -9,8 +9,9 @@
 
 @typeparam TCreateModel where TCreateModel : new()
 
-<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+<EditForm EditContext="EditContext" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator/>
+    <ValidationSummary/>
     <RenderFormElements/>
     <GenderInputSelect Model="Model"/>
     <UserNameAndPasswordInputTexts Model="Model"/>
@@ -18,6 +19,10 @@
 </EditForm>
 
 @code {
+
+    private EditContext? EditContext { get; set; }
+    
+    private ValidationMessageStore? ValidationMessageStore { get; set; }
 
     [Parameter]
     public string SubmitCaption { get; set; } = "Salvar";
@@ -31,7 +36,7 @@
     [Parameter]
     public bool RedirectToList { get; set; } = true;
 
-    private TCreateModel Model { get; } = new();
+    private TCreateModel Model { get; set; } = default!;
     
     private static Type ModelType => typeof(TCreateModel);
 
@@ -44,13 +49,32 @@
             : ModelType.Name;
 
     private static string PageName => TypeName.ToLowerInvariant();
+
+    protected override void OnInitialized()
+    {
+        Model = new TCreateModel();
+        EditContext = new EditContext(Model);
+        ValidationMessageStore = new ValidationMessageStore(EditContext);
+
+        EditContext.OnValidationRequested += OnValidationRequested;
+    }
+
+    private void OnValidationRequested(object? sender, ValidationRequestedEventArgs e)
+    {
+        ValidationMessageStore?.Clear();
+
+        OnValidate.InvokeAsync((EditContext!, ValidationMessageStore!)).Wait();
+    }
+
+    [Parameter]
+    public EventCallback<TCreateModel> OnClickSave { get; set; }
     
     [Parameter]
-    public EventCallback<TCreateModel> OnClickAdd { get; set; }
+    public EventCallback<(EditContext, ValidationMessageStore)> OnValidate { get; set; }
 
     private async Task HandleValidSubmit()
     {
-        await OnClickAdd.InvokeAsync(Model);
+        await OnClickSave.InvokeAsync(Model);
         await CreateService.CreateAsync(Model);
 
         NavigationManager.NavigateTo(RedirectToList ? $"/{PageName}/list" : "/");

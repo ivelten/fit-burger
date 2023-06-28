@@ -8,7 +8,7 @@ namespace FitBurger.WebApp.Models.Product;
 [Plurality("Produto", "Produtos")]
 public class ListProduct : IListModel
 {
-    [VxIgnore]
+    [VxIgnore, Ignore]
     public int Id { get; init; }
     
     [Display(Name = "Descrição")]

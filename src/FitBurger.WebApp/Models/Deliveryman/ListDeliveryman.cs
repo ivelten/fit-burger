@@ -7,6 +7,7 @@ namespace FitBurger.WebApp.Models.Deliveryman;
 [Plurality("Motoboy", "Motoboys")]
 public class ListDeliveryman : IListModel
 {
+    [Ignore]
     public int Id { get; init; }
     
     [Display(Name = "Nome")]

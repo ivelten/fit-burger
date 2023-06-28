@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using VxFormGenerator.Core;
 
@@ -21,8 +22,8 @@ public class CreateOrder
     public string? DeliveryAddress { get; set; }
 
     [VxIgnore]
-    public ICollection<CreateOrderItem> Items { get; set; } = new Collection<CreateOrderItem>();
+    public ICollection<CreateOrderItem>? Items { get; set; } = new Collection<CreateOrderItem>();
 
     [VxIgnore]
-    public ICollection<CreateOrderPayment> Payments { get; set; } = new Collection<CreateOrderPayment>();
+    public ICollection<CreateOrderPayment>? Payments { get; set; } = new Collection<CreateOrderPayment>();
 }

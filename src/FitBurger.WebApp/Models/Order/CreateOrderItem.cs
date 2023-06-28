@@ -21,4 +21,7 @@ public class CreateOrderItem : IProduct
     [Required(ErrorMessage = "A quantidade é requerida.")]
     [Range(1, 5, ErrorMessage = "A quantidade deve ser entre 1 e 5.")]
     public int? Quantity { get; set; }
+    
+    [VxIgnore]
+    public decimal Price { get; set; }
 }

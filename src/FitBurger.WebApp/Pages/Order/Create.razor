@@ -2,6 +2,7 @@
 @using FitBurger.WebApp.Models.Order
 @using FitBurger.WebApp.Services
 @using FitBurger.Core.Domain.Repositories.Abstractions
+@using FitBurger.Core.Domain.Entities
 
 <PageTitle>Fazer pedido</PageTitle>
 
@@ -9,7 +10,7 @@
 
 <AuthorizeView Roles="Administrador,Atendente,Cliente">
     <Authorized>
-        <DynamicCreateForm TCreateModel="CreateOrder" OnClickAdd="SaveOrder" SubmitCaption="Finalizar pedido"/>
+        <DynamicCreateForm TCreateModel="CreateOrder" OnValidate="Validate" OnClickSave="SaveOrder" SubmitCaption="Finalizar pedido"/>
         <hr/>
         <h4>Itens de Pedido</h4>
         <DynamicSubItemForm TSubItemModel="CreateOrderItem" OnClickAdd="AddOrderItems"/>
@@ -30,6 +31,9 @@
     [Inject]
     IUserRepository UserRepository { get; set; } = default!;
 
+    [Inject]
+    IRepository<Product> ProductRepository { get; set; } = default!;
+
     private ICollection<CreateOrderItem> OrderItems { get; set; } = default!;
 
     private ICollection<CreateOrderPayment> Payments { get; set; } = default!;
@@ -38,11 +42,16 @@
     
     private int? AttendantId { get; set; }
 
-    private Task AddOrderItems(ICollection<CreateOrderItem> orderItems)
+    private async Task AddOrderItems(ICollection<CreateOrderItem> orderItems)
     {
-        OrderItems = orderItems;
+        foreach (var orderItem in orderItems)
+        {
+            var product = await ProductRepository.GetAsync(orderItem.ProductId!.Value);
+
+            orderItem.Price = product!.Price * orderItem.Quantity ?? 1;
+        }
         
-        return Task.CompletedTask;
+        OrderItems = orderItems;
     }
 
     private Task AddPayments(ICollection<CreateOrderPayment> payments)
@@ -57,6 +66,30 @@
         order.Items = OrderItems;
         order.Payments = Payments;
         order.CustomerId = CustomerId!.Value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task Validate((EditContext EditContext, ValidationMessageStore MessageStore) validation)
+    {
+        var order = (CreateOrder)validation.EditContext.Model;
+        
+        order.Items = OrderItems;
+        order.Payments = Payments;
+        order.CustomerId = CustomerId!.Value;
+
+        if (order.Items is null || order.Items.Count == 0)
+        {
+            validation.MessageStore.Add(() => order.Items!, "Ao menos um item de pedido deve ser selecionado.");
+        }
+        else if (order.Payments is null || order.Payments.Count == 0)
+        {
+            validation.MessageStore.Add(() => order.Payments!, "Você não especificou pagamentos do pedido.");
+        }
+        else if (order.Payments.Sum(x => x.Amount) != order.Items.Sum(x => x.Price))
+        {
+            validation.MessageStore.Add(() => order.Payments, "O valor total pago não é igual ao valor total do pedido.");
+        }
 
         return Task.CompletedTask;
     }
