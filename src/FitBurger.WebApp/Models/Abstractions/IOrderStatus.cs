@@ -4,5 +4,5 @@ namespace FitBurger.WebApp.Models.Abstractions;
 
 public interface IOrderStatus : IListModel
 {
-    OrderStatus Status { get; set; }
+    OrderStatus Status { get; }
 }

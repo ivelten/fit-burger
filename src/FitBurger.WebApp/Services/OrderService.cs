@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
+using FitBurger.Core.Domain.Enums;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using FitBurger.WebApp.Models.Order;
 
@@ -67,9 +68,12 @@ public class OrderService :
 		{
 			predicate = authenticatedUser.RoleName switch
 			{
-				"Cliente" => order => order.Customer.UserName == authenticatedUser.UserName,
+				"Cliente" => order => 
+					order.Customer.UserName == authenticatedUser.UserName && order.Status != OrderStatus.Canceled,
+				
 				"Motoboy" => order =>
 					order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName,
+				
 				_ => predicate
 			};
 		}

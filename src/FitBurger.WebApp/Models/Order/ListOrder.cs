@@ -24,5 +24,5 @@ public class ListOrder : IListModel, IOrderStatus
     public bool ShouldDeliver { get; init; }
     
     [Display(Name = "Status")]
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; init; }
 }

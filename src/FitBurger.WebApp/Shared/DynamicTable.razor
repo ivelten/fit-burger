@@ -109,6 +109,9 @@ else
     public ICollection<TListModel>? Model { get; set; }
 
     [Inject]
+    protected NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
     protected IServiceProvider ServiceProvider { get; set; } = default!;
     
     private IListService<TListModel>? ListService { get; set; }
@@ -155,10 +158,10 @@ else
         {
             return;
         }
-
-        order.Status = OrderStatus.Canceled;
+        
         orderFromDatabase.SetStatus(OrderStatus.Canceled);
         await unitOfWork.CommitAsync();
+        Model = await ListService!.ListAsync();
     }
     
     private async Task ReactivateOrder(IOrderStatus order)
@@ -171,10 +174,10 @@ else
         {
             return;
         }
-
-        order.Status = OrderStatus.Preparing;
+        
         orderFromDatabase.SetStatus(OrderStatus.Preparing);
         await unitOfWork.CommitAsync();
+        Model = await ListService!.ListAsync();
     }
 
 }
