@@ -28,7 +28,12 @@ public class OrderService : ICreateService<CreateOrder>
 	{
 		var customer = await _customerRepository.GetAsync(request.CustomerId);
 
-		var order = new Order(request.DeliveryAddress!);
+		var order = new Order(
+			request.Street!,
+			request.Number!,
+			request.District!,
+			request.Cep!,
+			request.ShouldDeliver);
 		
 		customer!.Orders.Add(order);
 

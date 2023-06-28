@@ -1,0 +1,20 @@
+@using FitBurger.WebApp.Models.Abstractions
+
+@if (Model is IShouldDeliver model)
+{
+    <div class="form-row">
+        <div class="col" style="">
+            <div class="form-group">
+                <input type="checkbox" @bind="@model.ShouldDeliver" />
+                <label class="col-sm-3 col-form-label">É para fazer entrega?</label>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public object Model { get; set; } = default!;
+
+}

@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
 using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Enums;
 
@@ -8,12 +7,20 @@ namespace FitBurger.Core.Domain.Entities;
 public class Order : Entity
 {
     public Order(
-        string deliveryAddress,
+        string street,
+        string number,
+        string district,
+        string cep,
+        bool shouldDelivery,
         OrderStatus status = OrderStatus.Created,
         TimeSpan? deliveryTime = null,
         string? receiverName = null)
     {
-        DeliveryAddress = deliveryAddress;
+        Street = street;
+        Number = number;
+        District = district;
+        Cep = cep;
+        ShouldDelivery = shouldDelivery;
         Status = status;
         DeliveryTime = deliveryTime;
         ReceiverName = receiverName;
@@ -25,12 +32,17 @@ public class Order : Entity
     {
     }
 
-    public string DeliveryAddress { get; protected set; } = default!;
+    public string Street { get; protected set; } = default!;
+    public string Number { get; protected set; } = default!;
+    public string District { get; protected set; } = default!;
+    public string Cep { get; protected set; } = default!;
 
     public OrderStatus Status { get; protected set; }
 
     public TimeSpan? DeliveryTime { get; protected set; }
 
+    public bool ShouldDelivery { get; protected set; }
+    
     public string? ReceiverName { get; protected set; }
 
     public virtual Customer Customer { get; protected set; } = default!;

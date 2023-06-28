@@ -23,5 +23,6 @@ public class CreateOrderItem : IProduct
     public int? Quantity { get; set; }
     
     [VxIgnore]
+    [Display(Name = "Total")]
     public decimal Price { get; set; }
 }
