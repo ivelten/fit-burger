@@ -5,6 +5,7 @@
 @using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
+@using FitBurger.Core.Domain.ValueObjects
 @using FitBurger.WebApp.Models.Abstractions
 @using VxFormGenerator.Core
 
@@ -61,6 +62,7 @@ else
                                 DateTime dateTime when dataType?.DataType == DataType.Date => dateTime.ToString("d"),
                                 DateTime dateTime => dateTime.ToString("g"),
                                 Gender gender => EnumExtensions.GetAttribute<DisplayAttribute>(gender)?.Name,
+                                PaymentMethod paymentMethod => EnumExtensions.GetAttribute<DisplayAttribute>(paymentMethod)?.Name,
                                 decimal amount => amount.ToString("N2"),
                                 var other => other?.ToString()
                             })
@@ -121,7 +123,7 @@ else
         ListService = ServiceProvider.GetService<IListService<TListModel>>();
         
         if (ListService is not null)
-            await ListService.ListAsync();
+            Model = await ListService.ListAsync();
     }
 
     private void RemoveItem(TListModel item)

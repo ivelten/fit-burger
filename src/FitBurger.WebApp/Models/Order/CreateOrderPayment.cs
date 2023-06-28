@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.ValueObjects;
+using FitBurger.WebApp.Models.Abstractions;
+using VxFormGenerator.Core;
 
 namespace FitBurger.WebApp.Models.Order;
 
-public class CreateOrderPayment
+public class CreateOrderPayment : IPaymentMethod
 {
+    [VxIgnore]
     [Display(Name = "Meio de pagamento")]
     [Required(ErrorMessage = "O meio de pagamento é requerido.")]
     public PaymentMethod? Method { get; set; }

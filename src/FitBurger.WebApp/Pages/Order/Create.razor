@@ -13,6 +13,9 @@
         <hr/>
         <h4>Itens de Pedido</h4>
         <DynamicSubItemForm TSubItemModel="CreateOrderItem" OnClickAdd="AddOrderItems"/>
+        <hr/>
+        <h4>Pagamento</h4>
+        <DynamicSubItemForm TSubItemModel="CreateOrderPayment" OnClickAdd="AddPayments"/>
     </Authorized>
 </AuthorizeView>
 
@@ -28,7 +31,9 @@
     IUserRepository UserRepository { get; set; } = default!;
 
     private ICollection<CreateOrderItem> OrderItems { get; set; } = default!;
-    
+
+    private ICollection<CreateOrderPayment> Payments { get; set; } = default!;
+
     private int? CustomerId { get; set; }
     
     private int? AttendantId { get; set; }
@@ -40,9 +45,17 @@
         return Task.CompletedTask;
     }
 
+    private Task AddPayments(ICollection<CreateOrderPayment> payments)
+    {
+        Payments = payments;
+
+        return Task.CompletedTask;
+    }
+
     private Task SaveOrder(CreateOrder order)
     {
         order.Items = OrderItems;
+        order.Payments = Payments;
         order.CustomerId = CustomerId!.Value;
 
         return Task.CompletedTask;

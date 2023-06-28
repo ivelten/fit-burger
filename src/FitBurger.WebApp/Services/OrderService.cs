@@ -38,6 +38,11 @@ public class OrderService : ICreateService<CreateOrder>
 
 			order.Items.Add(new OrderItem(product!, orderItemRequest.Quantity!.Value));
 		}
+
+		foreach (var orderPayment in request.Payments)
+		{
+			order.Payments.Add(new OrderPayment(orderPayment.Method!.Value, orderPayment.Amount!.Value));
+		}
 		
 		await _unitOfWork.CommitAsync();
 	}

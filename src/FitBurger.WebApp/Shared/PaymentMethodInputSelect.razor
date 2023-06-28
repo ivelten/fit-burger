@@ -1,0 +1,29 @@
+@using System.ComponentModel.DataAnnotations
+@using FitBurger.Core.Domain.ValueObjects
+@using FitBurger.WebApp.Models.Abstractions
+
+@if (Model is IPaymentMethod paymentMethodModel)
+{
+    <div class="form-row">
+        <label class="col-sm-3 col-form-label">Meio de pagamento</label>
+        <div class="col" style="">
+            <div class="form-group">
+                <InputSelect @bind-Value="paymentMethodModel.Method" class="form-control valid">
+                    <option disabled selected value>Selecione uma opção</option>
+                    @foreach (var method in Enum.GetValues<PaymentMethod>())
+                    {
+                        <option value="@method">@(method.GetAttribute<DisplayAttribute>()?.Name)</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => paymentMethodModel.Method)" class="form-text" />
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public object Model { get; set; } = default!;
+
+}
