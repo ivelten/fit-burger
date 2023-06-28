@@ -16,11 +16,15 @@
 
 @if (ListService is not null)
 {
-    <div class="form-group pb-3">
-        <a href="/@PageName/create" class="btn btn-primary" role="button">
-            Cadastrar @(Plurality?.Singular ?? TypeName)
-        </a>
-    </div>
+    <AuthorizeView Roles="Atendente,Cliente">
+        <Authorized>
+            <div class="form-group pb-3">
+                <a href="/@PageName/create" class="btn btn-primary" role="button">
+                    Cadastrar @(Plurality?.Singular ?? TypeName)
+                </a>
+            </div>
+        </Authorized>
+    </AuthorizeView>
 }
 
 @if (Model is null)
@@ -82,7 +86,11 @@ else
                                     {
                                         <button @onclick="@(() => CancelOrder(order))" class="btn btn-outline-dark">Cancelar</button>
                                     }
-                                    else if (order.Status == OrderStatus.Canceled)
+                                </Authorized>
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Administrador,Atendente">
+                                <Authorized>
+                                    @if (order.Status == OrderStatus.Canceled)
                                     {
                                         <button @onclick="@(() => ReactivateOrder(order))" class="btn btn-outline-dark">Reativar</button>
                                     }

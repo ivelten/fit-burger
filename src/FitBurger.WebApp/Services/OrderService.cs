@@ -69,8 +69,7 @@ public class OrderService :
 			predicate = authenticatedUser.RoleName switch
 			{
 				"Cliente" => order => 
-					order.Customer.UserName == authenticatedUser.UserName &&
-					order.Status != OrderStatus.Canceled,
+					order.Customer.UserName == authenticatedUser.UserName,
 				
 				"Motoboy" => order =>
 					(order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName) && 
