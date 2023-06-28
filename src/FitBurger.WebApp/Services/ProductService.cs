@@ -66,7 +66,7 @@ public class ProductService :
                 ? x => x.Description.Contains(queryValue)
                 : null;
 
-        var products = await _productRepository.GetAsync(predicate);
+        var products = await _productRepository.GetAsync(predicate, useFactory: true);
 
         return products.Select(x => new ListProduct
         {

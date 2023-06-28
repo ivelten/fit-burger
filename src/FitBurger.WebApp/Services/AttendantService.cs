@@ -46,7 +46,7 @@ public sealed class AttendantService :
                 ? x => x.Name.Contains(queryValue)
                 : null;
 
-        var attendants = await _attendantRepository.GetAsync(predicate);
+        var attendants = await _attendantRepository.GetAsync(predicate, useFactory: true);
 
         return attendants.Select(x => new ListAttendant
         {

@@ -9,16 +9,14 @@
 
 <AuthorizeView Roles="Administrador,Atendente,Cliente">
     <Authorized>
-        <DynamicCreateForm TCreateModel="CreateOrder"/>
+        <DynamicCreateForm TCreateModel="CreateOrder" OnClickAdd="SaveOrder" SubmitCaption="Finalizar pedido"/>
+        <hr/>
         <h4>Itens de Pedido</h4>
-        <DynamicSubItemForm TSubitemModel="CreateOrderItem" ModelCollection="Model.Items"/>
+        <DynamicSubItemForm TSubItemModel="CreateOrderItem" OnClickAdd="AddOrderItems"/>
     </Authorized>
 </AuthorizeView>
 
 @code {
-
-    [Parameter]
-    public CreateOrder Model { get; set; } = new();
 
     [Inject]
     public OrderService OrderService { get; set; } = default!;
@@ -28,6 +26,27 @@
 
     [Inject]
     IUserRepository UserRepository { get; set; } = default!;
+
+    private ICollection<CreateOrderItem> OrderItems { get; set; } = default!;
+    
+    private int? CustomerId { get; set; }
+    
+    private int? AttendantId { get; set; }
+
+    private Task AddOrderItems(ICollection<CreateOrderItem> orderItems)
+    {
+        OrderItems = orderItems;
+        
+        return Task.CompletedTask;
+    }
+
+    private Task SaveOrder(CreateOrder order)
+    {
+        order.Items = OrderItems;
+        order.CustomerId = CustomerId!.Value;
+
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,11 +61,11 @@
                 switch (authenticatedUser.RoleName)
                 {
                     case "Cliente":
-                        Model.CustomerId = user.Id;
+                        CustomerId = user.Id;
                         break;
                     
                     case "Atendente":
-                        Model.AttendantId = user.Id;
+                        AttendantId = user.Id;
                         break;
                 }
             }

@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Enums;
 
@@ -33,9 +34,9 @@ public class Order : Entity
     public string? ReceiverName { get; protected set; }
 
     public virtual Customer Customer { get; protected set; } = default!;
-
+    
     public virtual Attendant? Attendant { get; protected set; }
-
+    
     public virtual Deliveryman? Deliveryman { get; protected set; }
 
     public virtual ICollection<OrderItem> Items { get; protected set; } = default!;

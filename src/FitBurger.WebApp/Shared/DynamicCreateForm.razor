@@ -14,10 +14,13 @@
     <RenderFormElements/>
     <GenderInputSelect Model="Model"/>
     <UserNameAndPasswordInputTexts Model="Model"/>
-    <Submit/>
+    <Submit Caption="@SubmitCaption"/>
 </EditForm>
 
 @code {
+
+    [Parameter]
+    public string SubmitCaption { get; set; } = "Salvar";
 
     [Inject] 
     protected ICreateService<TCreateModel> CreateService { get; set; } = default!;
@@ -41,9 +44,13 @@
             : ModelType.Name;
 
     private static string PageName => TypeName.ToLowerInvariant();
+    
+    [Parameter]
+    public EventCallback<TCreateModel> OnClickAdd { get; set; }
 
     private async Task HandleValidSubmit()
     {
+        await OnClickAdd.InvokeAsync(Model);
         await CreateService.CreateAsync(Model);
 
         NavigationManager.NavigateTo(RedirectToList ? $"/{PageName}/list" : "/");

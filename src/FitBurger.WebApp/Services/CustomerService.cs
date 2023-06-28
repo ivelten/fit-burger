@@ -44,7 +44,7 @@ public sealed class CustomerService :
                 ? x => x.Name.Contains(queryValue)
                 : null;
 
-        var customers = await _customerRepository.GetAsync(predicate);
+        var customers = await _customerRepository.GetAsync(predicate, useFactory: true);
 
         return customers.Select(x => new ListCustomer
         {

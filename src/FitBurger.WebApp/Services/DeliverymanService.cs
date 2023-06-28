@@ -30,7 +30,7 @@ public class DeliverymanService :
                 ? x => x.Name.Contains(queryValue)
                 : null;
         
-        var deliverymen = await _deliverymanRepository.GetAsync(predicate);
+        var deliverymen = await _deliverymanRepository.GetAsync(predicate, useFactory: true);
 
         return deliverymen.Select(x => new ListDeliveryman
         {

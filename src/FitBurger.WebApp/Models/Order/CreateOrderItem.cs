@@ -8,7 +8,7 @@ namespace FitBurger.WebApp.Models.Order;
 [Plurality("Item de Pedido", "Itens de Pedido")]
 public class CreateOrderItem : IProduct
 {
-    [VxIgnore]
+    [VxIgnore, Ignore]
     [Display(Name = "Id")]
     [Required(ErrorMessage = "O Id é requerido")]
     public int? ProductId { get; set; }

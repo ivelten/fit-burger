@@ -30,17 +30,15 @@ public class Customer : User
             userName,
             password)
     {
-        Bookings = new Collection<Booking>();
-        Orders = new Collection<Order>();
     }
 
     protected Customer()
     {
     }
 
-    public virtual ICollection<Booking> Bookings { get; protected set; } = default!;
+    public virtual ICollection<Booking> Bookings { get; protected set; } = new Collection<Booking>();
 
-    public virtual ICollection<Order> Orders { get; protected set; } = default!;
+    public virtual ICollection<Order> Orders { get; protected set; } = new Collection<Order>();
 
     public override UserRole Role => UserRole.Customer;
     

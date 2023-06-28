@@ -1,3 +1,10 @@
 <div class="form-row pt-3 pb-3">
-    <button type="submit" class="btn btn-primary pr-3">Salvar</button>
+    <button type="submit" class="btn btn-primary pr-3">@Caption</button>
 </div>
+
+@code {
+
+    [Parameter]
+    public string Caption { get; set; } = "Salvar";
+
+}

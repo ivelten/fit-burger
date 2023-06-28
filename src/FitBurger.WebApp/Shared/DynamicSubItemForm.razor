@@ -6,32 +6,38 @@
 @using System.Reflection
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
+@using Microsoft.VisualBasic
+@using System.Collections.ObjectModel
 
-@typeparam TSubitemModel where TSubitemModel : new()
+@typeparam TSubItemModel where TSubItemModel : new()
 
-<EditForm Model="Model" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="ModelToAdd" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator/>
     <RenderFormElements/>
-    <GenderInputSelect Model="Model"/>
-    <UserNameAndPasswordInputTexts Model="Model"/>
-    <ProductInputSelect Model="Model"/>
-    <Submit/>
+    <GenderInputSelect Model="ModelToAdd"/>
+    <UserNameAndPasswordInputTexts Model="ModelToAdd"/>
+    <ProductInputSelect Model="ModelToAdd"/>
+    <Submit Caption="Adicionar"/>
 </EditForm>
 
-<DynamicTable TListModel="TSubitemModel" Model="ModelCollection"/>
+<DynamicTable TListModel="TSubItemModel" Model="AddedItems"/>
 
 @code {
 
-    private TSubitemModel Model { get; set;  } = new();
+    private TSubItemModel ModelToAdd { get; set;  } = new();
 
-    [Parameter]
-    public ICollection<TSubitemModel> ModelCollection { get; set; } = default!;
+    private ICollection<TSubItemModel> AddedItems { get; set; } = new Collection<TSubItemModel>();
     
-    private void HandleValidSubmit()
+    [Parameter]
+    public EventCallback<ICollection<TSubItemModel>> OnClickAdd { get; set; }
+
+    private async Task HandleValidSubmit()
     {
-        ModelCollection.Add(Model);
+        AddedItems.Add(ModelToAdd);
         
-        Model = new TSubitemModel();
+        ModelToAdd = new TSubItemModel();
+        
+        await OnClickAdd.InvokeAsync(AddedItems);
     }
 
 }

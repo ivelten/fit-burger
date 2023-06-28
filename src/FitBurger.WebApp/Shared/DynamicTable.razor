@@ -6,6 +6,7 @@
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
 @using FitBurger.WebApp.Models.Abstractions
+@using VxFormGenerator.Core
 
 @typeparam TListModel
 
@@ -26,9 +27,12 @@
 }
 else if (Model.Count == 0)
 {
-    <p>
-        <em>Nenhum @(Plurality?.Singular ?? TypeName) cadastrado.</em>
-    </p>
+    if (ListService is not null)
+    {
+        <p>
+            <em>Nenhum @(Plurality?.Singular ?? TypeName) cadastrado.</em>
+        </p>
+    }
 }
 else
 {
@@ -56,7 +60,7 @@ else
                             {
                                 DateTime dateTime when dataType?.DataType == DataType.Date => dateTime.ToString("d"),
                                 DateTime dateTime => dateTime.ToString("g"),
-                                Gender gender => gender.GetAttribute<DisplayAttribute>()?.Name,
+                                Gender gender => EnumExtensions.GetAttribute<DisplayAttribute>(gender)?.Name,
                                 decimal amount => amount.ToString("N2"),
                                 var other => other?.ToString()
                             })
@@ -68,6 +72,12 @@ else
                             <a href='/@PageName/update/@listItem.Id' class="btn btn-outline-dark" role="button">
                                 Editar
                             </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <button @onclick="@(() => RemoveItem(item))" class="btn btn-outline-dark">Remover</button>
                         </td>
                     }
                 </tr>
@@ -92,8 +102,9 @@ else
     private static PluralityAttribute? Plurality =>
         ModelType.GetCustomAttribute<PluralityAttribute>();
 
-    private static IEnumerable<PropertyInfo> PropertyInfos =>
-        ModelType.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+    private static IEnumerable<PropertyInfo> PropertyInfos => ModelType
+        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        .Where(x => x.GetCustomAttribute<IgnoreAttribute>() is null);
 
     private static string TypeName =>
         ModelType.Name.StartsWith("List")
@@ -111,6 +122,11 @@ else
         
         if (ListService is not null)
             await ListService.ListAsync();
+    }
+
+    private void RemoveItem(TListModel item)
+    {
+        Model?.Remove(item);
     }
 
 }
