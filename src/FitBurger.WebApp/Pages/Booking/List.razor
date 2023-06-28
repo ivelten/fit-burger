@@ -1,22 +1,8 @@
 @page "/booking/list"
+@using FitBurger.WebApp.Models.Booking
 
 <PageTitle>Listar reservas</PageTitle>
 
 <h1>Listar reservas</h1>
 
-<AuthorizeView Roles="Administrador,Atendente,Cliente">
-    <Authorized>
-        <div class="form-row">
-            <div class="col" style="">
-                <div class="form-group">
-                    Esta página está em manutenção!
-                </div>
-            </div>
-        </div>
-    </Authorized>
-</AuthorizeView>
-
-@code {
-
-
-}
+<DynamicTable TListModel="ListBooking"/>

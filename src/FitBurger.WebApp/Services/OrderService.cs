@@ -62,23 +62,19 @@ public class OrderService :
 	public async Task<ListOrder[]> ListAsync(string? queryValue = null)
 	{
 		var authenticatedUser = await _websiteAuthenticator.GetAuthenticatedUser();
-		Expression<Func<Order, bool>>? predicate = null;
-
-		if (authenticatedUser is not null)
+		
+		Expression<Func<Order, bool>>? predicate = authenticatedUser?.RoleName switch
 		{
-			predicate = authenticatedUser.RoleName switch
-			{
-				"Cliente" => order => 
-					order.Customer.UserName == authenticatedUser.UserName,
+			"Cliente" => order => 
+				order.Customer.UserName == authenticatedUser.UserName,
 				
-				"Motoboy" => order =>
-					(order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName) && 
-					order.Status != OrderStatus.Canceled &&
-					order.ShouldDelivery,
+			"Motoboy" => order =>
+				(order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName) && 
+				order.Status != OrderStatus.Canceled &&
+				order.ShouldDelivery,
 				
-				_ => predicate
-			};
-		}
+			_ => null
+		};
 		
 		var orders = await _orderRepository.GetAsync(predicate);
 

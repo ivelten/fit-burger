@@ -1,4 +1,5 @@
 using FitBurger.WebApp.Models.Attendant;
+using FitBurger.WebApp.Models.Booking;
 using FitBurger.WebApp.Models.Customer;
 using FitBurger.WebApp.Models.Deliveryman;
 using FitBurger.WebApp.Models.Order;
@@ -29,7 +30,9 @@ public static class WebAppExtensions
             .AddScoped<IUpdateService<UpdateDeliveryman>, DeliverymanService>()
             .AddScoped<IUpdateService<UpdateProduct>, ProductService>()
             .AddScoped<ICreateService<CreateOrder>, OrderService>()
-            .AddScoped<IListService<ListOrder>, OrderService>();
+            .AddScoped<IListService<ListOrder>, OrderService>()
+            .AddScoped<IListService<ListBooking>, BookingService>()
+            .AddScoped<ICreateService<CreateBooking>, BookingService>();
 
         services.AddScoped<CustomAuthenticationStateProvider>();
         services.AddScoped<AuthenticationStateProvider>(serviceProvider =>

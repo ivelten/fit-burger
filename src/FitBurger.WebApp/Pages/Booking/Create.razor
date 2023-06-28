@@ -1,4 +1,8 @@
 @page "/booking/create"
+@using FitBurger.WebApp.Models.Booking
+@using FitBurger.WebApp.Models.Order
+@using FitBurger.WebApp.Services
+@using FitBurger.Core.Domain.Repositories.Abstractions
 
 <PageTitle>Fazer reserva</PageTitle>
 
@@ -6,17 +10,69 @@
 
 <AuthorizeView Roles="Administrador,Atendente,Cliente">
     <Authorized>
-        <div class="form-row">
-            <div class="col" style="">
-                <div class="form-group">
-                    Esta página está em manutenção!
-                </div>
-            </div>
-        </div>
+        <DynamicCreateForm TCreateModel="CreateBooking" OnValidate="Validate" OnClickSave="CreateBooking" SubmitCaption="Finalizar reserva"/>
     </Authorized>
+    <NotAuthorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
+        </div>
+    </NotAuthorized>
 </AuthorizeView>
 
 @code {
 
+    [Inject]
+    public OrderService OrderService { get; set; } = default!;
 
+    [Inject]
+    CustomAuthenticationStateProvider WebsiteAuthenticator { get; set; } = default!;
+
+    [Inject]
+    IUserRepository UserRepository { get; set; } = default!;
+
+    private int? CustomerId { get; set; }
+    
+    private int? AttendantId { get; set; }
+
+    private Task CreateBooking(CreateBooking booking)
+    {
+        booking.CustomerId ??= CustomerId;
+        booking.AttendantId ??= AttendantId;
+
+        return Task.CompletedTask;
+    }
+
+    private Task Validate((EditContext EditContext, ValidationMessageStore MessageStore) validation)
+    {
+        var booking = (CreateBooking)validation.EditContext.Model;
+        
+        booking.CustomerId ??= CustomerId;
+        booking.AttendantId ??= AttendantId;
+
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticatedUser = await WebsiteAuthenticator.GetAuthenticatedUser();
+
+        if (authenticatedUser is not null)
+        {
+            var user = await UserRepository.GetByUserNameAsync(authenticatedUser.UserName);
+
+            if (user is not null)
+            {
+                switch (authenticatedUser.RoleName)
+                {
+                    case "Cliente":
+                        CustomerId = user.Id;
+                        break;
+                    
+                    case "Atendente":
+                        AttendantId = user.Id;
+                        break;
+                }
+            }
+        }
+    }
 }

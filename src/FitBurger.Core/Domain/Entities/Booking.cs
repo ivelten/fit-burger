@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Entities.Abstractions;
 
 namespace FitBurger.Core.Domain.Entities;
 
+[Display(Name = "Reserva")]
 public class Booking : Entity
 {
     public Booking(
