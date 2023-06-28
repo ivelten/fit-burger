@@ -14,6 +14,7 @@ public class Order : Entity
         string district,
         string cep,
         bool shouldDelivery,
+        DateTime? orderDate = null,
         OrderStatus status = OrderStatus.Preparing,
         TimeSpan? deliveryTime = null,
         string? receiverName = null)
@@ -26,6 +27,7 @@ public class Order : Entity
         Status = status;
         DeliveryTime = deliveryTime;
         ReceiverName = receiverName;
+        OrderDate = orderDate ?? DateTime.Now;
         Items = new Collection<OrderItem>();
         Payments = new Collection<OrderPayment>();
     }
@@ -40,6 +42,8 @@ public class Order : Entity
     public string Cep { get; protected set; } = default!;
 
     public OrderStatus Status { get; protected set; }
+    
+    public DateTime OrderDate { get; protected set; }
 
     public TimeSpan? DeliveryTime { get; protected set; }
 
@@ -60,5 +64,10 @@ public class Order : Entity
     public void SetStatus(OrderStatus status)
     {
         Status = status;
+    }
+
+    public void SetDeliveryTime()
+    {
+        DeliveryTime = DateTime.Now - OrderDate;
     }
 }

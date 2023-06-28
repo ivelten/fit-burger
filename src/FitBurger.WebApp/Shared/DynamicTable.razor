@@ -76,14 +76,30 @@ else
                     <td>
                         @if (item is IOrderStatus order)
                         {
-                            if (order.Status != OrderStatus.Canceled)
-                            {
-                                <button @onclick="@(() => CancelOrder(order))" class="btn btn-outline-dark">Cancelar</button>
-                            }
-                            else
-                            {
-                                <button @onclick="@(() => ReactivateOrder(order))" class="btn btn-outline-dark">Reativar</button>
-                            }
+                            <AuthorizeView Roles="Administrador,Atendente,Cliente">
+                                <Authorized>
+                                    @if (order.Status != OrderStatus.Canceled && order.Status != OrderStatus.Delivered)
+                                    {
+                                        <button @onclick="@(() => CancelOrder(order))" class="btn btn-outline-dark">Cancelar</button>
+                                    }
+                                    else if (order.Status == OrderStatus.Canceled)
+                                    {
+                                        <button @onclick="@(() => ReactivateOrder(order))" class="btn btn-outline-dark">Reativar</button>
+                                    }
+                                </Authorized>
+                            </AuthorizeView>
+                            <AuthorizeView Roles="Motoboy">
+                                <Authorized>
+                                    @if (order.Status == OrderStatus.Preparing)
+                                    {
+                                        <button @onclick="@(() => StartDelivery(order))" class="btn btn-outline-dark">Iniciar Entrega</button>
+                                    }
+                                    else if (order.Status == OrderStatus.OnTheWay)
+                                    {
+                                        <button @onclick="@(() => FinishDelivery(order))" class="btn btn-outline-dark">Finalizar Entrega</button>
+                                    }
+                                </Authorized>
+                            </AuthorizeView>
                         }
                         else if (item is IListModel listItem)
                         {
@@ -104,6 +120,9 @@ else
 }
 
 @code {
+    
+    [Inject]
+    CustomAuthenticationStateProvider WebsiteAuthenticator { get; set; } = default!;
 
     [Parameter]
     public ICollection<TListModel>? Model { get; set; }
@@ -176,6 +195,39 @@ else
         }
         
         orderFromDatabase.SetStatus(OrderStatus.Preparing);
+        await unitOfWork.CommitAsync();
+        Model = await ListService!.ListAsync();
+    }
+    
+    private async Task StartDelivery(IOrderStatus order)
+    {
+        var repository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+        var orderFromDatabase = await repository.GetAsync(order.Id);
+
+        if (orderFromDatabase is null)
+        {
+            return;
+        }
+        
+        orderFromDatabase.SetStatus(OrderStatus.OnTheWay);
+        await unitOfWork.CommitAsync();
+        Model = await ListService!.ListAsync();
+    }
+    
+    private async Task FinishDelivery(IOrderStatus order)
+    {
+        var repository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+        var orderFromDatabase = await repository.GetAsync(order.Id);
+
+        if (orderFromDatabase is null)
+        {
+            return;
+        }
+        
+        orderFromDatabase.SetDeliveryTime();
+        orderFromDatabase.SetStatus(OrderStatus.Delivered);
         await unitOfWork.CommitAsync();
         Model = await ListService!.ListAsync();
     }

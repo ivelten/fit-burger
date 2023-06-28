@@ -23,6 +23,9 @@ public class ListOrder : IListModel, IOrderStatus
     [Display(Name = "Entregar?")]
     public bool ShouldDeliver { get; init; }
     
+    [Display(Name = "Tempo de entrega")]
+    public TimeSpan? DeliveryTime { get; init; }
+    
     [Display(Name = "Status")]
     public OrderStatus Status { get; init; }
 }

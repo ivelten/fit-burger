@@ -69,10 +69,13 @@ public class OrderService :
 			predicate = authenticatedUser.RoleName switch
 			{
 				"Cliente" => order => 
-					order.Customer.UserName == authenticatedUser.UserName && order.Status != OrderStatus.Canceled,
+					order.Customer.UserName == authenticatedUser.UserName &&
+					order.Status != OrderStatus.Canceled,
 				
 				"Motoboy" => order =>
-					order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName,
+					(order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName) && 
+					order.Status != OrderStatus.Canceled &&
+					order.ShouldDelivery,
 				
 				_ => predicate
 			};
@@ -87,7 +90,8 @@ public class OrderService :
 			DeliverymanName = x.Deliveryman?.Name,
 			Id = x.Id,
 			ShouldDeliver = x.ShouldDelivery,
-			Status = x.Status
+			Status = x.Status,
+			DeliveryTime = x.DeliveryTime
 		}).ToArray();
 	}
 }
