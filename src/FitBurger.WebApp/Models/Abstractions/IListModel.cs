@@ -4,5 +4,5 @@ namespace FitBurger.WebApp.Models.Abstractions;
 
 public interface IListModel
 {
-    public int Id { get; init; }
+    public int Id { get; }
 }

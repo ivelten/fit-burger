@@ -5,6 +5,9 @@
 @using FitBurger.WebApp.Services
 @using FitBurger.WebApp.Attributes
 @using System.ComponentModel.DataAnnotations
+@using FitBurger.Core.Domain.Abstractions
+@using FitBurger.Core.Domain.Entities
+@using FitBurger.Core.Domain.Repositories.Abstractions
 @using FitBurger.Core.Domain.ValueObjects
 @using FitBurger.WebApp.Models.Abstractions
 @using VxFormGenerator.Core
@@ -70,20 +73,29 @@ else
                             })
                         </td>
                     }
-                    @if (item is IListModel listItem)
-                    {
-                        <td>
+                    <td>
+                        @if (item is IOrderStatus order)
+                        {
+                            if (order.Status != OrderStatus.Canceled)
+                            {
+                                <button @onclick="@(() => CancelOrder(order))" class="btn btn-outline-dark">Cancelar</button>
+                            }
+                            else
+                            {
+                                <button @onclick="@(() => ReactivateOrder(order))" class="btn btn-outline-dark">Reativar</button>
+                            }
+                        }
+                        else if (item is IListModel listItem)
+                        {
                             <a href='/@PageName/update/@listItem.Id' class="btn btn-outline-dark" role="button">
                                 Editar
                             </a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
+                        }
+                        else
+                        {
                             <button @onclick="@(() => RemoveItem(item))" class="btn btn-outline-dark">Remover</button>
-                        </td>
-                    }
+                        }
+                    </td>
                 </tr>
             }
             </tbody>
@@ -131,6 +143,38 @@ else
     private void RemoveItem(TListModel item)
     {
         Model?.Remove(item);
+    }
+
+    private async Task CancelOrder(IOrderStatus order)
+    {
+        var repository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+        var orderFromDatabase = await repository.GetAsync(order.Id);
+
+        if (orderFromDatabase is null)
+        {
+            return;
+        }
+
+        order.Status = OrderStatus.Canceled;
+        orderFromDatabase.SetStatus(OrderStatus.Canceled);
+        await unitOfWork.CommitAsync();
+    }
+    
+    private async Task ReactivateOrder(IOrderStatus order)
+    {
+        var repository = ServiceProvider.GetRequiredService<IRepository<Order>>();
+        var unitOfWork = ServiceProvider.GetRequiredService<IUnitOfWork>();
+        var orderFromDatabase = await repository.GetAsync(order.Id);
+
+        if (orderFromDatabase is null)
+        {
+            return;
+        }
+
+        order.Status = OrderStatus.Preparing;
+        orderFromDatabase.SetStatus(OrderStatus.Preparing);
+        await unitOfWork.CommitAsync();
     }
 
 }

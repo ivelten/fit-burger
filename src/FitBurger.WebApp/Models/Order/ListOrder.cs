@@ -6,7 +6,7 @@ using FitBurger.WebApp.Models.Abstractions;
 namespace FitBurger.WebApp.Models.Order;
 
 [Plurality("Pedido", "Pedidos")]
-public class ListOrder : IListModel
+public class ListOrder : IListModel, IOrderStatus
 {
     [Ignore]
     public int Id { get; init; }
@@ -21,8 +21,8 @@ public class ListOrder : IListModel
     public string? DeliverymanName { get; init; }
     
     [Display(Name = "Entregar?")]
-    public bool? ShouldDeliver { get; init; }
+    public bool ShouldDeliver { get; init; }
     
     [Display(Name = "Status")]
-    public OrderStatus? Status { get; init; }
+    public OrderStatus Status { get; set; }
 }

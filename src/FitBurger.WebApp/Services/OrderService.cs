@@ -1,4 +1,5 @@
-﻿using FitBurger.Core.Domain.Abstractions;
+﻿using System.Linq.Expressions;
+using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using FitBurger.WebApp.Models.Order;
@@ -9,17 +10,20 @@ public class OrderService :
 	ICreateService<CreateOrder>,
 	IListService<ListOrder>
 {
+	private readonly CustomAuthenticationStateProvider _websiteAuthenticator;
 	private readonly IRepository<Order> _orderRepository;
 	private readonly IRepository<Product> _productRepository;
 	private readonly IRepository<Customer> _customerRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public OrderService(
+		CustomAuthenticationStateProvider websiteAuthenticator,
 		IRepository<Order> orderRepository,
 		IRepository<Product> productRepository,
 		IRepository<Customer> customerRepository,
 		IUnitOfWork unitOfWork)
 	{
+		_websiteAuthenticator = websiteAuthenticator ?? throw new ArgumentNullException(nameof(websiteAuthenticator));
 		_orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
 		_productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
 		_customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
@@ -56,7 +60,21 @@ public class OrderService :
 
 	public async Task<ListOrder[]> ListAsync(string? queryValue = null)
 	{
-		var orders = await _orderRepository.GetAsync();
+		var authenticatedUser = await _websiteAuthenticator.GetAuthenticatedUser();
+		Expression<Func<Order, bool>>? predicate = null;
+
+		if (authenticatedUser is not null)
+		{
+			predicate = authenticatedUser.RoleName switch
+			{
+				"Cliente" => order => order.Customer.UserName == authenticatedUser.UserName,
+				"Motoboy" => order =>
+					order.Deliveryman == null || order.Deliveryman.UserName == authenticatedUser.UserName,
+				_ => predicate
+			};
+		}
+		
+		var orders = await _orderRepository.GetAsync(predicate);
 
 		return orders.Select(x => new ListOrder
 		{

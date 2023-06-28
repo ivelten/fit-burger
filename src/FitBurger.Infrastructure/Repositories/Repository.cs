@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public class Repository<T> : IRepository<T> where T : Entity
         await Context.Set<T>().AddAsync(item, cancellationToken);
     }
 
-    public async Task<T[]> GetAsync(Func<T, bool>? predicate = null, bool useFactory = false)
+    public async Task<T[]> GetAsync(Expression<Func<T, bool>>? predicate = null, bool useFactory = false)
     {
         var context = useFactory ? await ContextFactory.CreateDbContextAsync() : Context;
 

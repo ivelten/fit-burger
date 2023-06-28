@@ -5,7 +5,7 @@
 
 <h1>Listar pedidos</h1>
 
-<AuthorizeView Roles="Administrador,Atendente">
+<AuthorizeView Roles="Administrador,Atendente,Motoboy,Cliente">
     <Authorized>
         <DynamicTable TListModel="ListOrder"/>
     </Authorized>

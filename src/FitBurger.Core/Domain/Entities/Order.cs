@@ -56,4 +56,9 @@ public class Order : Entity
     public virtual ICollection<OrderItem> Items { get; protected set; } = default!;
 
     public virtual ICollection<OrderPayment> Payments { get; protected set; } = default!;
+
+    public void SetStatus(OrderStatus status)
+    {
+        Status = status;
+    }
 }

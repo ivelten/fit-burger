@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
 using FitBurger.Core.Domain.Repositories.Abstractions;
@@ -39,7 +40,7 @@ public sealed class CustomerService :
 
     public async Task<ListCustomer[]> ListAsync(string? queryValue = null)
     {
-        Func<Customer, bool>? predicate =
+        Expression<Func<Customer, bool>>? predicate =
             queryValue is not null
                 ? x => x.Name.Contains(queryValue)
                 : null;

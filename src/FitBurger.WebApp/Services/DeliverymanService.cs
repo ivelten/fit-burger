@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FitBurger.Core.Domain.Abstractions;
 using FitBurger.Core.Domain.Entities;
 using FitBurger.Core.Domain.Repositories.Abstractions;
@@ -25,7 +26,7 @@ public class DeliverymanService :
     
     public async Task<ListDeliveryman[]> ListAsync(string? queryValue = null)
     {
-        Func<Deliveryman, bool>? predicate =
+        Expression<Func<Deliveryman, bool>>? predicate =
             queryValue is not null
                 ? x => x.Name.Contains(queryValue)
                 : null;
