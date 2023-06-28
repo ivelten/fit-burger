@@ -1,22 +1,17 @@
 @page "/order/list"
+@using FitBurger.WebApp.Models.Order
 
 <PageTitle>Listar pedidos</PageTitle>
 
 <h1>Listar pedidos</h1>
 
-<AuthorizeView Roles="Administrador,Atendente,Cliente">
+<AuthorizeView Roles="Administrador,Atendente">
     <Authorized>
-        <div class="form-row">
-            <div class="col" style="">
-                <div class="form-group">
-                    Esta página está em manutenção!
-                </div>
-            </div>
-        </div>
+        <DynamicTable TListModel="ListOrder"/>
     </Authorized>
+    <NotAuthorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
+        </div>
+    </NotAuthorized>
 </AuthorizeView>
-
-@code {
-
-
-}

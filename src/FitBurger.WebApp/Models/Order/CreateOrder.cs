@@ -1,14 +1,17 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using FitBurger.WebApp.Attributes;
 using FitBurger.WebApp.Models.Abstractions;
 using VxFormGenerator.Core;
 
 namespace FitBurger.WebApp.Models.Order;
 
-public class CreateOrder : IShouldDeliver
+[Plurality("Pedido", "Pedidos")]
+public class CreateOrder : IShouldDeliver, ICustomer, IDeliveryman
 {
     [VxIgnore]
-    public int CustomerId { get; set; }
+    [Required(ErrorMessage = "O Cliente é requrerido.")]
+    public int? CustomerId { get; set; }
     
     [VxIgnore]
     public int? AttendantId { get; set; }

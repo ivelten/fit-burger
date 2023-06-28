@@ -26,6 +26,7 @@ public static class InfrastructureExtensions
             });
 
             dbOptions.UseExceptionProcessor();
+            dbOptions.UseLazyLoadingProxies();
         });
 
         services.AddScoped<IDbInitializer, DbInitializer>();

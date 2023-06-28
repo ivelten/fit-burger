@@ -28,7 +28,8 @@ public static class WebAppExtensions
             .AddScoped<IUpdateService<UpdateCustomer>, CustomerService>()
             .AddScoped<IUpdateService<UpdateDeliveryman>, DeliverymanService>()
             .AddScoped<IUpdateService<UpdateProduct>, ProductService>()
-            .AddScoped<ICreateService<CreateOrder>, OrderService>();
+            .AddScoped<ICreateService<CreateOrder>, OrderService>()
+            .AddScoped<IListService<ListOrder>, OrderService>();
 
         services.AddScoped<CustomAuthenticationStateProvider>();
         services.AddScoped<AuthenticationStateProvider>(serviceProvider =>

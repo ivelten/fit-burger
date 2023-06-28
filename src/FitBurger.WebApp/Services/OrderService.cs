@@ -5,7 +5,9 @@ using FitBurger.WebApp.Models.Order;
 
 namespace FitBurger.WebApp.Services;
 
-public class OrderService : ICreateService<CreateOrder>
+public class OrderService : 
+	ICreateService<CreateOrder>,
+	IListService<ListOrder>
 {
 	private readonly IRepository<Order> _orderRepository;
 	private readonly IRepository<Product> _productRepository;
@@ -26,7 +28,7 @@ public class OrderService : ICreateService<CreateOrder>
 
 	public async Task CreateAsync(CreateOrder request)
 	{
-		var customer = await _customerRepository.GetAsync(request.CustomerId);
+		var customer = await _customerRepository.GetAsync(request.CustomerId!.Value);
 
 		var order = new Order(
 			request.Street!,
@@ -50,5 +52,20 @@ public class OrderService : ICreateService<CreateOrder>
 		}
 		
 		await _unitOfWork.CommitAsync();
+	}
+
+	public async Task<ListOrder[]> ListAsync(string? queryValue = null)
+	{
+		var orders = await _orderRepository.GetAsync();
+
+		return orders.Select(x => new ListOrder
+		{
+			CustomerId = x.Customer.Id,
+			CustomerName = x.Customer.Name,
+			DeliverymanName = x.Deliveryman?.Name,
+			Id = x.Id,
+			ShouldDeliver = x.ShouldDelivery,
+			Status = x.Status
+		}).ToArray();
 	}
 }

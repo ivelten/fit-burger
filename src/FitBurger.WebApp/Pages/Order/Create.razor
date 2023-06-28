@@ -18,6 +18,11 @@
         <h4>Pagamento</h4>
         <DynamicSubItemForm TSubItemModel="CreateOrderPayment" OnClickAdd="AddPayments"/>
     </Authorized>
+    <NotAuthorized>
+        <div class="form-row">
+            <label class="col-sm-3 col-form-label">Acesso não autorizado.</label>
+        </div>
+    </NotAuthorized>
 </AuthorizeView>
 
 @code {
@@ -76,7 +81,7 @@
         
         order.Items = OrderItems;
         order.Payments = Payments;
-        order.CustomerId = CustomerId!.Value;
+        order.CustomerId = CustomerId;
 
         if (order.Items is null || order.Items.Count == 0)
         {

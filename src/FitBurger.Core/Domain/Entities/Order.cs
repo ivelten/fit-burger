@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using FitBurger.Core.Domain.Entities.Abstractions;
 using FitBurger.Core.Domain.Enums;
 
 namespace FitBurger.Core.Domain.Entities;
 
+[Display(Name = "Pedido")]
 public class Order : Entity
 {
     public Order(
@@ -12,7 +14,7 @@ public class Order : Entity
         string district,
         string cep,
         bool shouldDelivery,
-        OrderStatus status = OrderStatus.Created,
+        OrderStatus status = OrderStatus.Preparing,
         TimeSpan? deliveryTime = null,
         string? receiverName = null)
     {

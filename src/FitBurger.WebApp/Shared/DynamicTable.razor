@@ -63,7 +63,9 @@ else
                                 DateTime dateTime => dateTime.ToString("g"),
                                 Gender gender => EnumExtensions.GetAttribute<DisplayAttribute>(gender)?.Name,
                                 PaymentMethod paymentMethod => EnumExtensions.GetAttribute<DisplayAttribute>(paymentMethod)?.Name,
+                                OrderStatus orderStatus => EnumExtensions.GetAttribute<DisplayAttribute>(orderStatus)?.Name,
                                 decimal amount => amount.ToString("N2"),
+                                bool value => value ? "Sim" : "Não",
                                 var other => other?.ToString()
                             })
                         </td>
